@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/vector-map/jqvmap.css">
+    <link href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css" />
+    <link rel="icon" href="hotel.png" type="image/png">
+    <title>Duen-Hotel -Finance</title>
+</head>
+
+<body>
+   
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+     <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="index.html">DUEN-HOTEL</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                              
+            </nav>
+        </div>
+        <style>
+            center{
+                width: 100%;
+            }
+            center button{
+                color: rgb(15, 61, 228);
+                width: 150px;
+                border: none;
+                background-color: aliceblue;
+                margin-inline: 10px;
+                height: 40px;
+                font-size: 20px;
+                margin-bottom: 15px;
+
+            }
+            #rooms{
+                background-color: aqua;
+            }
+            .details{
+                width: 100%;
+                height: 800px;
+                background-color: aliceblue;
+                top: 0;
+                bottom: 0;
+                z-index: 40000;
+                position: fixed;
+                display: none;
+            }
+            #close{
+                top: 5px;
+                background-color: rgb(50, 50, 237);
+                color: aliceblue;
+            }
+
+            .btn{
+                color: rgb(238, 240, 246);
+                width: 150px;
+                border: none;
+                background-color: rgb(4, 127, 235);
+                margin-inline: 10px;
+                height: 40px;
+                font-size: 20px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                border-radius: 10px;
+
+            }
+        </style>
+        
+        <center class="pages">
+          <button id="home" onclick=" window.location.href = 'index.html';">D-Food</button>
+          <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
+          <button id="repport" onclick=" window.location.href = 'repportgeneral.html';">Repports</button> 
+         
+
+          <button id="expences" onclick=" window.location.href = 'expences.html';">Expencegdes</button>
+          
+          <button id="expencesus" onclick=" window.location.href = 'expencesus.html';">ExpenceUs</button>
+          
+          
+      </center>
+       
+        <div class="dashboard-wrapper">
+            <div class="dashboard-finance">
+                <div class="container-fluid dashboard-content">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h3 class="mb-2">Finance Dashboard </h3>
+                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Finance Dashboard Duen</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="offset-xl-10 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                            <form>
+                                <div class="form-group">
+                                    <input class="form-control" type="date" id="date" name="daterange" />
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        
+                       
+                        <div class="">
+                            <div class="card">
+                             
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <div id="resultsContainer"></div>
+                                        
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
+                                    </div>
+                                </div>
+                                <div class="card-body bg-light p-t-40 p-b-40">
+                                    <div id="sparkline-revenue3"></div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="#" class="card-link">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                    <!-- Structure HTML pour afficher les données -->
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                    <script src="firebase-config.js"></script>
+
+                 
+        </div>
+        
+    </div>
+  
+    <script>
+      
+
+        // Get current date
+        const today = new Date();
+      
+        // Format date to 'YYYY-MM-DD' (required by HTML date input)
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+      
+        // Set the value of the input field to the current date
+        document.getElementById('date').value = formattedDate;
+          </script>
+
+<script>
+    // Fonction pour récupérer les ventes en fonction de la date sélectionnée et afficher les totaux par jour avec la liste des produits et le grand total pour chaque collection
+function filterSalesByDate() {
+    const selectedDate = document.getElementById('date').value; // Récupérer la date sélectionnée dans l'input
+
+    // Si aucune date n'est sélectionnée, afficher un message d'erreur ou une notification à l'utilisateur
+    if (!selectedDate) {
+        alert('Veuillez sélectionner une date.');
+        return;
+    }
+
+    // Définir les catégories disponibles
+    const categories = ['drink', 'food', 'room', 'pool', 'spec18'];
+
+    // Initialiser l'objet pour stocker les totaux par catégorie et par devise
+    const totalsByCategoryAndCurrency = {};
+
+    // Récupérer la collection de ventes pour la date sélectionnée
+    db.collection('globalSalesRoom').where("date", "==", selectedDate).get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const data = doc.data();
+                const products = data.products;
+
+                // Parcourir les produits de cette vente
+                products.forEach(function(product) {
+                    const category = product.category;
+                    const currency = product.currency;
+                    const quantity = parseInt(product.quantity);
+                    const price = parseFloat(product.price);
+                    const revenue = quantity * price;
+
+                    // Vérifier si la catégorie est une catégorie valide
+                    if (categories.includes(category)) {
+                        // Si la catégorie n'existe pas encore dans les totaux, l'initialiser
+                        if (!totalsByCategoryAndCurrency.hasOwnProperty(category)) {
+                            totalsByCategoryAndCurrency[category] = { Gdes: [], Us: [] };
+                        }
+
+                        // Ajouter le produit aux totaux de la devise appropriée pour cette catégorie
+                        if (currency === 'Gdes') {
+                            totalsByCategoryAndCurrency[category].Gdes.push({ item: product.item, totalQuantity: quantity, totalRevenue: revenue });
+                        } else if (currency === 'Us') {
+                            totalsByCategoryAndCurrency[category].Us.push({ item: product.item, totalQuantity: quantity, totalRevenue: revenue });
+                        }
+                    }
+                });
+            });
+
+            // Afficher les totaux par catégorie et par devise
+            displayTotalSalesByCategoryAndCurrency(totalsByCategoryAndCurrency);
+        })
+        .catch(function(error) {
+            console.error('Error getting documents: ', error);
+        });
+}
+
+// Fonction pour afficher les totaux par catégorie et par devise
+function displayTotalSalesByCategoryAndCurrency(totalsByCategoryAndCurrency) {
+    const resultContainer = document.getElementById('resultsContainer');
+    resultContainer.innerHTML = ''; // Effacer le contenu précédent
+
+    // Générer le contenu HTML pour les totaux par catégorie et par devise
+    let html = '<h3>Rapport Du Jour</h3>';
+
+    // Boucle à travers chaque catégorie
+    for (const category in totalsByCategoryAndCurrency) {
+        if (totalsByCategoryAndCurrency.hasOwnProperty(category)) {
+            html += `<h4>${category}:</h4>`;
+            let totalGdes = 0;
+            let totalUs = 0;
+
+            html += '<h5>Gdes:</h5>';
+            html += '<ul>';
+            // Afficher les produits en Gdes et calculer le total
+            const gdesItems = {};
+            totalsByCategoryAndCurrency[category].Gdes.forEach(function(product) {
+                const item = product.item;
+                if (!gdesItems[item]) {
+                    html += `<li>${product.item}: Quantité - ${product.totalQuantity}, Revenu - ${product.totalRevenue}</li>`;
+                    gdesItems[item] = true;
+                }
+                totalGdes += product.totalRevenue;
+            });
+            html += '</ul>';
+            html += `Total en Gdes: ${totalGdes}<br><br>`;
+
+            html += '<h5>Us:</h5>';
+            html += '<ul>';
+            // Afficher les produits en Us et calculer le total
+            const usItems = {};
+            totalsByCategoryAndCurrency[category].Us.forEach(function(product) {
+                const item = product.item;
+                if (!usItems[item]) {
+                    html += `<li>${product.item}: Quantité - ${product.totalQuantity}, Revenu - ${product.totalRevenue}</li>`;
+                    usItems[item] = true;
+                }
+                totalUs += product.totalRevenue;
+            });
+            html += '</ul>';
+            html += `Total en Us: ${totalUs}<br><br>`;
+        }
+    }
+
+    // Insérer le contenu dans l'élément "resultContainer"
+    resultContainer.innerHTML = html;
+}
+
+// Appeler la fonction pour filtrer les ventes par date lorsqu'une date est sélectionnée
+document.getElementById("date").addEventListener("change", filterSalesByDate);
+
+// Appeler la fonction une première fois pour afficher les ventes lors du chargement de la page
+filterSalesByDate();
+
+</script>
+
+    <!-- jquery 3.3.1  -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- chart chartist js -->
+    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <script src="assets/vendor/charts/chartist-bundle/Chartistjs.js"></script>
+    <script src="assets/vendor/charts/chartist-bundle/chartist-plugin-threshold.js"></script>
+    <!-- chart C3 js -->
+    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <!-- chartjs js -->
+    <script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
+    <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
+    <!-- sparkline js -->
+    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- dashboard finance js -->
+   
+  
+    <!-- daterangepicker js -->
+  
+</body>
+</html>

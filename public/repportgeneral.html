@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/vector-map/jqvmap.css">
+    <link href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css" />
+    <link rel="icon" href="hotel.png" type="image/png">
+    <title>Duen-Hotel -Finance</title>
+</head>
+
+<body>
+   
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+     <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="index.html">DUEN-HOTEL</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                              
+            </nav>
+        </div>
+        <style>
+            center{
+                width: 100%;
+            }
+            center button{
+                color: rgb(15, 61, 228);
+                width: 150px;
+                border: none;
+                background-color: aliceblue;
+                margin-inline: 10px;
+                height: 40px;
+                font-size: 20px;
+                margin-bottom: 15px;
+
+            }
+            #repport{
+                background-color: aqua;
+            }
+            .details{
+                width: 100%;
+                height: 800px;
+                background-color: aliceblue;
+                top: 0;
+                bottom: 0;
+                z-index: 40000;
+                position: fixed;
+                display: none;
+            }
+            #close{
+                top: 5px;
+                background-color: rgb(50, 50, 237);
+                color: aliceblue;
+            }
+        </style>
+
+<center class="pages">
+  <button id="home" onclick=" window.location.href = 'index.html';">D-Food</button>
+  <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
+  <button id="repport" onclick=" window.location.href = 'repportgeneral.html';">Repports</button> 
+ 
+  <button id="expences" onclick=" window.location.href = 'expences.html';">Expences</button>
+  <button id="unpaid" onclick=" window.location.href = 'expencesus.html';">ExpenceUs</button> 
+
+  
+
+</center>
+       
+        <div class="dashboard-wrapper">
+            <div class="dashboard-finance">
+                <div class="container-fluid dashboard-content">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h3 class="mb-2">Finance Dashboard </h3>
+                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Finance Dashboard Duen</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="offset-xl-10 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                            <form>
+                                <div class="form-group">
+                                  <label for="datefrom">From</label>
+                                    <input class="form-control" type="date" id="datefrom" name="daterange" value="2024-02-15" />
+                                    <label for="dateto">To</label>
+                                    <input class="form-control" type="date" id="dateto" name="daterange" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        
+                       
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">Repport Total</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <div id="resultsContainer"> 
+                                            <h3>BigTotal en gdes</h3>
+                                            <h4 id="totalgdes"></h4>
+                                            <h3>BigTotal en Us</h3>
+                                            <h4 id="totalus"></h4>
+
+                                            <h3>DepencesTotal gdes</h3>
+                                            <h4 id="totalexpencesgdes"></h4>
+                                            <h3>DepencesTotalUs</h3>
+                                            <h4 id="totalexpencesus"></h4>
+
+                                            <h3>EnCaisse gdes</h3>
+                                            <h4 id="totalencaisse"></h4>
+
+                                            <h3>EnCaisse us</h3>
+                                            <h4 id="totalencaisseus"></h4>
+
+                                           <br>
+                                            <h2>Totaux utilisés pour le BigTotal :</h2>
+
+                                            <div id="totaux-utilises">
+                                                <!-- Les totaux seront affichés ici -->
+                                            </div>
+
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
+                                    </div>
+                                </div>
+                                <div class="card-body bg-light p-t-40 p-b-40">
+                                    <div id="sparkline-revenue3"></div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="#" class="card-link">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                    <!-- Structure HTML pour afficher les données -->
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                    <script src="firebase-config.js"></script>
+
+                    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Récupérer le champ de date "dateto"
+    const dateToInput = document.getElementById('dateto');
+
+    // Obtenir la date actuelle au format "YYYY-MM-DD"
+    const today = new Date();
+    const todayFormatted = today.toISOString().split('T')[0];
+
+    // Définir la valeur par défaut du champ de date "dateto" à aujourd'hui
+    dateToInput.value = todayFormatted;
+
+    // Écouter les changements dans les champs de date
+    document.getElementById('datefrom').addEventListener('change', updateReports);
+    document.getElementById('dateto').addEventListener('change', updateReports);
+});
+
+async function updateReports() {
+    const dateFrom = new Date(document.getElementById('datefrom').value);
+    const dateTo = new Date(document.getElementById('dateto').value);
+
+    let bigtotalSum = 0;
+    let expencestotalSum = 0;
+
+    try {
+        let totalUtilisesHTML = ''; // Variable pour stocker le HTML des totaux utilisés
+
+        // Liste des noms de collection
+        const collections = ['reservationinvoice', 'sales', 'salesFoodDuen', 'salesdrink', 'salesfood', 'salesreservgdes', 'salesreservgdespool'];
+
+        for (const collectionName of collections) {
+            const collectionRef = db.collection(collectionName);
+
+            // Filtrer les documents par période de date
+            const querySnapshot = await collectionRef.where("date", ">=", dateFrom.toISOString()).where("date", "<=", dateTo.toISOString()).get();
+
+            querySnapshot.forEach(doc => {
+                const total = doc.data().total;
+                const fullname = doc.data().fullname; // Ajout de fullname
+                const date = doc.data().date; // Ajout de date
+                const seller = doc.data().vendeur; // Ajout de vendeur
+                
+                if (typeof total === 'number') {
+                    bigtotalSum += total;
+                    totalUtilisesHTML += `<p><strong>Nom complet :</strong> ${fullname}, <strong>Date :</strong> ${date}, <strong> Vendeur :</strong> ${seller}, <strong>Total :</strong> ${total}</p>`;
+                } else if (typeof total === 'string') {
+                    const numericValue = parseFloat(total);
+                    if (!isNaN(numericValue)) {
+                        bigtotalSum += numericValue;
+                        totalUtilisesHTML += `<p><strong>Nom complet :</strong> ${fullname}, <strong>Date :</strong> ${date}, <strong>Vendeur :</strong> ${seller}, <strong>Total :</strong> ${numericValue}</p>`;
+                    }
+                }
+            });
+        }
+
+        // Ajouter le HTML des totaux utilisés à la section correspondante dans la page
+        document.getElementById('totaux-utilises').innerHTML = totalUtilisesHTML;
+
+        // Liste des noms de collection pour les dépenses
+        const expenseCollections = ['expenses'];
+
+        for (const collectionName of expenseCollections) {
+            const collectionRef = db.collection(collectionName);
+
+            // Filtrer les documents de dépenses par période de date
+            const querySnapshot = await collectionRef.where("date", ">=", dateFrom.toISOString()).where("date", "<=", dateTo.toISOString()).get();
+
+            querySnapshot.forEach(doc => {
+                const price = doc.data().price;
+                if (typeof price === 'number') {
+                    expencestotalSum += price;
+                } else if (typeof total === 'string') {
+                    const numericValue = parseFloat(price);
+                    if (!isNaN(numericValue)) {
+                        expencestotalSum += numericValue;
+                    }
+                }
+            });
+        }
+
+        // Mise à jour de l'élément HTML avec les totaux calculés
+        const difference = bigtotalSum - expencestotalSum;
+        document.getElementById('totalencaisse').textContent = difference;
+        document.getElementById('totalgdes').textContent = bigtotalSum;
+        document.getElementById('totalexpencesgdes').textContent = expencestotalSum;
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour des rapports :', error);
+    }
+}
+
+
+    </script>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+      // Récupérer le champ de date "dateto"
+      const dateToInput = document.getElementById('dateto');
+  
+      // Obtenir la date actuelle au format "YYYY-MM-DD"
+      const today = new Date();
+      const todayFormatted = today.toISOString().split('T')[0];
+  
+      // Définir la valeur par défaut du champ de date "dateto" à aujourd'hui
+      dateToInput.value = todayFormatted;
+  
+      // Écouter les changements dans les champs de date
+      document.getElementById('datefrom').addEventListener('change', updateReports1);
+      document.getElementById('dateto').addEventListener('change', updateReports1);
+  });
+  
+  async function updateReports1() {
+      const dateFrom = new Date(document.getElementById('datefrom').value);
+      const dateTo = new Date(document.getElementById('dateto').value);
+  
+      let bigtotalSumus = 0;
+      let expencestotalSumus = 0;
+  
+      try {
+          // Liste des noms de collection
+          const collections = ['reservation', 'salesAmericain', 'salesfoodAmericain', 'salesreservus', 'usinvoice', 'usinvoicedrink', 'salesreservuspool'];
+
+          for (const collectionName of collections) {
+              const collectionRef = db.collection(collectionName);
+  
+              // Filtrer les documents par période de date
+              const querySnapshot = await collectionRef.where("date", ">=", dateFrom.toISOString()).where("date", "<=", dateTo.toISOString()).get();
+  
+              querySnapshot.forEach(doc => {
+                  const total = doc.data().total;
+                  if (typeof total === 'number') {
+                      bigtotalSumus += total;
+                  } else if (typeof total === 'string') {
+                      const numericValue = parseFloat(total);
+                      if (!isNaN(numericValue)) {
+                          bigtotalSumus += numericValue;
+                      }
+                  }
+              });
+          }
+  
+          // Liste des noms de collection pour les dépenses
+          const expenseCollections = ['expensesus'];
+  
+          for (const collectionName of expenseCollections) {
+              const collectionRef = db.collection(collectionName);
+  
+              // Filtrer les documents de dépenses par période de date
+              const querySnapshot = await collectionRef.where("date", ">=", dateFrom.toISOString()).where("date", "<=", dateTo.toISOString()).get();
+  
+              querySnapshot.forEach(doc => {
+                  const price = doc.data().price;
+                  if (typeof price === 'number') {
+                      expencestotalSumus += price;
+                  } else if (typeof total === 'string') {
+                      const numericValue = parseFloat(price);
+                      if (!isNaN(numericValue)) {
+                          expencestotalSumus += numericValue;
+                      }
+                  }
+              });
+          }
+  
+          // Mise à jour de l'élément HTML avec les totaux calculés
+          const differenceus = bigtotalSumus - expencestotalSumus;
+          document.getElementById('totalencaisseus').textContent = differenceus;
+          document.getElementById('totalus').textContent = bigtotalSumus;
+          document.getElementById('totalexpencesus').textContent = expencestotalSumus;
+      } catch (error) {
+          console.error('Erreur lors de la mise à jour des rapports :', error);
+      }
+  }
+  
+  
+      </script>
+           
+
+
+
+  
+
+
+
+<!-- ============================================================== -->
+                    <!-- end revenue year  -->
+                  
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="#">Wedser Charl&eacute;</a>. 
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+
+   
+</body>
+</html>

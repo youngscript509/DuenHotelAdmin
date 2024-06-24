@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mise à jour des prix</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    input[type="text"], select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Mise à jour des prix pour le Bar et Le Resto</h2>
+    <label for="multiplier">Multiplicateur :</label>
+    <input type="text" id="multiplier" placeholder="Entrez le multiplicateur">
+
+    <label for="avoidProducts">Produits à éviter (séparés par des virgules) :</label>
+    <input type="text" id="avoidProducts" placeholder="Entrez les noms des produits à éviter" value="prestige,benedicta,guiness,heineken,coca,7up,eau,redbull,cyclone,jumex,canadadry">
+
+    <button onclick="updatePrices()">Mettre à jour les prix</button>
+    <div>
+        <ul id="list">
+
+        </ul>
+    </div>
+</div>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+
+
+<script>
+
+function updatePrices() {
+    const multiplier = parseFloat(document.getElementById('multiplier').value);
+    const avoidProducts = document.getElementById('avoidProducts').value.split(',').map(name => name.trim());
+    const productList = document.getElementById('list'); // Récupérer l'élément ul
+
+    // Vider la liste avant de l'actualiser
+    productList.innerHTML = '';
+
+    // Get all products
+    db.collection("DrinkStock")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const productName = doc.data().name;
+                const PriceU = doc.data().priceUs;
+                // Check if the product should be avoided
+                if (!avoidProducts.includes(productName)) {
+                    // Update priceGdes for each product
+                    const priceUs = doc.data().priceUs;
+                    const updatedPriceGdes = priceUs * multiplier;
+
+                    // Mettre à jour le produit dans Firestore
+                    db.collection("DrinkStock").doc(doc.id).update({
+                        priceGdes: updatedPriceGdes
+                    })
+                    .then(() => {
+                        console.log("Document successfully updated!");
+
+                        // Ajouter le produit mis à jour à la liste
+                        const listItem = document.createElement('li');
+                        listItem.textContent = productName + ': Gdes' + updatedPriceGdes +'/$'+PriceU;
+                        productList.appendChild(listItem);
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });
+                }
+            });
+        })
+        .catch((error) => {
+            console.error("Error getting documents: ", error);
+        });
+}
+
+</script>
+
+</body>
+</html>

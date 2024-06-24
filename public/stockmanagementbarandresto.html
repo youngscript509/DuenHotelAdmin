@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Duen-Hotel Stock</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/buttons.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/select.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/fixedHeader.bootstrap4.css">
+    <style>
+      
+        .dataTables_empty {
+         display: none !important;
+            }
+  
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+   <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="home.html">DUEN-HOTEL</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                                <input class="form-control" type="text" placeholder="Search..">
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                <li>
+                                    <div class="notification-title"> Notification</div>
+                                    <div class="notification-list">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action active">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
+                                                        <div class="notification-date">2 days ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown connection">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-plus"></i> </a>
+                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
+                               
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="reservation.html">Reservations</a></div>
+                                        
+                                </li>
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="takeout2.html">Drink-Sales</a></div>
+                                        
+                                </li>
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="food.html">Food-Order</a></div>
+                                        
+                                </li>
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="newexpense.html">Expenses</a></div>
+                                        
+                                </li>
+                               
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/iconuser (2).png" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 class="mb-0 text-white nav-user-name" id="username"></h5>
+                                    <span class="status"></span><span class="ml-2" id="email"></span>
+                                </div>
+                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="index.html"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar sidebar-dark">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="d-xl-none d-lg-none" href="home.html">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                                <div id="submenu-1" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="home.html"  aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">DUEN-HOTEL Dashboard</a>
+                                           
+                                        </li>
+                                        
+                                       
+                                    </ul>
+                                </div>
+                            </li>
+                            
+                          
+
+                            <li class="nav-divider">
+                                Features
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i> Pages </a>
+                                <div id="submenu-6" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                      
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="dashboard-finance.html">Finance</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="stockmanagement.html">Stock</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="newcustomer.html1">Restaurant</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="rooms.html">Rooms</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="payroll.html">Employees</a>
+                                        </li>
+                                       
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="services.html">Services</a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>
+                            </li>
+                         
+                         
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-10" aria-controls="submenu-10"><i class="fas fa-f fa-folder"></i>Repport</a>
+                                <div id="submenu-10" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">On Sales</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">On Products</a>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">On Expense</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">On Payroll</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"  aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-upload"></i>Update Data</a>
+                                
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href=""  aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-circle-notch"></i>Reload Data</a>
+                                
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Stock Management</h2>
+                            <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                            <div class="page-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Duen-Hotel</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+#cardHidden{
+    display: none;
+}
+
+                </style>
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <!-- ============================================================== -->
+                    <!-- basic table  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                       
+                        <div class="card">
+                           
+                            <h5 class="card-header">Duen-Hotel Products</h5>
+                           
+                            <div class="row">
+                                <!-- ============================================================== -->
+                                <!-- validation form -->
+                                <!-- ============================================================== -->
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="bedroomform">
+                                    <button id="addBtn">Add Product</button>
+                                    <div class="card" id="cardHidden">
+
+                                        <h5 class="card-header">Add New Product</h5>
+                                        <div class="container">
+                                            
+                                            <h2>Ajouter un produit</h2>
+                                            <form id="productForm">
+                                              <div class="form-group">
+                                                <label for="name">Nom du produit :</label>
+                                                <input type="text" id="name" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="quantity">Quantité :</label>
+                                                <input type="number" id="quantity" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="priceGdes">Prix (Gourdes) :</label>
+                                                <input type="number" id="priceGdes" step="0.01" min="0" max="100000" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="priceUs">Prix (USD) :</label>
+                                                <input type="number" id="priceUs" step="0.01" min="0" max="100000" required>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="category">Catégorie :</label>
+                                               
+                                                <select  name="choices"  id="category" required>
+                                                    <option value="drink">Drink</option>
+                                                    <option value="food">Food</option>
+                                                    <option value="smoke">Smoke</option>
+                                                   
+                                                    
+                                                  </select>
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="date">Date :</label>
+                                                <input type="date" id="date" required>
+                                              </div>
+                                              <button type="submit">Enregistrer</button>
+                                            </form>
+                                            <br><br>
+                                          </div>
+                                          <center><button id="closeForm">Close Form</button></center>
+                                    </div>
+                                </div>
+                                <!-- ============================================================== -->
+                                <!-- end validation form -->
+                                <!-- ============================================================== -->
+                            </div>
+                         
+                            <div class="card-body">
+                                <div class="divFilter">
+                                    <div class="form-group">
+                                        
+                                        <select  name="choices"  id="filterCategory" required onchange="filterProducts()">
+                                            <option value="choose">choose</option>
+                                            <option value="drink">Drink</option>
+                                            <option value="food">Food</option>
+                                            <option value="smoke">Smoke</option>
+                                            
+                                          </select>
+                                      </div>
+                                </div>
+                                <div class="table-responsive">
+                                   
+                                      
+                                    <table class="table table-striped table-bordered first" id="productTable">
+                                        <thead>
+                                            <tr>
+                                              <th>Nom</th>
+                                              <th>Quantité</th>
+                                              <th>Prix Gdes</th>
+                                              <th>Prix Us</th>
+                                              <th>Catégorie</th>
+                                              <th>Date</th>
+                                              <th>Actions</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody id="productList"></tbody>
+                                      
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end basic table  -->
+                    <!-- ============================================================== -->
+                </div>
+                
+            <!-- ============================================================== -->
+        
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+    </div>
+    <style>
+        #confirmation{
+            width: 50%;
+            height: 200px;
+            top:100px;
+            position: fixed;
+            align-self: center;
+            display: none;
+            z-index: 20000;
+        }
+
+       
+
+        center{
+            width: 100%;
+        }
+    </style>
+
+              <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+<script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+    
+
+    
+
+<script>
+const drinkStockCollection = db.collection('DrinkStock');
+// Form submission event listener// Form submission event listener
+document.getElementById('productForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form from submitting
+  
+  // Get form values
+  const name = document.getElementById('name').value;
+  const quantity = parseInt(document.getElementById('quantity').value);
+  const priceGdes = parseFloat(document.getElementById('priceGdes').value);
+  const priceUs = parseFloat(document.getElementById('priceUs').value);
+  const category = document.getElementById('category').value;
+  const date = document.getElementById('date').value;
+  
+  // Check if product already exists by name
+  drinkStockCollection.where('name', '==', name).get()
+    .then(function(querySnapshot) {
+      if (querySnapshot.empty) {
+        // Product doesn't exist, add it to Firestore
+        drinkStockCollection.add({
+          name: name,
+          quantity: quantity,
+          priceGdes: priceGdes,
+          priceUs: priceUs,
+          category: category,
+          date: date
+        })
+        .then(function(docRef) {
+          alert("Product added successfully ");
+          // Clear form fields after successful submission
+          document.getElementById('name').value = '';
+          document.getElementById('quantity').value = '';
+          document.getElementById('priceGdes').value = '';
+          document.getElementById('priceUs').value = '';
+          document.getElementById('category').value = '';
+          document.getElementById('date').value = '';
+          window.location.href = 'stockmanagement.html';
+        })
+        .catch(function(error) {
+          alert("Error adding product: ", error);
+        });
+      } else {
+        // Product already exists, update it in Firestore
+        querySnapshot.forEach(function(doc) {
+          doc.ref.update({
+            quantity: quantity,
+            priceGdes: priceGdes,
+            priceUs: priceUs,
+            category: category,
+            date: date
+          })
+          .then(function() {
+            alert("Product updated successfully ");
+            // Clear form fields after successful submission
+            document.getElementById('name').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('priceGdes').value = '';
+            document.getElementById('priceUs').value = '';
+            document.getElementById('category').value = '';
+            document.getElementById('date').value = '';
+            window.location.href = 'stockmanagement.html';
+          })
+          .catch(function(error) {
+            alert("Error updating product: ", error);
+          });
+        });
+      }
+    })
+    .catch(function(error) {
+      console.error("Error checking product existence: ", error);
+    });
+});
+
+
+</script>
+    
+    
+ 
+  
+  <script>
+    // Fonction pour filtrer les produits par catégorie
+    function filterProducts() {
+      const selectedCategory = document.getElementById('filterCategory').value;
+      const filteredProducts = allProducts.filter(product => selectedCategory === '' || product.category === selectedCategory);
+      renderProducts(filteredProducts);
+    }
+    
+    // Fonction pour afficher les produits dans le tableau
+    function renderProducts(products) {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = ''; // Efface les produits précédents
+      
+      products.forEach(product => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${product.name}</td>
+          <td>${product.quantity}</td>
+          <td>${product.priceGdes}</td>
+          <td>${product.priceUs}</td>
+          <td>${product.category}</td>
+          <td>${product.date}</td>
+          <td>
+            <button onclick="editProduct('${product.id}')">Modifier</button>
+          </td>
+        `;
+        productList.appendChild(tr);
+      });
+    }
+    
+    // Fonction pour récupérer les produits de Firestore
+    function getProducts() {
+      drinkStockCollection.get()
+        .then(function(querySnapshot) {
+          allProducts = [];
+          querySnapshot.forEach(function(doc) {
+            allProducts.push({...doc.data(), id: doc.id});
+          });
+          renderProducts(allProducts);
+        })
+        .catch(function(error) {
+          console.error("Erreur lors de la récupération des produits : ", error);
+        });
+    }
+    
+    // Fonction pour éditer un produit
+    function editProduct(productId) {
+      drinkStockCollection.doc(productId).get()
+        .then(function(doc) {
+          const product = doc.data();
+          document.getElementById('name').value = product.name;
+          document.getElementById('quantity').value = product.quantity;
+          document.getElementById('priceGdes').value = product.priceGdes;
+          document.getElementById('priceUs').value = product.priceUs;
+          document.getElementById('category').value = product.category;
+          document.getElementById('date').value = product.date;
+        })
+        .catch(function(error) {
+          console.error("Erreur lors de la récupération du produit pour l'édition : ", error);
+        });
+    }
+    
+    // Charge les produits lorsque la page se charge
+    getProducts();
+  </script>
+  
+
+<script>
+    const cardHidden = document.querySelector("#cardHidden");
+    const addBtn = document.querySelector("#addBtn");
+    const closeform = document.querySelector("#closeForm");
+    addBtn.addEventListener("click", (e) => {
+      cardHidden.style.display="block";
+      
+      
+    });
+
+    closeform.addEventListener("click", (e) => {
+      cardHidden.style.display="none";
+      
+    });
+
+    
+// Get current date
+const today = new Date();
+
+// Format date to 'YYYY-MM-DD' (required by HTML date input)
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const day = String(today.getDate()).padStart(2, '0');
+const formattedDate = `${year}-${month}-${day}`;
+
+// Set the value of the input field to the current date
+document.getElementById('date').value = formattedDate;
+
+
+
+  </script>
+    
+</body>
+ 
+</html>
