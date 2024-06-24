@@ -501,7 +501,7 @@ const priceChoiceSelect1 = document.getElementById('priceChoice1');
 async function fetchAndDisplayProducts() {
  const prefix = productNameInput.value.trim();
  const querySnapshot = await db.collection('DrinkStock').where('name', '>=', prefix)
-                                                       .where('name', '<=', prefix + '\uf8ff').get();
+   .where('name', '<=', prefix + '\uf8ff').get();
  productList.innerHTML = ''; // Vider les options existantes
  querySnapshot.forEach(doc => {
    const productName = doc.data().name;
@@ -882,7 +882,7 @@ firebase.auth().onAuthStateChanged(function(user) {
               .then(function(docRef) {
                 console.log("Document added with ID: ", docRef.id);
          
-                window.location.href = 'orderinvoice1.html';
+                window.location.href = 'restoandbarinvoice.html';
               })
               .catch(function(error) {
                 console.error("Error adding document: ", error);
@@ -910,7 +910,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 .then(function() {
                   console.log("Document updated");
                  
-                  window.location.href = 'orderinvoice1.html';
+                  window.location.href = 'restoandbarinvoice.html';
                 })
                 .catch(function(error) {
                   console.error("Error updating document: ", error);
@@ -923,74 +923,96 @@ firebase.auth().onAuthStateChanged(function(user) {
         });
     });
   
-  
-    // Fonction pour afficher les ventes
-    function displaySales(defaultDate) {
-      const userList = document.getElementById('invoices');
-      userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
-  
-      let query = db.collection("globalSales").orderBy("date", "desc");
-  
-      if (defaultDate === 'today') {
-        const today = new Date().toDateString();
-        query = query.where("date", "==", today);
-      } else if (defaultDate) {
-        query = query.where("date", "==", defaultDate);
-      }
-  
-    query.get().then(function(querySnapshot) {
+  // Fonction pour afficher les ventes
+function displaySales(defaultDate) {
+  const userList = document.getElementById('invoices');
+  userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
+
+  let query = db.collection("globalSales").orderBy("date", "desc");
+
+  if (defaultDate === 'today') {
+    const today = new Date().toDateString();
+    query = query.where("date", "==", today);
+  } else if (defaultDate) {
+    query = query.where("date", "==", defaultDate);
+  }
+
+  query.get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
-        const data = doc.data();
-        const li = document.createElement('li');
-        
-        // Créer des éléments span pour chaque donnée
-        const customerNameSpan = document.createElement('span');
-        customerNameSpan.textContent = data.customerName;
-        
-        const totalGdesSpan = document.createElement('span');
-        totalGdesSpan.textContent = `${data.totalGdes} Gdes`;
-        
-        const totalUsSpan = document.createElement('span');
-        totalUsSpan.textContent = `${data.totalUs} Us`;
-        
-        const timeSpan = document.createElement('span');
-        timeSpan.textContent = data.time;
+      const data = doc.data();
+      const li = document.createElement('li');
 
-        const seller = document.createElement('span');
-        seller.textContent = data.sellerName;
+      // Créer des éléments span pour chaque donnée
+      const customerNameSpan = document.createElement('span');
+      customerNameSpan.textContent = data.customerName;
 
-        const datespan = document.createElement('span');
-        datespan.textContent = data.date;
-        
-        // Créer le bouton d'édition
-        const editBtn = document.createElement('button');
-        editBtn.textContent = 'Edit';
-        editBtn.setAttribute('data-id', doc.id);
-        editBtn.classList.add('editBtn');
-        
-        // Ajouter tous les éléments à la balise li
-        li.appendChild(customerNameSpan);
-        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-        li.appendChild(totalGdesSpan);
-        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-        li.appendChild(totalUsSpan);
-        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-        li.appendChild(timeSpan);
-        li.appendChild(document.createTextNode(' -')); // Ajouter un espace
-        li.appendChild(seller);
-        li.appendChild(document.createTextNode(' -')); // Ajouter un espace
-        li.appendChild(datespan);
-        li.appendChild(document.createTextNode(' ')); // Ajouter un espace
-        li.appendChild(editBtn);
-        
-        // Ajouter la balise li à la liste
-        userList.appendChild(li);
+      const totalGdesSpan = document.createElement('span');
+      totalGdesSpan.textContent = `${data.totalGdes} Gdes`;
+
+      const totalUsSpan = document.createElement('span');
+      totalUsSpan.textContent = `${data.totalUs} Us`;
+
+      const timeSpan = document.createElement('span');
+      timeSpan.textContent = data.time;
+
+      const seller = document.createElement('span');
+      seller.textContent = data.sellerName;
+
+      const datespan = document.createElement('span');
+      datespan.textContent = data.date;
+
+      // Créer le bouton d'édition
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+      editBtn.setAttribute('data-id', doc.id);
+      editBtn.classList.add('editBtn');
+
+      // Créer le bouton de suppression
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.setAttribute('data-id', doc.id);
+      deleteBtn.classList.add('deleteBtn');
+      deleteBtn.addEventListener('click', deleteInvoice);
+
+      // Ajouter tous les éléments à la balise li
+      li.appendChild(customerNameSpan);
+      li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+      li.appendChild(totalGdesSpan);
+      li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+      li.appendChild(totalUsSpan);
+      li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+      li.appendChild(timeSpan);
+      li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+      li.appendChild(seller);
+      li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+      li.appendChild(datespan);
+      li.appendChild(document.createTextNode(' ')); // Ajouter un espace
+      li.appendChild(editBtn);
+      li.appendChild(document.createTextNode(' ')); // Ajouter un espace
+      li.appendChild(deleteBtn);
+
+      // Ajouter la balise li à la liste
+      userList.appendChild(li);
     });
-}).catch(function(error) {
-        console.error("Error getting documents: ", error);
-      });
-    }
-  
+  }).catch(function(error) {
+    console.error("Error getting documents: ", error);
+  });
+}
+
+// Fonction pour supprimer une facture
+function deleteInvoice(event) {
+  const docId = event.target.getAttribute('data-id');
+  db.collection("globalSales").doc(docId).delete().then(function() {
+    console.log("Document successfully deleted!");
+    // Réafficher les ventes après suppression
+    displaySales(); // ou displaySales(defaultDate) si vous voulez conserver le filtre
+  }).catch(function(error) {
+    console.error("Error removing document: ", error);
+  });
+}
+
+
+
     document.addEventListener('DOMContentLoaded', function() {
     const today = new Date();
     const formattedToday = formatDate(today); // Format YYYY-MM-DD
