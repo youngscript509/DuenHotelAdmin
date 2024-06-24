@@ -11,6 +11,20 @@
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libs/css/style.css">
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <meta name="generator" content="DuenInvoice v1.0, https://duenamin2024.netlify.app">
+    <link rel="canonical" href="https://dueninvoice.netlify.app">
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image:src" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
+    <meta name="twitter:title" content="Home">
+    
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    <meta name="description" content="DuenAdmin">
+    <meta property="og:title" content="DuenAdmin">
+    <meta property="og:description" content="Duen">
+    <meta property="og:type" content="website"><meta property="og:url" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:locale" content="fr_FR">
     <style>
     html,
     body {
@@ -26,6 +40,46 @@
         padding-bottom: 40px;
     }
     </style>
+     <script>
+        // Vérifier si l'application est installable
+function isInstallable() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
+// Afficher une invitation à l'installation
+function showInstallPrompt() {
+  const installButton = document.getElementById('install-button');
+
+  installButton.addEventListener('click', () => {
+    deferredPrompt.prompt();
+
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the installation prompt');
+      } else {
+        console.log('User dismissed the installation prompt');
+      }
+    });
+  });
+
+  installButton.style.display = 'block';
+}
+
+// Événement beforeinstallprompt pour détecter l'opportunité d'installation
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Empêcher le navigateur de gérer l'événement par défaut
+  event.preventDefault();
+  // Stocker l'événement pour une utilisation ultérieure
+  deferredPrompt = event;
+  // Afficher l'invitation à l'installation
+  showInstallPrompt();
+});
+
+// Initialisation de la variable deferredPrompt
+let deferredPrompt;
+
+    </script>
+
 </head>
 
 <body>
