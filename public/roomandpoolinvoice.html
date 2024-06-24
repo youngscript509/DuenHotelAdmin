@@ -865,7 +865,7 @@ firebase.auth().onAuthStateChanged(function(user) {
               .then(function(docRef) {
                 console.log("Document added with ID: ", docRef.id);
          
-                window.location.href = 'orderinvoice1 - Copy.html';
+                window.location.href = 'roomandpoolinvoice.html';
               })
               .catch(function(error) {
                 console.error("Error adding document: ", error);
@@ -898,7 +898,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 .then(function() {
                   console.log("Document updated");
               
-                  window.location.href = 'orderinvoice1 - Copy.html';
+                  window.location.href = 'roomandpoolinvoice.html';
                 })
                 .catch(function(error) {
                   console.error("Error updating document: ", error);
@@ -917,7 +917,7 @@ function displaySales(defaultDate) {
   const userList = document.getElementById('invoices');
   userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
 
-  let query = db.collection("globalSales").orderBy("date", "desc");
+  let query = db.collection("globalSalesRoom").orderBy("date", "desc");
 
   if (defaultDate === 'today') {
     const today = new Date().toDateString();
