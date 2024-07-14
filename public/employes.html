@@ -1,124 +1,235 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Duen-Hotel Sign up</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/libs/css/style.css">
-    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-    <style>
-    html,
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Employés</title>
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+     <link rel="stylesheet" href="assets/libs/css/style.css">
+     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+ <style>
     body {
-        height: 100%;
-    }
+    font-family: Arial, sans-serif;
+}
 
-    body {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    </style>
+form {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+form button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+ </style>
 </head>
-<!-- ============================================================== -->
-<!-- signup form  -->
-<!-- ============================================================== -->
-
-<body>
-    <!-- ============================================================== -->
-    <!-- signup form  -->
-    <!-- ============================================================== -->
-    <div class="splash-container">
-   
-        <div class="card">
-            <form >
-            <div class="card-header">
-                <h3 class="mb-1">Registrations Form</h3>
-                <p>Please enter your user information.</p>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text" id="name" required placeholder="Full Name" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="email" id="email" required placeholder="E-mail" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input class="form-control form-control-lg" id="password" type="password" required placeholder="Password">
-                </div>
-              
-                <div class=" pt-2">
-                    <button class="btn btn-block btn-primary" onclick="signup()" type="button">Register My Account</button>
-                </div>
-            </form>
-               
-      
-   
-   
-    <div class="form-group">
-        <label class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" required><span class="custom-control-label">By creating an account, you agree the <a href="#">terms and conditions</a></span>
-        </label>
-    </div>
-    <div class="card-footer bg-white">
-        <p>Already member? <a href="index.html" class="text-secondary">Login Here.</a></p>
-    </div>
+<body class="container">
+    <div class="card">
+    <h1>Gestion des Employés</h1>
+    
+    <form id="employeeForm" style="margin-right: 20px; margin-left: 20px;" >
+        <label for="nomcomplet"  class="form-control form-control-lg" >Nom Complet:</label>
+        <input  class="form-control form-control-lg"  type="text" id="nomcomplet" name="nomcomplet" required><br>
+        
+        <label for="id"  class="form-control form-control-lg" >ID:</label>
+        <input  class="form-control form-control-lg"  type="text" id="id" name="id" required><br>
+        
+        <label  class="form-control form-control-lg"  for="adresse">Adresse:</label>
+        <input  class="form-control form-control-lg"  type="text" id="adresse" name="adresse" required><br>
+        
+        <label  class="form-control form-control-lg"  for="phone">Téléphone:</label>
+        <input  class="form-control form-control-lg"  type="text" id="phone" name="phone" required><br>
+        
+        <label  class="form-control form-control-lg"  for="fonction">Fonction:</label>
+        <input  class="form-control form-control-lg"  type="text" id="fonction" name="fonction" required><br>
+        
+        <label  class="form-control form-control-lg"  for="salaire">Salaire:</label>
+        <input  class="form-control form-control-lg"  type="text" id="salaire" name="salaire" required><br>
+        
+        <label  class="form-control form-control-lg"  for="contact">Personne de Contact:</label>
+        <input  class="form-control form-control-lg"  type="text" id="contact" name="contact" required><br>
+        
+        <label  class="form-control form-control-lg"  for="phone_contact">Téléphone de Contact:</label>
+        <input  class="form-control form-control-lg"  type="text" id="phone_contact" name="phone_contact" required><br>
+        
+        <label  class="form-control form-control-lg"  for="alergie">Allergie:</label>
+        <input  class="form-control form-control-lg"  type="text" id="alergie" name="alergie"><br>
+        
+        <label  class="form-control form-control-lg"  for="maladie">Maladie:</label>
+        <input  class="form-control form-control-lg"  type="text" id="maladie" name="maladie"><br>
+        
+        <button type="submit">Enregistrer</button>
+    </form>
+    
+    
+    <h2>Liste des Employés</h2>
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>Nom Complet</th>
+                <th>ID</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Fonction</th>
+                <th>Salaire</th>
+                <th>Personne de Contact</th>
+                <th>Téléphone de Contact</th>
+                <th>Allergie</th>
+                <th>Maladie</th>
+                <th>Actions</th> <!-- New Actions Column -->
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
 </div>
-</div>
-           
-</div>
-
 <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
 <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
 <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
 <script src="firebase-config.js"></script>
+
 <script>
-    // Initialisation de Firebase
-    firebase.initializeApp(firebaseConfig);
 
-    // Fonction pour gérer l'inscription de l'utilisateur
-    function signup() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
 
-        // Créer un compte utilisateur avec l'e-mail et le mot de passe
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Ajouter le nom de l'utilisateur à la collection 'users' dans Firestore
-                const userId = userCredential.user.uid;
-                firebase.firestore().collection('users').doc(userId).set({
-                    name: name,
-                    email: email
-                })
-                .then(() => {
-                    alert('Utilisateur enregistré avec succès.');
-                    // Rediriger vers la page souhaitée après l'inscription
-                   
-                })
-                .catch((error) => {
-                    console.error('Erreur lors de l\'enregistrement des données de l\'utilisateur:', error);
-                    // Afficher un message d'erreur à l'utilisateur
-                    alert('Erreur lors de l\'enregistrement. Veuillez réessayer.');
-                });
-            })
-            .catch((error) => {
-                console.error('Erreur lors de l\'inscription de l\'utilisateur:', error);
-                // Afficher un message d'erreur à l'utilisateur
-                alert(error.message);
-            });
+// Référence au formulaire et au tableau
+const employeeForm = document.getElementById('employeeForm');
+const employeeTableBody = document.querySelector('#employeeTable tbody');
+let editingEmployeeId = null;
+
+// Fonction pour ajouter ou mettre à jour un employé dans la base de données et le tableau
+employeeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const employee = {
+        nomcomplet: employeeForm.nomcomplet.value,
+        id: employeeForm.id.value,
+        adresse: employeeForm.adresse.value,
+        phone: employeeForm.phone.value,
+        fonction: employeeForm.fonction.value,
+        salaire: employeeForm.salaire.value,
+        contact: employeeForm.contact.value,
+        phone_contact: employeeForm.phone_contact.value,
+        alergie: employeeForm.alergie.value,
+        maladie: employeeForm.maladie.value,
+    };
+
+    if (editingEmployeeId) {
+        db.collection('employes').doc(editingEmployeeId).update(employee).then(() => {
+            console.log('Employé mis à jour !');
+            employeeForm.reset();
+            editingEmployeeId = null;
+            loadEmployees();
+        }).catch((error) => {
+            console.error('Erreur lors de la mise à jour de l\'employé : ', error);
+        });
+    } else {
+        db.collection('employes').add(employee).then(() => {
+            console.log('Employé ajouté !');
+            employeeForm.reset();
+            loadEmployees();
+        }).catch((error) => {
+            console.error('Erreur lors de l\'ajout de l\'employé : ', error);
+        });
     }
+});
+
+// Fonction pour charger et afficher les employés
+function loadEmployees() {
+    db.collection('employes').get().then((querySnapshot) => {
+        employeeTableBody.innerHTML = '';
+        querySnapshot.forEach((doc) => {
+            const employee = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${employee.nomcomplet}</td>
+                <td>${employee.id}</td>
+                <td>${employee.adresse}</td>
+                <td>${employee.phone}</td>
+                <td>${employee.fonction}</td>
+                <td>${employee.salaire}</td>
+                <td>${employee.contact}</td>
+                <td>${employee.phone_contact}</td>
+                <td>${employee.alergie}</td>
+                <td>${employee.maladie}</td>
+                <td class="action-buttons">
+                    <button class="edit" onclick="editEmployee('${doc.id}')">Éditer</button>
+                    <button class="delete" onclick="deleteEmployee('${doc.id}')">Supprimer</button>
+                </td>
+            `;
+            employeeTableBody.appendChild(row);
+        });
+    });
+}
+
+// Fonction pour éditer un employé
+function editEmployee(employeeId) {
+    db.collection('employes').doc(employeeId).get().then((doc) => {
+        const employee = doc.data();
+        employeeForm.nomcomplet.value = employee.nomcomplet;
+        employeeForm.id.value = employee.id;
+        employeeForm.adresse.value = employee.adresse;
+        employeeForm.phone.value = employee.phone;
+        employeeForm.fonction.value = employee.fonction;
+        employeeForm.salaire.value = employee.salaire;
+        employeeForm.contact.value = employee.contact;
+        employeeForm.phone_contact.value = employee.phone_contact;
+        employeeForm.alergie.value = employee.alergie;
+        employeeForm.maladie.value = employee.maladie;
+        editingEmployeeId = employeeId;
+    }).catch((error) => {
+        console.error('Erreur lors de l\'édition de l\'employé : ', error);
+    });
+}
+
+// Fonction pour supprimer un employé
+function deleteEmployee(employeeId) {
+    db.collection('employes').doc(employeeId).delete().then(() => {
+        console.log('Employé supprimé !');
+        loadEmployees();
+    }).catch((error) => {
+        console.error('Erreur lors de la suppression de l\'employé : ', error);
+    });
+}
+
+// Charger les employés au chargement de la page
+window.onload = loadEmployees;
+
 </script>
-          <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
-
 </body>
-
- 
 </html>
