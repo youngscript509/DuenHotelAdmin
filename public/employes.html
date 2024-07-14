@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Duen-Hotel Sign up</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    </style>
+</head>
+<!-- ============================================================== -->
+<!-- signup form  -->
+<!-- ============================================================== -->
+
+<body>
+    <!-- ============================================================== -->
+    <!-- signup form  -->
+    <!-- ============================================================== -->
+    <div class="splash-container">
+   
+        <div class="card">
+            <form >
+            <div class="card-header">
+                <h3 class="mb-1">Registrations Form</h3>
+                <p>Please enter your user information.</p>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input class="form-control form-control-lg" type="text" id="name" required placeholder="Full Name" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input class="form-control form-control-lg" type="email" id="email" required placeholder="E-mail" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input class="form-control form-control-lg" id="password" type="password" required placeholder="Password">
+                </div>
+              
+                <div class=" pt-2">
+                    <button class="btn btn-block btn-primary" onclick="signup()" type="button">Register My Account</button>
+                </div>
+            </form>
+               
+      
+   
+   
+    <div class="form-group">
+        <label class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" required><span class="custom-control-label">By creating an account, you agree the <a href="#">terms and conditions</a></span>
+        </label>
+    </div>
+    <div class="card-footer bg-white">
+        <p>Already member? <a href="index.html" class="text-secondary">Login Here.</a></p>
+    </div>
+</div>
+</div>
+           
+</div>
+
+<script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+    // Initialisation de Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Fonction pour gérer l'inscription de l'utilisateur
+    function signup() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Créer un compte utilisateur avec l'e-mail et le mot de passe
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Ajouter le nom de l'utilisateur à la collection 'users' dans Firestore
+                const userId = userCredential.user.uid;
+                firebase.firestore().collection('users').doc(userId).set({
+                    name: name,
+                    email: email
+                })
+                .then(() => {
+                    alert('Utilisateur enregistré avec succès.');
+                    // Rediriger vers la page souhaitée après l'inscription
+                   
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de l\'enregistrement des données de l\'utilisateur:', error);
+                    // Afficher un message d'erreur à l'utilisateur
+                    alert('Erreur lors de l\'enregistrement. Veuillez réessayer.');
+                });
+            })
+            .catch((error) => {
+                console.error('Erreur lors de l\'inscription de l\'utilisateur:', error);
+                // Afficher un message d'erreur à l'utilisateur
+                alert(error.message);
+            });
+    }
+</script>
+          <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+
+</body>
+
+ 
+</html>

@@ -35,7 +35,8 @@
     <!-- ============================================================== -->
     <!-- signup form  -->
     <!-- ============================================================== -->
-    <div class="splash-container">
+    <br><br><br>
+    <div class="container" style="width:100%; margin-top: 350px;">
    
         <div class="card">
             <form >
@@ -60,7 +61,37 @@
             </form>
                
       
-   
+   <style>
+    body {
+    font-family: Arial, sans-serif;
+}
+
+#userList {
+    margin-top: 20px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkred;
+}
+
+   </style>
    
     <div class="form-group">
         <label class="custom-control custom-checkbox">
@@ -69,11 +100,15 @@
     </div>
     <div class="card-footer bg-white">
         <p>Already member? <a href="index.html" class="text-secondary">Login Here.</a></p>
-    </div>
+    </div><br><br>
+    <h1>Liste des Utilisateurs</h1>
+    <div id="userList"></div>
+
 </div>
 </div>
            
 </div>
+
 
 <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
 <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
@@ -117,7 +152,43 @@
     }
 </script>
           <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+   <script>
+    // Configuration de Firebase
 
+const auth = firebase.auth();
+
+// Fonction pour charger et afficher les utilisateurs
+function loadUsers() {
+    db.collection('users').get().then((querySnapshot) => {
+        const userList = document.getElementById('userList');
+        userList.innerHTML = '';
+        querySnapshot.forEach((doc) => {
+            const user = doc.data();
+            const userDiv = document.createElement('div');
+            userDiv.classList.add('user');
+            userDiv.innerHTML = `
+                <span>${user.name}</span>
+                <button onclick="deleteUser('${doc.id}')">Supprimer</button>
+            `;
+            userList.appendChild(userDiv);
+        });
+    });
+}
+
+// Fonction pour supprimer un utilisateur
+function deleteUser(userId) {
+    db.collection('users').doc(userId).delete().then(() => {
+        console.log("Utilisateur supprimé !");
+        loadUsers(); // Recharger la liste des utilisateurs
+    }).catch((error) => {
+        console.error("Erreur lors de la suppression de l'utilisateur : ", error);
+    });
+}
+
+// Charger les utilisateurs au chargement de la page
+window.onload = loadUsers;
+
+   </script>
 </body>
 
  
