@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/vector-map/jqvmap.css">
+    <link href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css" />
+    <title>Duen-Hotel -Finance</title>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+     <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="index.html">DUEN-HOTEL</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                              
+            </nav>
+        </div>
+        <style>
+            center{
+                width: 100%;
+            }
+            center button{
+                color: rgb(15, 61, 228);
+                width: 150px;
+                border: none;
+                background-color: aliceblue;
+                margin-inline: 10px;
+                height: 40px;
+                font-size: 20px;
+                margin-bottom: 15px;
+
+            }
+            #expencesus{
+                background-color: aqua;
+            }
+        </style>
+        <center>
+          <button id="home" onclick=" window.location.href = 'index.html';">D-Food</button>
+          <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
+          <button id="repport" onclick=" window.location.href = 'repportgeneral.html';">Repports</button> 
+         
+
+          <button id="expences" onclick=" window.location.href = 'expences.html';">Expencegdes</button>
+          
+          <button id="expencesus" onclick=" window.location.href = '#';">ExpenceUs</button>
+          
+          
+      </center>
+        <div class="dashboard-wrapper">
+            <div class="dashboard-finance">
+                <div class="container-fluid dashboard-content">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h3 class="mb-2">Finance Dashboard </h3>
+                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Finance Dashboard Duen</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="offset-xl-10 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                            <form>
+                                <div class="form-group">
+                                    <input class="form-control" type="date" id="date" name="daterange" value="01/01/2018 - 01/15/2018" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                   
+                   
+                    <!-- ============================================================== -->
+                    <!-- end revenue year  -->
+                    <div class="row">
+                        
+                       
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="card">
+                                <h5 class="card-header">Repport Per Day</h5>
+                                <div class="card-body">
+                                    <div class="metric-value d-inline-block">
+                                        <h3>Liste des Dépenses</h3>
+
+                                        <!-- Div pour afficher la liste des dépenses -->
+                                        <div id="expensesList"></div> 
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
+                                    </div>
+                                </div>
+                                <div class="card-body bg-light p-t-40 p-b-40">
+                                    <div id="sparkline-revenue3"></div>
+                                </div>
+                                <div class="card-footer text-center bg-white">
+                                    <a href="#" class="card-link">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="#">Wedser Charl&eacute;</a>. 
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+           
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+    <script>
+      
+
+        // Get current date
+        const today = new Date();
+      
+        // Format date to 'YYYY-MM-DD' (required by HTML date input)
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+      
+        // Set the value of the input field to the current date
+        document.getElementById('date').value = formattedDate;
+          </script>
+
+<script>
+    // Référence à la collection "expenses" dans Firestore
+    const expensesCollectiondisplay = firebase.firestore().collection('expensesus');
+  
+    // Fonction pour récupérer et afficher les dépenses depuis Firestore
+    function displayExpenses() {
+      // Div pour afficher la liste des dépenses
+      const expensesListDiv = document.getElementById('expensesList');
+  
+      // Effacer le contenu précédent
+      expensesListDiv.innerHTML = '';
+  
+      // Structure de données pour stocker les totaux par jour
+      const dailyTotals = {};
+  
+      // Récupérer toutes les dépenses triées par date (du plus récent au plus ancien)
+      expensesCollectiondisplay.orderBy('date', 'desc').get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const expense = doc.data();
+  
+            // Ajouter le montant de la dépense au total correspondant à la date
+            if (!dailyTotals[expense.date]) {
+              dailyTotals[expense.date] = 0; // Initialiser le total pour le nouveau jour
+            }
+  
+            dailyTotals[expense.date] += expense.price;
+          });
+  
+          // Parcourir chaque jour et afficher les dépenses et le total
+          Object.keys(dailyTotals).forEach(date => {
+            expensesListDiv.innerHTML += `<h3 class="expense-date">${date}</h3>`;
+  
+            querySnapshot.forEach(doc => {
+              const expense = doc.data();
+  
+              if (expense.date === date) {
+                expensesListDiv.innerHTML += `<p>${expense.name} - ${expense.price} $</p>`;
+              }
+            });
+  
+            expensesListDiv.innerHTML += `<h3>Total: ${dailyTotals[date]} $</h3>`;
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la récupération des dépenses: ', error);
+          alert('Une erreur s\'est produite lors de la récupération des dépenses. Veuillez réessayer.');
+        });
+    }
+  
+    // Appeler la fonction pour afficher les dépenses lors du chargement de la page
+    displayExpenses();
+  </script>
+  
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+    <!-- jquery 3.3.1  -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <!-- bootstap bundle js -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <!-- slimscroll js -->
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <!-- chart chartist js -->
+    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+    <script src="assets/vendor/charts/chartist-bundle/Chartistjs.js"></script>
+    <script src="assets/vendor/charts/chartist-bundle/chartist-plugin-threshold.js"></script>
+    <!-- chart C3 js -->
+    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <!-- chartjs js -->
+    <script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
+    <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
+    <!-- sparkline js -->
+    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+    <!-- dashboard finance js -->
+    <script src="assets/libs/js/dashboard-finance.js"></script>
+    <!-- main js -->
+    <script src="assets/libs/js/main-js.js"></script>
+    <!-- gauge js -->
+    <script src="assets/vendor/gauge/gauge.min.js"></script>
+    <!-- morris js -->
+    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+    <script src="assets/vendor/charts/morris-bundle/morrisjs.html"></script>
+    <!-- daterangepicker js -->
+    <script src="../../../../cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="../../../../cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+    </script>
+</body>
+</html>

@@ -9,89 +9,19 @@
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libs/css/style.css">
-    <link rel="stylesheet" rel="icon" href="logo.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="generator" content="DuenInvoice v1.0, https://dueninvoice.netlify.app">
-    <link rel="canonical" href="https://dueninvoice.netlify.app">
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:image:src" content="https://dueninvoice.netlify.app/logo.png">
-    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
-    <meta name="twitter:title" content="Home">
-    
-    <link rel="shortcut icon" href="logo.png" type="image/png">
-    <meta name="description" content="DuenInvoice">
-    <meta property="og:title" content="Duen">
-    <meta property="og:description" content="Duen">
-    <meta property="og:type" content="website"><meta property="og:url" content="https://dueninvoice.netlify.app/logo.png">
-    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
-    <meta property="og:locale" content="fr_FR">
-
-    <script>
-        // Vérifier si l'application est installable
-function isInstallable() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-}
-
-// Afficher une invitation à l'installation
-function showInstallPrompt() {
-  const installButton = document.getElementById('install-button');
-
-  installButton.addEventListener('click', () => {
-    deferredPrompt.prompt();
-
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the installation prompt');
-      } else {
-        console.log('User dismissed the installation prompt');
-      }
-    });
-  });
-
-  installButton.style.display = 'block';
-}
-
-// Événement beforeinstallprompt pour détecter l'opportunité d'installation
-window.addEventListener('beforeinstallprompt', (event) => {
-  // Empêcher le navigateur de gérer l'événement par défaut
-  event.preventDefault();
-  // Stocker l'événement pour une utilisation ultérieure
-  deferredPrompt = event;
-  // Afficher l'invitation à l'installation
-  showInstallPrompt();
-});
-
-// Initialisation de la variable deferredPrompt
-let deferredPrompt;
-
-    </script>
-
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/vector-map/jqvmap.css">
+    <link href="assets/vendor/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/daterangepicker/daterangepicker.css" />
+    <link rel="icon" href="hotel.png" type="image/png">
     <title>Duen-Hotel -Finance</title>
 </head>
 
 <body>
-
-    <style>
-        .hiddencard{
-            width: 100%;
-            height: 100%;
-            display: block;
-            position: fixed;
-            z-index: 20000;
-            top: 0;
-            bottom: 0;
-          
-        }
-    </style>
-   <div class="hiddencard card">
-    <form class="card"form>
-      <center><br><br><br><br>
-        <input id="emailInput" type="email" style="width: 80%; background-color: bisque;height: 40px;"><br><br>
-        <button id="verifyButton" style="background-color: blue; color: aliceblue;" type="button">Verify</button>
-      </center>
-    </form>
-  </div>
+   
     <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
         <!-- ============================================================== -->
@@ -125,7 +55,7 @@ let deferredPrompt;
                 margin-bottom: 15px;
 
             }
-            #home{
+            #rooms{
                 background-color: aqua;
             }
             .details{
@@ -160,17 +90,17 @@ let deferredPrompt;
         </style>
         
         <center class="pages">
-            <button id="home" onclick=" window.location.href = '#';">D-Food</button>
-            <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
-            <button id="food" onclick=" window.location.href = 'repportgeneral.html';">Repports</button> 
-           
-            <button id="expencesus" onclick=" window.location.href = 'products.html';">Products</button>
-            <button id="expences" onclick=" window.location.href = 'expences.html';">Expencegdes</button>
-            
-            <button id="expencesus" onclick=" window.location.href = 'expencesus.html';">ExpenceUs</button>
-            
-            
-        </center>
+          <button id="home" onclick=" window.location.href = 'index.html';">D-Food</button>
+          <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
+          <button id="repport" onclick=" window.location.href = 'repportgeneral.html';">Repports</button> 
+         
+
+          <button id="expences" onclick=" window.location.href = 'expences.html';">Expencegdes</button>
+          
+          <button id="expencesus" onclick=" window.location.href = 'expencesus.html';">ExpenceUs</button>
+          
+          
+      </center>
        
         <div class="dashboard-wrapper">
             <div class="dashboard-finance">
@@ -199,7 +129,7 @@ let deferredPrompt;
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="row">
-                        <div class="offset-xl-12 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                        <div class="offset-xl-10 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
                             <form>
                                 <div class="form-group">
                                     <input class="form-control" type="date" id="date" name="daterange" />
@@ -213,7 +143,7 @@ let deferredPrompt;
                         
                        
                         <div class="">
-                            <div class="card col-xl-12" >
+                            <div class="card">
                              
                                 <div class="card-body">
                                     <div class="metric-value d-inline-block">
@@ -273,13 +203,13 @@ let deferredPrompt;
         }
 
         // Définir les catégories disponibles
-        const categories = ['drink', 'food', 'room', 'pool','spec18','smoke'];
+        const categories = ['drink', 'food', 'room', 'pool','spec18'];
 
         // Initialiser l'objet pour stocker les totaux par article, par catégorie et par devise
         const totalsByItemCategoryAndCurrency = {};
 
         // Récupérer la collection de ventes pour la date sélectionnée
-        db.collection('globalSales').where("date", "==", selectedDate).get()
+        db.collection('globalSalesRoom').where("date", "==", selectedDate).get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     const data = doc.data();
@@ -378,28 +308,6 @@ let deferredPrompt;
     // Appeler la fonction une première fois pour afficher les ventes lors du chargement de la page
     filterSalesByDate();
 </script>
-<script>
-
-    // Fonction pour vérifier l'existence de l'email dans la collection "users"
-    document.getElementById('verifyButton').addEventListener('click', () => {
-      const email = document.getElementById('emailInput').value;
-
-      db.collection("userdg").where("email", "==", email).get()
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            // L'utilisateur avec cet email existe
-            document.querySelector('.hiddencard').style.display = 'none';
-          } else {
-            // L'utilisateur avec cet email n'existe pas
-            alert("L'utilisateur avec cet email n'existe pas.");
-          }
-        })
-        .catch((error) => {
-          console.error("Erreur lors de la recherche d'utilisateur:", error);
-          alert("Une erreur s'est produite lors de la recherche d'utilisateur.");
-        });
-    });
-  </script>
 
 
     <!-- jquery 3.3.1  -->
