@@ -84,14 +84,7 @@ let deferredPrompt;
           
         }
     </style>
-   <div class="hiddencard card">
-    <form class="card"form>
-      <center><br><br><br><br>
-        <input id="emailInput" type="email" style="width: 80%; background-color: bisque;height: 40px;"><br><br>
-        <button id="verifyButton" style="background-color: blue; color: aliceblue;" type="button">Verify</button>
-      </center>
-    </form>
-  </div>
+  
     <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
         <!-- ============================================================== -->
@@ -104,6 +97,7 @@ let deferredPrompt;
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
                 <a class="navbar-brand" href="home.html">DUEN-HOTEL</a>
+                <a class="navbar-brand" href="home.html">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -179,7 +173,7 @@ let deferredPrompt;
                     <!-- pageheader  -->
                     <!-- ============================================================== -->
                     <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="col-xl-10">
                             <div class="page-header">
                                 <h3 class="mb-2">Finance Dashboard </h3>
                                 <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
@@ -199,7 +193,7 @@ let deferredPrompt;
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
                     <div class="row">
-                        <div class="offset-xl-12 col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                        <div class="col-xl-10">
                             <form>
                                 <div class="form-group">
                                     <input class="form-control" type="date" id="date" name="daterange" />
@@ -209,11 +203,11 @@ let deferredPrompt;
                         </div>
                     </div>
                    
-                    <div class="row">
+                    <div class="row" >
                         
                        
-                        <div class="">
-                            <div class="card col-xl-12" >
+                        <div class="col-xl-10">
+                            <div class="card" >
                              
                                 <div class="card-body">
                                     <div class="metric-value d-inline-block">
@@ -378,28 +372,7 @@ let deferredPrompt;
     // Appeler la fonction une première fois pour afficher les ventes lors du chargement de la page
     filterSalesByDate();
 </script>
-<script>
 
-    // Fonction pour vérifier l'existence de l'email dans la collection "users"
-    document.getElementById('verifyButton').addEventListener('click', () => {
-      const email = document.getElementById('emailInput').value;
-
-      db.collection("userdg").where("email", "==", email).get()
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            // L'utilisateur avec cet email existe
-            document.querySelector('.hiddencard').style.display = 'none';
-          } else {
-            // L'utilisateur avec cet email n'existe pas
-            alert("L'utilisateur avec cet email n'existe pas.");
-          }
-        })
-        .catch((error) => {
-          console.error("Erreur lors de la recherche d'utilisateur:", error);
-          alert("Une erreur s'est produite lors de la recherche d'utilisateur.");
-        });
-    });
-  </script>
 
 
     <!-- jquery 3.3.1  -->
