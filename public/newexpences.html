@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
- 
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -18,15 +18,16 @@
     <title>Duen Hotel Admin</title>
     <style>
         .expense-date {
-          font-weight: bold;
+            font-weight: bold;
         }
-      </style>
+    </style>
 </head>
 
 <body>
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
+
     <div class="dashboard-main-wrapper">
         <!-- ============================================================== -->
         <!-- navbar -->
@@ -35,14 +36,14 @@
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
                 <a class="navbar-brand" href="home.html">DUEN-HOTEL</a>
                 <a class="navbar-brand" href="home.html">Home</a>
-                
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-              
+
             </nav>
         </div>
-     
+
         <div class="dashboard-wrapper">
             <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
@@ -68,208 +69,205 @@
                     <!-- ============================================================== -->
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
-                     <style>
-                        .ecommerce-widget{
+                    <style>
+                        .ecommerce-widget {
                             width: 80%;
                             background-color: aliceblue;
                             z-index: 100;
                         }
-                        #expenseForm{
+                        
+                        #expenseForm {
                             margin-left: 40px;
                             margin-top: 20px;
                             width: 100%;
                             display: block;
                         }
-                        .ecommerce-widget h1{
+                        
+                        .ecommerce-widget h1 {
                             margin-left: 20px;
                             margin-top: 30px;
                             margin-bottom: 20px;
                         }
-
-                        #expenseForm label,input{
+                        
+                        #expenseForm label,
+                        input {
                             width: 70%;
-                            margin-inline:10px ;
+                            margin-inline: 10px;
                             font-size: 20px;
                             font-weight: 300;
-
                         }
-                        .sendbutton{
+                        
+                        .sendbutton {
                             margin-top: 20px;
                         }
-                        #expensesList{
+                        
+                        #expensesList {
                             margin-left: 30px;
                             margin-top: 30px;
                             margin-bottom: 30px;
                         }
-                     </style>
+                    </style>
                     <div class="ecommerce-widget form card">
 
                         <h1>Enregistrement des Dépenses</h1>
 
                         <!-- Formulaire pour saisir les informations sur la dépense -->
                         <form id="expenseForm">
-                          <label for="expenseName">Nom de la Dépense:</label>
-                          <input type="text" id="expenseName" required><br>
-                        
-                          <label for="expensePrice">Prix:</label>
-                          <input type="number" id="expensePrice" required><br>
-                        
-                          <label for="expenseDate">Date:</label>
-                          <input type="date" id="expenseDate" required><br>
-                        
-                          <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
+                            <label for="expenseName">Nom de la Dépense:</label>
+                            <input type="text" id="expenseName" required><br>
+
+                            <label for="expensePrice">Prix:</label>
+                            <input type="number" id="expensePrice" required><br>
+
+                            <label for="expenseDate">Date:</label>
+                            <input type="date" id="expenseDate" required><br>
+
+                            <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
                         </form>
                         <h1>Liste des Dépenses</h1>
 
                         <!-- Div pour afficher la liste des dépenses -->
-                        <div id="expensesList"></div>  
-            </div>
-            <!-- ============================================================== -->
-        
-    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
-<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
-<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
-<script src="firebase-config.js"></script>
+                        <div id="expensesList"></div>
+                    </div>
+                    <!-- ============================================================== -->
+
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                    <script src="firebase-config.js"></script>
 
 
-    
-<script>
-    // Retrieve user details from localStorage
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-    if (loggedInUser) {
-        document.getElementById('username').textContent = loggedInUser.name;
-        document.getElementById('email').textContent = loggedInUser.email;
-    } else {
-        // Handle case where no user is logged in
-        console.log('No user logged in.');
-    }
-</script>
+                    <script>
+                        // Retrieve user details from localStorage
+                        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-<script>
-    // Récupérer l'élément du bouton de déconnexion
-const logoutButton = document.getElementById('logout');
+                        if (loggedInUser) {
+                            document.getElementById('username').textContent = loggedInUser.name;
+                            document.getElementById('email').textContent = loggedInUser.email;
+                        } else {
+                            // Handle case where no user is logged in
+                            console.log('No user logged in.');
+                        }
+                    </script>
 
-// Écouter l'événement de clic sur le bouton de déconnexion
-logoutButton.addEventListener('click', function() {
-    // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
-    localStorage.removeItem('loggedInUser');
+                    <script>
+                        // Récupérer l'élément du bouton de déconnexion
+                        const logoutButton = document.getElementById('logout');
 
-    // Rediriger vers la page de connexion après la déconnexion
-    window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
-});
+                        // Écouter l'événement de clic sur le bouton de déconnexion
+                        logoutButton.addEventListener('click', function() {
+                            // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
+                            localStorage.removeItem('loggedInUser');
 
-</script>
+                            // Rediriger vers la page de connexion après la déconnexion
+                            window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
+                        });
+                    </script>
 
-<script>
- 
-  
-  
-    // Référence à la collection "expenses" dans Firestore
-    const expensesCollection = firebase.firestore().collection('expenses');
-  
-    // Fonction pour ajouter une dépense dans Firestore
-    function addExpense() {
-      const expenseName = document.getElementById('expenseName').value;
-      const expensePrice = parseFloat(document.getElementById('expensePrice').value);
-      const expenseDate = document.getElementById('expenseDate').value;
-  
-      // Vérification des champs non vides
-      if (expenseName && !isNaN(expensePrice) && expenseDate) {
-        // Enregistrement de la dépense dans Firestore
-        expensesCollection.add({
-          name: expenseName,
-          price: expensePrice,
-          date: expenseDate
-        })
-        .then(() => {
-          alert('Dépense enregistrée avec succès!');
-          // Effacer le formulaire après l'enregistrement
-          document.getElementById('expenseForm').reset();
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'enregistrement de la dépense: ', error);
-          alert('Une erreur s\'est produite. Veuillez réessayer.');
-        });
-      } else {
-        alert('Veuillez remplir tous les champs correctement.');
-      }
-    }
-  </script>
-  <script>
-    
-   
-  
-    // Référence à la collection "expenses" dans Firestore
-    const expensesCollectiondisplay = firebase.firestore().collection('expenses');
-  
-    // Fonction pour récupérer et afficher les dépenses depuis Firestore
-    function displayExpenses() {
-      // Div pour afficher la liste des dépenses
-      const expensesListDiv = document.getElementById('expensesList');
-      
-      // Effacer le contenu précédent
-      expensesListDiv.innerHTML = '';
-  
-      // Récupérer toutes les dépenses triées par date (du plus récent au plus ancien)
-      expensesCollectiondisplay.orderBy('date', 'desc').get()
-        .then(querySnapshot => {
-          let currentDay = null;
-          let totalAmount = 0;
-  
-          // Parcourir chaque dépense
-          querySnapshot.forEach(doc => {
-            const expense = doc.data();
-  
-            // Vérifier si la date a changé
-            if (expense.date !== currentDay) {
-              // Afficher la date en gras en tant que tête de section
-              expensesListDiv.innerHTML += `<h3 class="expense-date">${expense.date}</h3>`;
-              currentDay = expense.date;
-              totalAmount = 0; // Réinitialiser le total pour le nouveau jour
-            }
-  
-            // Afficher les détails de la dépense
-            expensesListDiv.innerHTML += `<p>${expense.name} - ${expense.price}</p>`;
-            
-            // Ajouter le montant à totalAmount pour le calcul du total
-            totalAmount += expense.price;
-          });
-  
-          // Afficher le total en bas
-          expensesListDiv.innerHTML += `<h3>Total: ${totalAmount}</h3>`;
-        })
-        .catch(error => {
-          console.error('Erreur lors de la récupération des dépenses: ', error);
-          alert('Une erreur s\'est produite lors de la récupération des dépenses. Veuillez réessayer.');
-        });
-    }
-  
-    // Appeler la fonction pour afficher les dépenses lors du chargement de la page
-    displayExpenses();
-  </script>
-  
-   
-    <!-- jquery 3.3.1 -->
-    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <!-- bootstap bundle js -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- slimscroll js -->
-    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-    <!-- main js -->
-    <script src="assets/libs/js/main-js.js"></script>
-    <!-- chart chartist js -->
-    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
-    <!-- sparkline js -->
-    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
-    <!-- morris js -->
-    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
-    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
-    <!-- chart c3 js -->
-    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
-    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
-    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+                    <script>
+                        // Référence à la collection "expenses" dans Firestore
+                        const expensesCollection = firebase.firestore().collection('expenses');
+
+                        // Fonction pour ajouter une dépense dans Firestore
+                        function addExpense() {
+                            const expenseName = document.getElementById('expenseName').value;
+                            const expensePrice = parseFloat(document.getElementById('expensePrice').value);
+                            const expenseDate = document.getElementById('expenseDate').value;
+
+                            // Vérification des champs non vides
+                            if (expenseName && !isNaN(expensePrice) && expenseDate) {
+                                // Enregistrement de la dépense dans Firestore
+                                expensesCollection.add({
+                                        name: expenseName,
+                                        price: expensePrice,
+                                        date: expenseDate
+                                    })
+                                    .then(() => {
+                                        alert('Dépense enregistrée avec succès!');
+                                        // Effacer le formulaire après l'enregistrement
+                                        document.getElementById('expenseForm').reset();
+                                    })
+                                    .catch(error => {
+                                        console.error('Erreur lors de l\'enregistrement de la dépense: ', error);
+                                        alert('Une erreur s\'est produite. Veuillez réessayer.');
+                                    });
+                            } else {
+                                alert('Veuillez remplir tous les champs correctement.');
+                            }
+                        }
+                    </script>
+                    <script>
+                        // Référence à la collection "expenses" dans Firestore
+                        const expensesCollectiondisplay = firebase.firestore().collection('expenses');
+
+                        // Fonction pour récupérer et afficher les dépenses depuis Firestore
+                        function displayExpenses() {
+                            // Div pour afficher la liste des dépenses
+                            const expensesListDiv = document.getElementById('expensesList');
+
+                            // Effacer le contenu précédent
+                            expensesListDiv.innerHTML = '';
+
+                            // Récupérer toutes les dépenses triées par date (du plus récent au plus ancien)
+                            expensesCollectiondisplay.orderBy('date', 'desc').get()
+                                .then(querySnapshot => {
+                                    let currentDay = null;
+                                    let totalAmount = 0;
+
+                                    // Parcourir chaque dépense
+                                    querySnapshot.forEach(doc => {
+                                        const expense = doc.data();
+
+                                        // Vérifier si la date a changé
+                                        if (expense.date !== currentDay) {
+                                            // Afficher la date en gras en tant que tête de section
+                                            expensesListDiv.innerHTML += `<h3 class="expense-date">${expense.date}</h3>`;
+                                            currentDay = expense.date;
+                                            totalAmount = 0; // Réinitialiser le total pour le nouveau jour
+                                        }
+
+                                        // Afficher les détails de la dépense
+                                        expensesListDiv.innerHTML += `<p>${expense.name} - ${expense.price}</p>`;
+
+                                        // Ajouter le montant à totalAmount pour le calcul du total
+                                        totalAmount += expense.price;
+                                    });
+
+                                    // Afficher le total en bas
+                                    expensesListDiv.innerHTML += `<h3>Total: ${totalAmount}</h3>`;
+                                })
+                                .catch(error => {
+                                    console.error('Erreur lors de la récupération des dépenses: ', error);
+                                    alert('Une erreur s\'est produite lors de la récupération des dépenses. Veuillez réessayer.');
+                                });
+                        }
+
+                        // Appeler la fonction pour afficher les dépenses lors du chargement de la page
+                        displayExpenses();
+                    </script>
+
+
+                    <!-- jquery 3.3.1 -->
+                    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+                    <!-- bootstap bundle js -->
+                    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+                    <!-- slimscroll js -->
+                    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+                    <!-- main js -->
+                    <script src="assets/libs/js/main-js.js"></script>
+                    <!-- chart chartist js -->
+                    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+                    <!-- sparkline js -->
+                    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+                    <!-- morris js -->
+                    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+                    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+                    <!-- chart c3 js -->
+                    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
+                    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
 </body>
- 
+
 </html>
