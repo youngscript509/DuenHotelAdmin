@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
- 
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,19 +12,19 @@
     <link rel="stylesheet" href="assets/libs/css/style.css">
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <style>
-    html,
-    body {
-        height: 100%;
-    }
-
-    body {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
     </style>
 </head>
 <!-- ============================================================== -->
@@ -37,159 +37,157 @@
     <!-- ============================================================== -->
     <br><br><br>
     <div class="container" style="width:100%; margin-top: 350px;">
-   
+
         <div class="card">
-            <form >
-            <div class="card-header">
-                <h3 class="mb-1">Registrations Form</h3>
-                <p>Please enter your user information.</p>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text" id="name" required placeholder="Full Name" autocomplete="off">
+            <form>
+                <div class="card-header">
+                    <h3 class="mb-1">Registrations Form</h3>
+                    <p>Please enter your user information.</p>
                 </div>
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="email" id="email" required placeholder="E-mail" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input class="form-control form-control-lg" id="password" type="password" required placeholder="Password">
-                </div>
-              
-                <div class=" pt-2">
-                    <button class="btn btn-block btn-primary" onclick="signup()" type="button">Register My Account</button>
-                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text" id="name" required placeholder="Full Name" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="email" id="email" required placeholder="E-mail" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" id="password" type="password" required placeholder="Password">
+                    </div>
+
+                    <div class=" pt-2">
+                        <button class="btn btn-block btn-primary" onclick="signup()" type="button">Register My Account</button>
+                    </div>
             </form>
-               
-      
-   <style>
-    body {
-    font-family: Arial, sans-serif;
-}
 
-#userList {
-    margin-top: 20px;
-}
 
-.user {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 5px;
-}
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                }
+                
+                #userList {
+                    margin-top: 20px;
+                }
+                
+                .user {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    margin-bottom: 5px;
+                }
+                
+                button {
+                    background-color: red;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    cursor: pointer;
+                }
+                
+                button:hover {
+                    background-color: darkred;
+                }
+            </style>
 
-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: darkred;
-}
-
-   </style>
-   
-    <div class="form-group">
-        <label class="custom-control custom-checkbox">
+            <div class="form-group">
+                <label class="custom-control custom-checkbox">
             <input class="custom-control-input" type="checkbox" required><span class="custom-control-label">By creating an account, you agree the <a href="#">terms and conditions</a></span>
         </label>
+            </div>
+            <div class="card-footer bg-white">
+                <p>Already member? <a href="index.html" class="text-secondary">Login Here.</a></p>
+            </div><br><br>
+            <h1>Liste des Utilisateurs</h1>
+            <div id="userList"></div>
+
+            </div>
+        </div>
+
     </div>
-    <div class="card-footer bg-white">
-        <p>Already member? <a href="index.html" class="text-secondary">Login Here.</a></p>
-    </div><br><br>
-    <h1>Liste des Utilisateurs</h1>
-    <div id="userList"></div>
-
-</div>
-</div>
-           
-</div>
 
 
-<script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
-<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
-<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
-<script src="firebase-config.js"></script>
-<script>
-    // Initialisation de Firebase
-    firebase.initializeApp(firebaseConfig);
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        // Initialisation de Firebase
+        firebase.initializeApp(firebaseConfig);
 
-    // Fonction pour gérer l'inscription de l'utilisateur
-    function signup() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        // Fonction pour gérer l'inscription de l'utilisateur
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-        // Créer un compte utilisateur avec l'e-mail et le mot de passe
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Ajouter le nom de l'utilisateur à la collection 'users' dans Firestore
-                const userId = userCredential.user.uid;
-                firebase.firestore().collection('users').doc(userId).set({
-                    name: name,
-                    email: email
-                })
-                .then(() => {
-                    alert('Utilisateur enregistré avec succès.');
-                    // Rediriger vers la page souhaitée après l'inscription
-                   
+            // Créer un compte utilisateur avec l'e-mail et le mot de passe
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Ajouter le nom de l'utilisateur à la collection 'users' dans Firestore
+                    const userId = userCredential.user.uid;
+                    firebase.firestore().collection('users').doc(userId).set({
+                            name: name,
+                            email: email
+                        })
+                        .then(() => {
+                            alert('Utilisateur enregistré avec succès.');
+                            // Rediriger vers la page souhaitée après l'inscription
+
+                        })
+                        .catch((error) => {
+                            console.error('Erreur lors de l\'enregistrement des données de l\'utilisateur:', error);
+                            // Afficher un message d'erreur à l'utilisateur
+                            alert('Erreur lors de l\'enregistrement. Veuillez réessayer.');
+                        });
                 })
                 .catch((error) => {
-                    console.error('Erreur lors de l\'enregistrement des données de l\'utilisateur:', error);
+                    console.error('Erreur lors de l\'inscription de l\'utilisateur:', error);
                     // Afficher un message d'erreur à l'utilisateur
-                    alert('Erreur lors de l\'enregistrement. Veuillez réessayer.');
+                    alert(error.message);
                 });
-            })
-            .catch((error) => {
-                console.error('Erreur lors de l\'inscription de l\'utilisateur:', error);
-                // Afficher un message d'erreur à l'utilisateur
-                alert(error.message);
-            });
-    }
-</script>
-          <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
-   <script>
-    // Configuration de Firebase
+        }
+    </script>
+    <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+    <script>
+        // Configuration de Firebase
 
-const auth = firebase.auth();
+        const auth = firebase.auth();
 
-// Fonction pour charger et afficher les utilisateurs
-function loadUsers() {
-    db.collection('users').get().then((querySnapshot) => {
-        const userList = document.getElementById('userList');
-        userList.innerHTML = '';
-        querySnapshot.forEach((doc) => {
-            const user = doc.data();
-            const userDiv = document.createElement('div');
-            userDiv.classList.add('user');
-            userDiv.innerHTML = `
+        // Fonction pour charger et afficher les utilisateurs
+        function loadUsers() {
+            db.collection('users').get().then((querySnapshot) => {
+                const userList = document.getElementById('userList');
+                userList.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const userDiv = document.createElement('div');
+                    userDiv.classList.add('user');
+                    userDiv.innerHTML = `
                 <span>${user.name}</span>
                 <button onclick="deleteUser('${doc.id}')">Supprimer</button>
             `;
-            userList.appendChild(userDiv);
-        });
-    });
-}
+                    userList.appendChild(userDiv);
+                });
+            });
+        }
 
-// Fonction pour supprimer un utilisateur
-function deleteUser(userId) {
-    db.collection('users').doc(userId).delete().then(() => {
-        console.log("Utilisateur supprimé !");
-        loadUsers(); // Recharger la liste des utilisateurs
-    }).catch((error) => {
-        console.error("Erreur lors de la suppression de l'utilisateur : ", error);
-    });
-}
+        // Fonction pour supprimer un utilisateur
+        function deleteUser(userId) {
+            db.collection('users').doc(userId).delete().then(() => {
+                console.log("Utilisateur supprimé !");
+                loadUsers(); // Recharger la liste des utilisateurs
+            }).catch((error) => {
+                console.error("Erreur lors de la suppression de l'utilisateur : ", error);
+            });
+        }
 
-// Charger les utilisateurs au chargement de la page
-window.onload = loadUsers;
-
-   </script>
+        // Charger les utilisateurs au chargement de la page
+        window.onload = loadUsers;
+    </script>
 </body>
 
- 
+
 </html>
