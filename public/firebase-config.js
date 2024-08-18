@@ -7,17 +7,17 @@ const firebaseConfig = {
     messagingSenderId: "16305045903",
     appId: "1:16305045903:web:e6ac803e6d3e94416b8bfa",
     measurementId: "G-8T9Y3T0PKC"
-  };
-  firebase.initializeApp(firebaseConfig);
- 
-  const firestore = firebase.firestore();
-  const db = firebase.firestore();
-  
-  firebase.firestore().settings({
+};
+firebase.initializeApp(firebaseConfig);
+
+const firestore = firebase.firestore();
+const db = firebase.firestore();
+
+firebase.firestore().settings({
     timestampsInSnapshots: true
-  });
-  
-  firebase.firestore().enablePersistence()
+});
+
+firebase.firestore().enablePersistence()
     .catch(function(err) {
         if (err.code == 'failed-precondition') {
             console.log('La persistance des données a échoué car plusieurs onglets sont ouverts.');
@@ -25,9 +25,3 @@ const firebaseConfig = {
             console.log('La persistance des données n\'est pas prise en charge par le navigateur.');
         }
     });
-  
-   
-  
-  
-  
-  
