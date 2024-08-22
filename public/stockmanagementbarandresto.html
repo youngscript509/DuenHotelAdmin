@@ -565,7 +565,7 @@
                                     document.getElementById('priceUs').value = '';
                                     document.getElementById('category').value = '';
                                     document.getElementById('date').value = '';
-                                    window.location.href = 'stockmanagement.html';
+                                    window.location.href = 'stockmanagementbarandresto.html';
                                 })
                                 .catch(function(error) {
                                     alert("Error adding product: ", error);
@@ -589,7 +589,7 @@
                                         document.getElementById('priceUs').value = '';
                                         document.getElementById('category').value = '';
                                         document.getElementById('date').value = '';
-                                        window.location.href = 'stockmanagement.html';
+                                        window.location.href = 'stockmanagementbarandresto.html';
                                     })
                                     .catch(function(error) {
                                         alert("Error updating product: ", error);
@@ -664,6 +664,8 @@
                         document.getElementById('priceUs').value = product.priceUs;
                         document.getElementById('category').value = product.category;
                         document.getElementById('date').value = product.date;
+                        cardHidden.style.display = "block";
+
                     })
                     .catch(function(error) {
                         console.error("Erreur lors de la récupération du produit pour l'édition : ", error);
