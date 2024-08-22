@@ -21,318 +21,456 @@
 </head>
 
 <body>
-   
+
     <!-- ============================================================== -->
     <div class="dashboard-main-wrapper">
         <!-- ============================================================== -->
-     <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
+        <!-- main wrapper -->
         <!-- ============================================================== -->
-        <!-- navbar -->
-        <!-- ============================================================== -->
-        <div class="dashboard-header">
-            <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="home.html">DUEN-HOTEL</a>
-                <a class="navbar-brand" href="home.html">Home</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="dashboard-main-wrapper">
+            <!-- ============================================================== -->
+            <!-- navbar -->
+            <!-- ============================================================== -->
+            <div class="dashboard-header">
+                <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                    <a class="navbar-brand" href="index.html">DUEN-HOTEL</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                              
-            </nav>
-        </div>
-        <style>
-            center{
-                width: 100%;
-            }
-            center button{
-                color: rgb(15, 61, 228);
-                width: 150px;
-                border: none;
-                background-color: aliceblue;
-                margin-inline: 10px;
-                height: 40px;
-                font-size: 20px;
-                margin-bottom: 15px;
 
-            }
-            #rooms{
-                background-color: aqua;
-            }
-            .details{
-                width: 100%;
-                height: 800px;
-                background-color: aliceblue;
-                top: 0;
-                bottom: 0;
-                z-index: 40000;
-                position: fixed;
-                display: none;
-            }
-            #close{
-                top: 5px;
-                background-color: rgb(50, 50, 237);
-                color: aliceblue;
-            }
+                </nav>
+            </div>
+            <style>
+                center {
+                    width: 100%;
+                }
+                
+                center button {
+                    color: rgb(15, 61, 228);
+                    width: 150px;
+                    border: none;
+                    background-color: aliceblue;
+                    margin-inline: 10px;
+                    height: 40px;
+                    font-size: 20px;
+                    margin-bottom: 15px;
+                }
+                
+                #rooms {
+                    background-color: aqua;
+                }
+                
+                .details {
+                    width: 100%;
+                    height: 800px;
+                    background-color: aliceblue;
+                    top: 0;
+                    bottom: 0;
+                    z-index: 40000;
+                    position: fixed;
+                    display: none;
+                }
+                
+                #close {
+                    top: 5px;
+                    background-color: rgb(50, 50, 237);
+                    color: aliceblue;
+                }
+                
+                .btn {
+                    color: rgb(238, 240, 246);
+                    width: 150px;
+                    border: none;
+                    background-color: rgb(4, 127, 235);
+                    margin-inline: 10px;
+                    height: 40px;
+                    font-size: 20px;
+                    margin-top: 15px;
+                    margin-bottom: 15px;
+                    border-radius: 10px;
+                }
+            </style>
 
-            .btn{
-                color: rgb(238, 240, 246);
-                width: 150px;
-                border: none;
-                background-color: rgb(4, 127, 235);
-                margin-inline: 10px;
-                height: 40px;
-                font-size: 20px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-                border-radius: 10px;
+            <center class="pages">
+                <button id="home" onclick=" window.location.href = 'index.html';">D-Food</button>
+                <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button>
 
-            }
-        </style>
-        
-        <center class="pages">
-          <button id="home" onclick=" window.location.href = 'repportgeneral.html';">D-Food</button>
-          <button id="rooms" onclick=" window.location.href = 'rooms.html';">Rooms</button> 
-         
-         
 
-          <button id="expences" onclick=" window.location.href = 'expences.html';">Expencegdes</button>
-          
-          <button id="expencesus" onclick=" window.location.href = 'expencesus.html';">ExpenceUs</button>
-          
-          
-      </center>
-       
-        <div class="dashboard-wrapper">
-            <div class="dashboard-finance">
-                <div class="container-fluid dashboard-content">
-                    <!-- ============================================================== -->
-                    <!-- pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class=" col-xl-10">
-                            <div class="page-header">
-                                <h3 class="mb-2">Finance Dashboard </h3>
-                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
-                                <div class="page-breadcrumb">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Finance Dashboard Duen</li>
-                                        </ol>
-                                    </nav>
+
+            </center>
+
+            <div class="dashboard-wrapper">
+                <div class="dashboard-finance">
+                    <div class="container-fluid dashboard-content">
+                        <!-- ============================================================== -->
+                        <!-- pageheader  -->
+                        <!-- ============================================================== -->
+                        <div class="row">
+                            <div class="col-xl-12 col-xl-10 col-md-10 col-xl-12 col-10">
+                                <div class="page-header">
+                                    <h3 class="mb-2">Finance Dashboard </h3>
+                                    <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                    <div class="page-breadcrumb">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                                <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">Finance Dashboard Duen</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- ============================================================== -->
-                    <!-- end pageheader  -->
-                    <!-- ============================================================== -->
-                    <div class="row">
-                        <div class="col-xl-10">
-                            <form>
-                                <div class="form-group">
-                                    <input class="form-control" type="date" id="date" name="daterange" />
-                                    
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                   
-                    <div class="row">
-                        
-                       
-                        <div class="col-xl-10">
-                            <div class="card">
-                             
-                                <div class="card-body">
-                                    <div class="metric-value d-inline-block">
-                                        <div id="resultsContainer"></div>
-                                        
+
+                        <!-- ============================================================== -->
+                        <!-- end pageheader  -->
+                        <!-- ============================================================== -->
+                        <div class="row">
+                            <div class="offset-xl-10  col-md-6 col-xl-10 ">
+                                <form>
+                                    <div class="form-group">
+
+
+
                                     </div>
-                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
-                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
-                                    </div>
-                                </div>
-                                <div class="card-body bg-light p-t-40 p-b-40">
-                                    <div id="sparkline-revenue3"></div>
-                                </div>
-                                <div class="card-footer text-center bg-white">
-                                    <a href="#" class="card-link">View Details</a>
-                                </div>
+                                </form>
                             </div>
                         </div>
-                    
+
+                        <div class="row">
+
+
+                            <div class="col-xl-10 col-xl-10 col-md-12 col-xl-10 col-10">
+                                <div class="card">
+
+
+                                    <center>
+                                        <input style="width: 100%;" class="form-control" type="date" id="date" name="daterange" />
+                                    </center>
+
+                                    <div class="card-body">
+                                        <div class="metric-value d-inline-block">
+                                            <div id="resultsContainer"></div>
+
+                                        </div>
+                                        <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                            <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body bg-light p-t-40 p-b-40">
+                                        <div id="sparkline-revenue3"></div>
+                                    </div>
+                                    <table id="roomsTable" style="margin: 10px;" class="table table-striped table-bordered first">
+                                        <thead>
+                                            <tr>
+                                                <th>Room</th>
+                                                <th>Type</th>
+                                                <th>Date de Réservation</th>
+                                                <th>Date de sortie</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Les résultats seront affichés ici -->
+                                        </tbody>
+                                    </table>
+
+                                    <div class="card-footer text-center bg-white">
+                                        <a href="#" class="card-link">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Structure HTML pour afficher les données -->
+                        <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                        <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                        <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                        <script src="firebase-config.js"></script>
+
+
                     </div>
 
-                    <!-- Structure HTML pour afficher les données -->
-                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
-                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
-                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
-                    <script src="firebase-config.js"></script>
+                </div>
 
-                 
-        </div>
-        
-    </div>
-  
-    <script>
-      
+                <script>
+                    // Get current date
+                    const today = new Date();
 
-        // Get current date
-        const today = new Date();
-      
-        // Format date to 'YYYY-MM-DD' (required by HTML date input)
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-      
-        // Set the value of the input field to the current date
-        document.getElementById('date').value = formattedDate;
-          </script>
-<script>
-    // Fonction pour récupérer les ventes en fonction de la date sélectionnée et afficher les totaux par jour avec la liste des produits et le grand total pour chaque collection
-    function filterSalesByDate() {
-        const selectedDate = document.getElementById('date').value; // Récupérer la date sélectionnée dans l'input
+                    // Format date to 'YYYY-MM-DD' (required by HTML date input)
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const formattedDate = `${year}-${month}-${day}`;
 
-        // Si aucune date n'est sélectionnée, afficher un message d'erreur ou une notification à l'utilisateur
-        if (!selectedDate) {
-            alert('Veuillez sélectionner une date.');
-            return;
-        }
+                    // Set the value of the input field to the current date
+                    document.getElementById('date').value = formattedDate;
+                </script>
+                <script>
+                    // Fonction pour récupérer les ventes en fonction de la date sélectionnée et afficher les totaux par jour
+                    function filterSalesByDate() {
+                        const selectedDate = document.getElementById('date').value;
 
-        // Définir les catégories disponibles
-        const categories = ['drink', 'food', 'room', 'pool','spec18'];
+                        if (!selectedDate) {
+                            alert('Veuillez sélectionner une date.');
+                            return;
+                        }
 
-        // Initialiser l'objet pour stocker les totaux par article, par catégorie et par devise
-        const totalsByItemCategoryAndCurrency = {};
-
-        // Récupérer la collection de ventes pour la date sélectionnée
-        db.collection('globalSalesRoom').where("date", "==", selectedDate).get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    const data = doc.data();
-                    const products = data.products;
-
-                    // Parcourir les produits de cette vente
-                    products.forEach(function(product) {
-                        const category = product.category;
-                        const currency = product.currency;
-                        const quantity = parseInt(product.quantity);
-                        const price = parseFloat(product.price);
-                        const revenue = quantity * price;
-
-                        // Vérifier si la catégorie est une catégorie valide
-                        if (categories.includes(category)) {
-                            // Si la catégorie n'existe pas encore dans les totaux, l'initialiser
-                            if (!totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
-                                totalsByItemCategoryAndCurrency[category] = { Gdes: {}, Us: {} };
+                        const categories = ['drink', 'food', 'room', 'pool', 'spec18'];
+                        const totalsByItemCategoryAndCurrency = {};
+                        const totalsByPaymentStatut = {
+                            PAYE: {
+                                Gdes: 0,
+                                Us: 0
+                            },
+                            NONPAYE: {
+                                Gdes: 0,
+                                Us: 0
+                            },
+                            CREDIT: {
+                                Gdes: 0,
+                                Us: 0
                             }
+                        };
+                        const totalsByPaymentMeth = {};
 
-                            // Vérifier si l'article existe déjà dans la devise spécifiée
-                            const itemKey = product.item.toLowerCase(); // Utiliser le nom de l'article comme clé, en minuscules pour éviter les doublons
-                            if (!totalsByItemCategoryAndCurrency[category][currency].hasOwnProperty(itemKey)) {
-                                // Si l'article n'existe pas encore, l'initialiser avec la quantité et le revenu actuels
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey] = {
-                                    totalQuantity: quantity,
-                                    totalRevenue: revenue
-                                };
-                            } else {
-                                // Si l'article existe déjà, mettre à jour la quantité et le revenu
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalQuantity += quantity;
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalRevenue += revenue;
+                        db.collection('globalSalesRoom').where("date", "==", selectedDate).get()
+                            .then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                    const data = doc.data();
+                                    const products = data.products;
+                                    const paymentMeth = data.paymentmeth || 'Autre';
+                                    const paymentStatut = data.paymentStatut;
+
+                                    // Vérifier et initialiser les méthodes de paiement
+                                    if (!totalsByPaymentMeth.hasOwnProperty(paymentMeth)) {
+                                        totalsByPaymentMeth[paymentMeth] = {
+                                            Gdes: 0,
+                                            Us: 0
+                                        };
+                                    }
+
+                                    products.forEach(function(product) {
+                                        const category = product.category;
+                                        const currency = product.currency;
+                                        const quantity = parseInt(product.quantity);
+                                        const price = parseFloat(product.price);
+                                        const revenue = quantity * price;
+
+                                        if (categories.includes(category)) {
+                                            if (!totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
+                                                totalsByItemCategoryAndCurrency[category] = {
+                                                    Gdes: {},
+                                                    Us: {}
+                                                };
+                                            }
+
+                                            const itemKey = product.item.toLowerCase();
+                                            if (!totalsByItemCategoryAndCurrency[category][currency].hasOwnProperty(itemKey)) {
+                                                totalsByItemCategoryAndCurrency[category][currency][itemKey] = {
+                                                    totalQuantity: quantity,
+                                                    totalRevenue: revenue
+                                                };
+                                            } else {
+                                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalQuantity += quantity;
+                                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalRevenue += revenue;
+                                            }
+
+                                            // Ajouter au total par statut de paiement
+                                            if (paymentStatut && totalsByPaymentStatut.hasOwnProperty(paymentStatut)) {
+                                                totalsByPaymentStatut[paymentStatut][currency] += revenue;
+                                            }
+
+                                            // Ajouter au total par méthode de paiement
+                                            totalsByPaymentMeth[paymentMeth][currency] += revenue;
+                                        }
+                                    });
+                                });
+
+                                // Afficher les totaux par catégorie, par article et par devise
+                                displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, totalsByPaymentStatut, totalsByPaymentMeth);
+                            })
+                            .catch(function(error) {
+                                console.error('Error getting documents: ', error);
+                            });
+                    }
+
+                    // Fonction pour afficher les totaux par catégorie, par article, par devise, par statut de paiement et par méthode de paiement
+                    function displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, totalsByPaymentStatut, totalsByPaymentMeth) {
+                        const resultContainer = document.getElementById('resultsContainer');
+                        resultContainer.innerHTML = '';
+
+                        let html = '<h3>Rapport Du Jour</h3>';
+
+                        for (const category in totalsByItemCategoryAndCurrency) {
+                            if (totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
+                                html += `<h4>${category}:</h4>`;
+
+                                html += '<table border="1" cellpadding="5" cellspacing="0" class="table table-striped table-bordered first">';
+                                html += '<thead>';
+                                html += '<tr>';
+                                html += '<th>Item</th>';
+                                html += '<th>Quantity Gdes</th>';
+                                html += '<th>Revenu Gdes</th>';
+                                html += '<th>Quantity Us</th>';
+                                html += '<th>Revenu Us</th>';
+                                html += '</tr>';
+                                html += '</thead>';
+                                html += '<tbody>';
+
+                                let totalGdes = 0;
+                                let totalUs = 0;
+
+                                const itemsProcessed = new Set();
+
+                                for (const item in totalsByItemCategoryAndCurrency[category].Gdes) {
+                                    if (totalsByItemCategoryAndCurrency[category].Gdes.hasOwnProperty(item)) {
+                                        const totalGdesData = totalsByItemCategoryAndCurrency[category].Gdes[item];
+                                        const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item] || {
+                                            totalQuantity: 0,
+                                            totalRevenue: 0
+                                        };
+
+                                        html += '<tr>';
+                                        html += `<td>${item}</td>`;
+                                        html += `<td>${totalGdesData.totalQuantity}</td>`;
+                                        html += `<td>${totalGdesData.totalRevenue}</td>`;
+                                        html += `<td>${totalUsData.totalQuantity}</td>`;
+                                        html += `<td>${totalUsData.totalRevenue}</td>`;
+                                        html += '</tr>';
+
+                                        totalGdes += totalGdesData.totalRevenue;
+                                        totalUs += totalUsData.totalRevenue;
+                                        itemsProcessed.add(item);
+                                    }
+                                }
+
+                                for (const item in totalsByItemCategoryAndCurrency[category].Us) {
+                                    if (totalsByItemCategoryAndCurrency[category].Us.hasOwnProperty(item) && !itemsProcessed.has(item)) {
+                                        const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item];
+
+                                        html += '<tr>';
+                                        html += `<td>${item}</td>`;
+                                        html += `<td>${totalUsData.totalQuantity}</td>`;
+                                        html += `<td>0</td>`;
+                                        html += `<td>${totalUsData.totalRevenue}</td>`;
+                                        html += '</tr>';
+
+                                        totalUs += totalUsData.totalRevenue;
+                                    }
+                                }
+
+                                html += '</tbody>';
+                                html += '<tfoot>';
+                                html += `<tr><td colspan="2"><strong>Total</strong></td><td><strong>${totalGdes}</strong></td><td><strong>${totalUs}</strong></td></tr>`;
+                                html += '</tfoot>';
+                                html += '</table><br><br>';
                             }
                         }
+
+                        // Afficher les totaux par statut de paiement
+                        html += '<h3>Totaux par Statut de Paiement</h3>';
+                        for (const statut in totalsByPaymentStatut) {
+                            if (totalsByPaymentStatut.hasOwnProperty(statut)) {
+                                html += `<p>${statut}: Total Gdes - ${totalsByPaymentStatut[statut].Gdes}, Total Us - ${totalsByPaymentStatut[statut].Us}</p>`;
+                            }
+                        }
+
+                        // Afficher les totaux par méthode de paiement
+                        html += '<h3>Totaux par Méthode de Paiement</h3>';
+                        for (const paymentMeth in totalsByPaymentMeth) {
+                            if (totalsByPaymentMeth.hasOwnProperty(paymentMeth)) {
+                                html += `<p>${paymentMeth}: Total Gdes - ${totalsByPaymentMeth[paymentMeth].Gdes}, Total Us - ${totalsByPaymentMeth[paymentMeth].Us}</p>`;
+                            }
+                        }
+
+                        resultContainer.innerHTML = html;
+                    }
+
+                    // Appeler la fonction pour filtrer les ventes par date lors du chargement de la page
+                    document.getElementById("date").addEventListener("change", filterSalesByDate);
+                    filterSalesByDate();
+                </script>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const filterDateInput = document.getElementById('date');
+
+
+                        loadRoomsData(today);
+
+                        // Charger les données en fonction de la date sélectionnée
+                        filterDateInput.addEventListener('change', function() {
+                            const selectedDate = filterDateInput.value;
+                            loadRoomsData(selectedDate);
+                        });
+
+                        function loadRoomsData(date) {
+                            const roomsTableBody = document.querySelector('#roomsTable tbody');
+                            roomsTableBody.innerHTML = ''; // Vider le tableau avant d'afficher les résultats
+
+                            db.collection("globalSalesRoom")
+                                .where("date", "==", date)
+                                .get()
+                                .then(function(querySnapshot) {
+                                    if (querySnapshot.empty) {
+                                        console.log("Aucune chambre réservée ou utilisée trouvée pour la date sélectionnée.");
+                                        return;
+                                    }
+
+                                    querySnapshot.forEach(function(doc) {
+                                        const roomData = doc.data();
+                                        const typeInvoice = roomData.typeInvoice;
+                                        const checkInDate = roomData.checkIndate;
+                                        const checkOutDate = roomData.checkOutDate;
+
+                                        // Parcourir les produits pour trouver les chambres
+                                        roomData.products.forEach(product => {
+                                            const roomName = product.item;
+                                            const quantity = product.quantity;
+
+                                            const row = `<tr>
+                            <td>${roomName}</td>
+                            <td>${typeInvoice}</td>
+                            <td>${checkInDate}</td>
+                            <td>${checkOutDate}</td>
+                            <td>${quantity}</td>
+                        </tr>`;
+
+                                            roomsTableBody.insertAdjacentHTML('beforeend', row);
+                                        });
+                                    });
+                                })
+                                .catch(function(error) {
+                                    console.error("Erreur lors de la récupération des données : ", error);
+                                });
+                        }
                     });
-                });
+                </script>
 
-                // Afficher les totaux par catégorie, par article et par devise
-                displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency);
-            })
-            .catch(function(error) {
-                console.error('Error getting documents: ', error);
-            });
-    }
-
-    // Fonction pour afficher les totaux par catégorie, par article et par devise
-    function displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency) {
-        const resultContainer = document.getElementById('resultsContainer');
-        resultContainer.innerHTML = ''; // Effacer le contenu précédent
-
-        // Générer le contenu HTML pour les totaux par catégorie, par article et par devise
-        let html = '<h3>Rapport Du Jour</h3>';
-
-        // Boucle à travers chaque catégorie
-        for (const category in totalsByItemCategoryAndCurrency) {
-            if (totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
-                html += `<h4>${category}:</h4>`;
-                let totalGdes = 0;
-                let totalUs = 0;
-
-                html += '<h5>Gdes:</h5>';
-                html += '<ul>';
-                // Afficher les produits en Gdes et calculer le total
-                for (const item in totalsByItemCategoryAndCurrency[category].Gdes) {
-                    if (totalsByItemCategoryAndCurrency[category].Gdes.hasOwnProperty(item)) {
-                        const total = totalsByItemCategoryAndCurrency[category].Gdes[item];
-                        html += `<li>${item}: Quantité - ${total.totalQuantity}, Revenu - ${total.totalRevenue}</li>`;
-                        totalGdes += total.totalRevenue;
-                    }
-                }
-                html += '</ul>';
-                html += `Total en Gdes: ${totalGdes}<br><br>`;
-
-                html += '<h5>Us:</h5>';
-                html += '<ul>';
-                // Afficher les produits en Us et calculer le total
-                for (const item in totalsByItemCategoryAndCurrency[category].Us) {
-                    if (totalsByItemCategoryAndCurrency[category].Us.hasOwnProperty(item)) {
-                        const total = totalsByItemCategoryAndCurrency[category].Us[item];
-                        html += `<li>${item}: Quantité - ${total.totalQuantity}, Revenu - ${total.totalRevenue}</li>`;
-                        totalUs += total.totalRevenue;
-                    }
-                }
-                html += '</ul>';
-                html += `Total en Us: ${totalUs}<br><br>`;
-            }
-        }
-
-        // Insérer le contenu dans l'élément "resultContainer"
-        resultContainer.innerHTML = html;
-    }
-
-    // Appeler la fonction pour filtrer les ventes par date lorsqu'une date est sélectionnée
-    document.getElementById("date").addEventListener("change", filterSalesByDate);
-
-    // Appeler la fonction une première fois pour afficher les ventes lors du chargement de la page
-    filterSalesByDate();
-</script>
+                <!-- jquery 3.3.1  -->
+                <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+                <!-- bootstap bundle js -->
+                <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+                <!-- slimscroll js -->
+                <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+                <!-- chart chartist js -->
+                <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+                <script src="assets/vendor/charts/chartist-bundle/Chartistjs.js"></script>
+                <script src="assets/vendor/charts/chartist-bundle/chartist-plugin-threshold.js"></script>
+                <!-- chart C3 js -->
+                <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+                <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+                <!-- chartjs js -->
+                <script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
+                <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
+                <!-- sparkline js -->
+                <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+                <!-- dashboard finance js -->
 
 
-    <!-- jquery 3.3.1  -->
-    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <!-- bootstap bundle js -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <!-- slimscroll js -->
-    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
-    <!-- chart chartist js -->
-    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
-    <script src="assets/vendor/charts/chartist-bundle/Chartistjs.js"></script>
-    <script src="assets/vendor/charts/chartist-bundle/chartist-plugin-threshold.js"></script>
-    <!-- chart C3 js -->
-    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
-    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-    <!-- chartjs js -->
-    <script src="assets/vendor/charts/charts-bundle/Chart.bundle.js"></script>
-    <script src="assets/vendor/charts/charts-bundle/chartjs.js"></script>
-    <!-- sparkline js -->
-    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
-    <!-- dashboard finance js -->
-   
-  
-    <!-- daterangepicker js -->
-  
+                <!-- daterangepicker js -->
+
 </body>
+
 </html>
