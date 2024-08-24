@@ -392,7 +392,7 @@
 
 
                         </form><br><br>
-                        <ul style="display: block; background-color: aqua;" id="invoices"></ul>
+                        <ul style="display: block; background-color: aqua;" id="invoices1"></ul>
 
                     </div>
 
@@ -780,37 +780,7 @@
     </script>
 
 
-    <script>
-        // Vérifier si l'utilisateur est connecté
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // Utilisateur connecté
-                const userId = user.uid;
 
-                // Récupérer le nom de l'utilisateur à partir de la collection 'users'
-                db.collection('users').doc(userId).get()
-                    .then(doc => {
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            const sellerNameInput = document.getElementById('sellerName');
-                            const UserName = document.getElementById('UserName');
-                            UserName.textContent = userData.name;
-                            if (sellerNameInput) {
-                                sellerNameInput.value = userData.name; // Remplir l'input avec le nom de l'utilisateur
-                            }
-                        } else {
-                            console.error('Aucun document trouvé pour cet utilisateur.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
-                    });
-            } else {
-                // Utilisateur non connecté, rediriger vers la page d'index
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
 
 
     <script src="addrow.js"></script>
@@ -830,7 +800,6 @@
 
     <script>
         document.getElementById('myForm').addEventListener('submit', function(event) {
-            event.preventDefault();
 
             console.log("Début du processus d'enregistrement de la vente...");
 
@@ -911,7 +880,7 @@
                                 totalUs
                             }).then(function(docRef) {
                                 console.log("Nouvelle facture créée avec ID: ", docRef.id);
-                                window.location.href = 'orderinvoice1.html';
+                                window.location.href = 'restoandbarinvoice.html';
                             }).catch(function(error) {
                                 console.error("Erreur lors de l'ajout du document : ", error);
                             });
@@ -950,7 +919,7 @@
                                     totalUs
                                 }).then(function() {
                                     console.log("Facture mise à jour avec succès.");
-                                    window.location.href = 'orderinvoice1.html';
+                                    window.location.href = 'restoandbarinvoice.html';
                                 }).catch(function(error) {
                                     console.error("Erreur lors de la mise à jour du document : ", error);
                                 });
@@ -1057,128 +1026,18 @@
                 });
         }
 
-        event.preventDefault();
-
-        const customerName = document.getElementById('fullname').value;
-        const sellerName = document.getElementById('sellerName').value;
-        const paymentmeth = document.getElementById('paymentmeth').value;
-        const paymentStatut = document.getElementById('paymentStatut').value;
-        const date = document.querySelector('#date').value;
-        const payOnGdes = parseFloat(document.querySelector('.pay-onGdes').value);
-        const payOnUs = parseFloat(document.querySelector('.pay-onUs').value);
-        const changeGdes = parseFloat(document.querySelector('.changeGdes').value);
-        const changeUs = parseFloat(document.querySelector('.changeUs').value);
-        const balanceGdes = parseFloat(document.querySelector('.balanceGdes').value);
-        const balanceUs = parseFloat(document.querySelector('.balanceUs').value);
-        const time = document.querySelector('#time').value;
-        const totalGdes = parseFloat(document.querySelector('.totalGdes').value);
-        const totalUs = parseFloat(document.querySelector('.totalUs').value);
 
 
-        const invoiceTable = document.getElementById('productConsumed');
-        const rows = invoiceTable.querySelectorAll('tbody tr');
-        const products = [];
 
-        rows.forEach(row => {
-            const columns = row.querySelectorAll('td');
-            const item = columns[0].textContent;
-            const quantityInput = columns[1].querySelector('input');
-            const price = columns[2].textContent;
-            const currency = columns[3].textContent;
-            const category = columns[4].textContent;
-
-
-            const quantity = quantityInput.value;
-
-            products.push({
-                item,
-                quantity,
-                price,
-                currency,
-                category
-            });
-        });
-
-        // Vérifier si la facture existe déjà
-        db.collection("globalSales").where("customerName", "==", customerName).where("date", "==", date).get()
-            .then(function(querySnapshot) {
-                if (querySnapshot.empty) {
-                    // La facture n'existe pas, l'ajouter
-                    db.collection("globalSales").add({
-                            customerName: customerName,
-                            sellerName,
-                            paymentmeth,
-                            paymentStatut,
-                            date,
-                            time,
-                            payOnGdes,
-                            payOnUs,
-                            changeGdes,
-                            changeUs,
-                            balanceGdes,
-                            balanceUs,
-                            products,
-                            totalGdes,
-                            totalUs
-
-                        })
-                        .then(function(docRef) {
-                            console.log("Document added with ID: ", docRef.id);
-
-                            window.location.href = 'restoandbarinvoice.html';
-                        })
-                        .catch(function(error) {
-                            console.error("Error adding document: ", error);
-                        });
-                } else {
-                    // La facture existe, la mettre à jour
-                    querySnapshot.forEach(function(doc) {
-                        db.collection("globalSales").doc(doc.id).update({
-                                customerName: customerName,
-                                sellerName,
-                                paymentmeth,
-                                paymentStatut,
-                                date,
-                                time,
-                                payOnGdes,
-                                payOnUs,
-                                changeGdes,
-                                changeUs,
-                                balanceGdes,
-                                balanceUs,
-                                products,
-                                totalGdes,
-                                totalUs
-                            })
-                            .then(function() {
-                                console.log("Document updated");
-
-                                window.location.href = 'restoandbarinvoice.html';
-                            })
-                            .catch(function(error) {
-                                console.error("Error updating document: ", error);
-                            });
-                    });
-                }
-            })
-            .catch(function(error) {
-                console.error("Error getting documents: ", error);
-            });
-        });
 
         // Fonction pour afficher les ventes
-        function displaySales(defaultDate) {
-            const userList = document.getElementById('invoices');
+        function displaySales() {
+            const userList = document.getElementById('invoices1');
             userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
 
             let query = db.collection("globalSales").orderBy("date", "desc");
 
-            if (defaultDate === 'today') {
-                const today = new Date().toDateString();
-                query = query.where("date", "==", today);
-            } else if (defaultDate) {
-                query = query.where("date", "==", defaultDate);
-            }
+
 
             query.get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
@@ -1241,7 +1100,7 @@
                 console.error("Error getting documents: ", error);
             });
         }
-
+        displaySales();
         // Fonction pour supprimer une facture
         function deleteInvoice(event) {
             const docId = event.target.getAttribute('data-id');
