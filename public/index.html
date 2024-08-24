@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-
+ 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,71 +13,71 @@
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
     <meta name="generator" content="DuenInvoice v1.0, https://duenamin2024.netlify.app">
     <link rel="canonical" href="https://dueninvoice.netlify.app">
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:image:src" content="https://dueninvoice.netlify.app/logo.png">
     <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
     <meta name="twitter:title" content="Home">
-
+    
     <link rel="shortcut icon" href="logo.png" type="image/png">
     <meta name="description" content="DuenAdmin">
     <meta property="og:title" content="DuenAdmin">
     <meta property="og:description" content="Duen">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:type" content="website"><meta property="og:url" content="https://dueninvoice.netlify.app/logo.png">
     <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
     <meta property="og:locale" content="fr_FR">
     <style>
-        html,
-        body {
-            height: 100%;
-        }
-        
-        body {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-align: center;
-            align-items: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
-        }
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
     </style>
-    <script>
+     <script>
         // Vérifier si l'application est installable
-        function isInstallable() {
-            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-        }
+function isInstallable() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
 
-        // Afficher une invitation à l'installation
-        function showInstallPrompt() {
-            const installButton = document.getElementById('install-button');
+// Afficher une invitation à l'installation
+function showInstallPrompt() {
+  const installButton = document.getElementById('install-button');
 
-            installButton.addEventListener('click', () => {
-                deferredPrompt.prompt();
+  installButton.addEventListener('click', () => {
+    deferredPrompt.prompt();
 
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the installation prompt');
-                    } else {
-                        console.log('User dismissed the installation prompt');
-                    }
-                });
-            });
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the installation prompt');
+      } else {
+        console.log('User dismissed the installation prompt');
+      }
+    });
+  });
 
-            installButton.style.display = 'block';
-        }
+  installButton.style.display = 'block';
+}
 
-        // Événement beforeinstallprompt pour détecter l'opportunité d'installation
-        window.addEventListener('beforeinstallprompt', (event) => {
-            // Empêcher le navigateur de gérer l'événement par défaut
-            event.preventDefault();
-            // Stocker l'événement pour une utilisation ultérieure
-            deferredPrompt = event;
-            // Afficher l'invitation à l'installation
-            showInstallPrompt();
-        });
+// Événement beforeinstallprompt pour détecter l'opportunité d'installation
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Empêcher le navigateur de gérer l'événement par défaut
+  event.preventDefault();
+  // Stocker l'événement pour une utilisation ultérieure
+  deferredPrompt = event;
+  // Afficher l'invitation à l'installation
+  showInstallPrompt();
+});
 
-        // Initialisation de la variable deferredPrompt
-        let deferredPrompt;
+// Initialisation de la variable deferredPrompt
+let deferredPrompt;
+
     </script>
 
 </head>
@@ -97,11 +97,11 @@
                     <div class="form-group">
                         <input class="form-control form-control-lg" id="password" type="password" placeholder="Password" required>
                     </div>
-
+                  
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
-
+           
         </div>
     </div>
 
@@ -109,41 +109,43 @@
     <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
     <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
     <script src="firebase-config.js"></script>
+    
+<script>
+   
 
-    <script>
-        // Référence à l'authentification Firebase
-        const auth = firebase.auth();
+    // Référence à l'authentification Firebase
+    const auth = firebase.auth();
 
-        // Fonction pour gérer la soumission du formulaire de connexion
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+    // Fonction pour gérer la soumission du formulaire de connexion
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
 
-            // Récupérer les valeurs des champs email et mot de passe
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // Récupérer les valeurs des champs email et mot de passe
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            // Connexion de l'utilisateur avec son email et mot de passe
-            // Connexion de l'utilisateur avec son email et mot de passe
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Utilisateur connecté avec succès
-                    const user = userCredential.user;
-                    console.log('Utilisateur connecté:', user);
-                    // Rediriger vers la page orderinvoice.html après la connexion
-                    window.location.href = 'stockmanagementbarandresto.html';
-                })
-                .catch((error) => {
-                    // Gestion des erreurs de connexion
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.error('Erreur de connexion:', errorMessage);
-                    // Afficher un message d'erreur à l'utilisateur
-                    alert(errorMessage);
-                });
+        // Connexion de l'utilisateur avec son email et mot de passe
+       // Connexion de l'utilisateur avec son email et mot de passe
+auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Utilisateur connecté avec succès
+        const user = userCredential.user;
+        console.log('Utilisateur connecté:', user);
+        // Rediriger vers la page orderinvoice.html après la connexion
+        window.location.href = 'home.html';
+    })
+    .catch((error) => {
+        // Gestion des erreurs de connexion
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Erreur de connexion:', errorMessage);
+        // Afficher un message d'erreur à l'utilisateur
+        alert(errorMessage);
+    });
 
-        });
-    </script>
-
+    });
+</script>
+  
     <!-- ============================================================== -->
     <!-- end login page  -->
     <!-- ============================================================== -->
@@ -151,5 +153,5 @@
     <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 </body>
-
+ 
 </html>

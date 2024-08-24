@@ -140,20 +140,24 @@
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="orderinvoice1.html">DUEN-HOTEL</a>
+                <a class="navbar-brand" href="restoandbarinvoice.html">DUEN-HOTEL</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
+                        <li class="" style=" width: 100%; margin-right: 50px;">
+                            <a class="nav-link nav-icons" href="home.html"><button class="fas fa-fw fa-home" style="width: 100%;">Accueil</button> </a>
+
+                        </li>
 
                         <li class="" style=" width: 100%; margin-right: 10px;">
                             <a class="nav-link nav-icons"><button style="width: 100%; background-color: #b35100; border-radius: 50%;" class="fas fa-fw fa-user" id="UserName"></button> </a>
 
                         </li>
                         <li class="" style=" width: 100%; margin-right: 10px;">
-                            <a class="nav-link nav-icons" href="orderinvoice1.html"><button style="width: 100%;" class="fas fa-fw fa-circle">Reload</button> </a>
+                            <a class="nav-link nav-icons" href="restoandbarinvoice.html"><button style="width: 100%;" class="fas fa-fw fa-circle">Reload</button> </a>
 
                         </li>
 
@@ -196,7 +200,7 @@
                                         <i class="info">📧 duenhotel@gmail.com</i><br>
 
 
-                                        <input type="date" id="date" required readonly><br>
+                                        <input type="date" id="date"><br>
                                         <input type="time" id="time" required readonly><br>
 
                                         <input id="fullname" name="choices" required placeholder="Nom du client">
@@ -207,12 +211,8 @@
                                         <select name="paymentmeth" id="paymentmeth" required>
                                     <option value="cash">cash</option>
                                     <option value="check">check</option>
-                                    <option value="moncash">moncash</option>
-                                    <option value="virement">virement</option>
-                                    <option value="zelle">zelle</option>
-                                    <option value="paypal">paypal</option>
                                     <option value="card">Credit/Debit card</option>
-                                    
+                                    <option value="moncash">moncash</option>
                                   </select>
                                         <br>
                                     </center>
@@ -360,7 +360,7 @@
                                 <datalist id="productList"></datalist>
                                 <div>
                                     <label for="category">Category:</label>
-                                    <input type="text" id="category" name="category" required readonly>
+                                    <input type="text" id="category" name="category" required>
                                 </div>
                                 <div><br>
                                     <label for="priceChoice" id="priceChoice1" type="button"> Prix:</label>
@@ -370,7 +370,7 @@
                                 </div>
                                 <div>
                                     <label for="quantity">Quantité:</label>
-                                    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                                    <input type="number" id="quantity" name="quantity" min="1" required>
                                     <input type="text" id="currencyChoice" hidden>
                                 </div>
                                 <br>
@@ -400,14 +400,12 @@
 
 
                         <div class="">
-                            <div class="card" style="width: 100%;">
+                            <div class="card">
                                 <button id="print" class="newcustomer" onclick="generatePDFDetails();" type="button">Print Repport</button>
                                 <div class="card-body">
 
-                                    <div class="metric-value d-inline-block" id="repportgene"><br><br><br><br>
-                                        <center> <input type="date" id="daterepport" style="font-size:30px;" required readonly>
-                                            <h3 id="userrepport"></h3>
-                                        </center>
+                                    <div class="metric-value d-inline-block" id="repportgene">
+                                        <center> <input type="date" id="daterepport" style="font-size: large;" required readonly></center>
 
                                         <div style="margin-top: 30px; margin-left: 30px;" id="resultsContainer"></div>
 
@@ -418,14 +416,13 @@
                                 </div>
                                 <div class="card-body bg-light p-t-40 p-b-40">
                                     <div id="sparkline-revenue3"></div>
-                                    <div id="listperpayment"></div>
                                 </div>
-
                                 <div class="card-footer text-center bg-white">
                                     <a href="#" class="card-link">View Details</a>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -783,8 +780,6 @@
     </script>
 
 
-
-
     <script>
         // Vérifier si l'utilisateur est connecté
         firebase.auth().onAuthStateChanged(function(user) {
@@ -799,9 +794,7 @@
                             const userData = doc.data();
                             const sellerNameInput = document.getElementById('sellerName');
                             const UserName = document.getElementById('UserName');
-                            const UserName1 = document.getElementById('userrepport');
                             UserName.textContent = userData.name;
-                            UserName1.textContent = userData.name;
                             if (sellerNameInput) {
                                 sellerNameInput.value = userData.name; // Remplir l'input avec le nom de l'utilisateur
                             }
@@ -818,6 +811,8 @@
             }
         });
     </script>
+
+
     <script src="addrow.js"></script>
     <!-- Ajoutez jQuery à votre page si ce n'est pas déjà fait -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1062,115 +1057,209 @@
                 });
         }
 
-        // Fonction pour récupérer l'utilisateur connecté
-        function getCurrentUser1() {
-            return new Promise((resolve, reject) => {
-                firebase.auth().onAuthStateChanged(function(user) {
-                    if (user) {
-                        db.collection('users').doc(user.uid).get()
-                            .then(function(doc) {
-                                if (doc.exists) {
-                                    resolve(doc.data().name);
-                                } else {
-                                    reject(new Error("No such document!"));
-                                }
+        event.preventDefault();
+
+        const customerName = document.getElementById('fullname').value;
+        const sellerName = document.getElementById('sellerName').value;
+        const paymentmeth = document.getElementById('paymentmeth').value;
+        const paymentStatut = document.getElementById('paymentStatut').value;
+        const date = document.querySelector('#date').value;
+        const payOnGdes = parseFloat(document.querySelector('.pay-onGdes').value);
+        const payOnUs = parseFloat(document.querySelector('.pay-onUs').value);
+        const changeGdes = parseFloat(document.querySelector('.changeGdes').value);
+        const changeUs = parseFloat(document.querySelector('.changeUs').value);
+        const balanceGdes = parseFloat(document.querySelector('.balanceGdes').value);
+        const balanceUs = parseFloat(document.querySelector('.balanceUs').value);
+        const time = document.querySelector('#time').value;
+        const totalGdes = parseFloat(document.querySelector('.totalGdes').value);
+        const totalUs = parseFloat(document.querySelector('.totalUs').value);
+
+
+        const invoiceTable = document.getElementById('productConsumed');
+        const rows = invoiceTable.querySelectorAll('tbody tr');
+        const products = [];
+
+        rows.forEach(row => {
+            const columns = row.querySelectorAll('td');
+            const item = columns[0].textContent;
+            const quantityInput = columns[1].querySelector('input');
+            const price = columns[2].textContent;
+            const currency = columns[3].textContent;
+            const category = columns[4].textContent;
+
+
+            const quantity = quantityInput.value;
+
+            products.push({
+                item,
+                quantity,
+                price,
+                currency,
+                category
+            });
+        });
+
+        // Vérifier si la facture existe déjà
+        db.collection("globalSales").where("customerName", "==", customerName).where("date", "==", date).get()
+            .then(function(querySnapshot) {
+                if (querySnapshot.empty) {
+                    // La facture n'existe pas, l'ajouter
+                    db.collection("globalSales").add({
+                            customerName: customerName,
+                            sellerName,
+                            paymentmeth,
+                            paymentStatut,
+                            date,
+                            time,
+                            payOnGdes,
+                            payOnUs,
+                            changeGdes,
+                            changeUs,
+                            balanceGdes,
+                            balanceUs,
+                            products,
+                            totalGdes,
+                            totalUs
+
+                        })
+                        .then(function(docRef) {
+                            console.log("Document added with ID: ", docRef.id);
+
+                            window.location.href = 'restoandbarinvoice.html';
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding document: ", error);
+                        });
+                } else {
+                    // La facture existe, la mettre à jour
+                    querySnapshot.forEach(function(doc) {
+                        db.collection("globalSales").doc(doc.id).update({
+                                customerName: customerName,
+                                sellerName,
+                                paymentmeth,
+                                paymentStatut,
+                                date,
+                                time,
+                                payOnGdes,
+                                payOnUs,
+                                changeGdes,
+                                changeUs,
+                                balanceGdes,
+                                balanceUs,
+                                products,
+                                totalGdes,
+                                totalUs
+                            })
+                            .then(function() {
+                                console.log("Document updated");
+
+                                window.location.href = 'restoandbarinvoice.html';
                             })
                             .catch(function(error) {
-                                reject(error);
+                                console.error("Error updating document: ", error);
                             });
-                    } else {
-                        reject(new Error("No user is currently logged in."));
-                    }
-                });
+                    });
+                }
+            })
+            .catch(function(error) {
+                console.error("Error getting documents: ", error);
             });
-        }
+        });
 
         // Fonction pour afficher les ventes
         function displaySales(defaultDate) {
             const userList = document.getElementById('invoices');
             userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
 
-            // Récupérer l'utilisateur connecté
-            getCurrentUser1().then(function(currentUserName) {
-                let query = db.collection("globalSales");
+            let query = db.collection("globalSales").orderBy("date", "desc");
 
-                if (defaultDate === 'today') {
-                    const today = new Date().toDateString();
-                    query = query.where("date", "==", today);
-                } else if (defaultDate) {
-                    query = query.where("date", "==", defaultDate);
-                }
+            if (defaultDate === 'today') {
+                const today = new Date().toDateString();
+                query = query.where("date", "==", today);
+            } else if (defaultDate) {
+                query = query.where("date", "==", defaultDate);
+            }
 
-                // Ajouter la condition pour le sellerName
-                query = query.where("sellerName", "==", currentUserName);
+            query.get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    const data = doc.data();
+                    const li = document.createElement('li');
 
-                query.get().then(function(querySnapshot) {
-                    querySnapshot.forEach(function(doc) {
-                        const data = doc.data();
-                        const li = document.createElement('li');
+                    // Créer des éléments span pour chaque donnée
+                    const customerNameSpan = document.createElement('span');
+                    customerNameSpan.textContent = data.customerName;
 
-                        // Créer des éléments span pour chaque donnée
-                        const customerNameSpan = document.createElement('span');
-                        customerNameSpan.textContent = data.customerName;
+                    const totalGdesSpan = document.createElement('span');
+                    totalGdesSpan.textContent = `${data.totalGdes} Gdes`;
 
-                        const totalGdesSpan = document.createElement('span');
-                        totalGdesSpan.textContent = `${data.totalGdes} Gdes`;
+                    const totalUsSpan = document.createElement('span');
+                    totalUsSpan.textContent = `${data.totalUs} Us`;
 
-                        const totalUsSpan = document.createElement('span');
-                        totalUsSpan.textContent = `${data.totalUs} Us`;
+                    const timeSpan = document.createElement('span');
+                    timeSpan.textContent = data.time;
 
-                        const timeSpan = document.createElement('span');
-                        timeSpan.textContent = data.time;
+                    const seller = document.createElement('span');
+                    seller.textContent = data.sellerName;
 
-                        const seller = document.createElement('span');
-                        seller.textContent = data.sellerName;
+                    const datespan = document.createElement('span');
+                    datespan.textContent = data.date;
 
-                        // Créer le bouton d'édition
-                        const editBtn = document.createElement('button');
-                        editBtn.textContent = 'Edit';
-                        editBtn.setAttribute('data-id', doc.id);
-                        editBtn.classList.add('editBtn');
+                    // Créer le bouton d'édition
+                    const editBtn = document.createElement('button');
+                    editBtn.textContent = 'Edit';
+                    editBtn.setAttribute('data-id', doc.id);
+                    editBtn.classList.add('editBtn');
 
-                        // Ajouter tous les éléments à la balise li
-                        li.appendChild(customerNameSpan);
-                        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-                        li.appendChild(totalGdesSpan);
-                        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-                        li.appendChild(totalUsSpan);
-                        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-                        li.appendChild(timeSpan);
-                        li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
-                        li.appendChild(seller);
-                        li.appendChild(document.createTextNode(' ')); // Ajouter un espace
-                        li.appendChild(editBtn);
+                    // Créer le bouton de suppression
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.setAttribute('data-id', doc.id);
+                    deleteBtn.classList.add('deleteBtn');
+                    deleteBtn.addEventListener('click', deleteInvoice);
 
-                        // Ajouter la balise li à la liste
-                        userList.appendChild(li);
-                    });
-                }).catch(function(error) {
-                    console.error("Error getting documents: ", error);
+                    // Ajouter tous les éléments à la balise li
+                    li.appendChild(customerNameSpan);
+                    li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                    li.appendChild(totalGdesSpan);
+                    li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                    li.appendChild(totalUsSpan);
+                    li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                    li.appendChild(timeSpan);
+                    li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                    li.appendChild(seller);
+                    li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                    li.appendChild(datespan);
+                    li.appendChild(document.createTextNode(' ')); // Ajouter un espace
+                    li.appendChild(editBtn);
+                    li.appendChild(document.createTextNode(' ')); // Ajouter un espace
+                    li.appendChild(deleteBtn);
+
+                    // Ajouter la balise li à la liste
+                    userList.appendChild(li);
                 });
             }).catch(function(error) {
-                console.error('Error getting current user: ', error);
-                alert('Veuillez vous connecter pour afficher les ventes.');
+                console.error("Error getting documents: ", error);
             });
         }
 
-        // Appeler la fonction pour afficher les ventes lors du chargement de la page
-        window.onload = function() {
-            getCurrentUser1().then(function() {
-                displaySales('today'); // ou toute autre valeur par défaut que vous souhaitez utiliser
+        // Fonction pour supprimer une facture
+        function deleteInvoice(event) {
+            const docId = event.target.getAttribute('data-id');
+            db.collection("globalSales").doc(docId).delete().then(function() {
+                console.log("Document successfully deleted!");
+                // Réafficher les ventes après suppression
+                displaySales(); // ou displaySales(defaultDate) si vous voulez conserver le filtre
             }).catch(function(error) {
-                console.error('Error getting current user: ', error);
-                alert('Veuillez vous connecter pour afficher les ventes.');
+                console.error("Error removing document: ", error);
             });
-        };
+        }
+
 
 
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
             const formattedToday = formatDate(today); // Format YYYY-MM-DD
-            displaySales(formattedToday); // Afficher par défaut les factures d'aujourd'hui
+            displaySales(); // Afficher par défaut les factures d'aujourd'hui
         });
 
         // Fonction pour formater la date au format YYYY-MM-DD
@@ -1251,20 +1340,27 @@
     </script>
 
     <script>
-        // Fonction pour récupérer toutes les ventes et afficher les données du plus récent au plus ancien
-        function displayAllSales() {
-            // Initialiser l'objet pour stocker les totaux par article, par catégorie et par devise
-            const totalsByItemCategoryAndCurrency = [];
-            const salesData = [];
+        // Fonction pour récupérer les ventes en fonction de la date sélectionnée et afficher les totaux par jour avec la liste des produits et le grand total pour chaque collection
+        function filterSalesByDate() {
+            const selectedDate = document.getElementById('date').value; // Récupérer la date sélectionnée dans l'input
 
-            // Récupérer toutes les ventes et trier par date du plus récent au plus ancien
-            db.collection('globalSales')
-                .orderBy('date', 'desc')
-                .get()
+            // Si aucune date n'est sélectionnée, afficher un message d'erreur ou une notification à l'utilisateur
+            if (!selectedDate) {
+                alert('Veuillez sélectionner une date.');
+                return;
+            }
+
+            // Définir les catégories disponibles
+            const categories = ['drink', 'food', 'smoke', 'spec18', 'pool'];
+
+            // Initialiser l'objet pour stocker les totaux par article, par catégorie et par devise
+            const totalsByItemCategoryAndCurrency = {};
+
+            // Récupérer la collection de ventes pour la date sélectionnée
+            db.collection('globalSales').where("date", "==", selectedDate).get()
                 .then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
                         const data = doc.data();
-                        salesData.push(data);
                         const products = data.products;
 
                         // Parcourir les produits de cette vente
@@ -1276,29 +1372,34 @@
                             const revenue = quantity * price;
 
                             // Vérifier si la catégorie est une catégorie valide
-                            if (!totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
-                                totalsByItemCategoryAndCurrency[category] = {
-                                    Gdes: {},
-                                    Us: {}
-                                };
-                            }
+                            if (categories.includes(category)) {
+                                // Si la catégorie n'existe pas encore dans les totaux, l'initialiser
+                                if (!totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
+                                    totalsByItemCategoryAndCurrency[category] = {
+                                        Gdes: {},
+                                        Us: {}
+                                    };
+                                }
 
-                            // Vérifier si l'article existe déjà dans la devise spécifiée
-                            const itemKey = product.item.toLowerCase(); // Utiliser le nom de l'article comme clé
-                            if (!totalsByItemCategoryAndCurrency[category][currency].hasOwnProperty(itemKey)) {
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey] = {
-                                    totalQuantity: quantity,
-                                    totalRevenue: revenue
-                                };
-                            } else {
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalQuantity += quantity;
-                                totalsByItemCategoryAndCurrency[category][currency][itemKey].totalRevenue += revenue;
+                                // Vérifier si l'article existe déjà dans la devise spécifiée
+                                const itemKey = product.item.toLowerCase(); // Utiliser le nom de l'article comme clé, en minuscules pour éviter les doublons
+                                if (!totalsByItemCategoryAndCurrency[category][currency].hasOwnProperty(itemKey)) {
+                                    // Si l'article n'existe pas encore, l'initialiser avec la quantité et le revenu actuels
+                                    totalsByItemCategoryAndCurrency[category][currency][itemKey] = {
+                                        totalQuantity: quantity,
+                                        totalRevenue: revenue
+                                    };
+                                } else {
+                                    // Si l'article existe déjà, mettre à jour la quantité et le revenu
+                                    totalsByItemCategoryAndCurrency[category][currency][itemKey].totalQuantity += quantity;
+                                    totalsByItemCategoryAndCurrency[category][currency][itemKey].totalRevenue += revenue;
+                                }
                             }
                         });
                     });
 
                     // Afficher les totaux par catégorie, par article et par devise
-                    displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, salesData);
+                    displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency);
                 })
                 .catch(function(error) {
                     console.error('Error getting documents: ', error);
@@ -1306,142 +1407,45 @@
         }
 
         // Fonction pour afficher les totaux par catégorie, par article et par devise
-        function displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, salesData) {
+        function displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency) {
             const resultContainer = document.getElementById('resultsContainer');
             resultContainer.innerHTML = ''; // Effacer le contenu précédent
 
-            // Variables pour stocker les totaux par méthode de paiement
-            const paymentMethodTotals = {};
-            const paymentStatusTotals = {
-                PAYE: {
-                    totalGdes: 0,
-                    totalUs: 0
-                },
-                NONPAYE: {
-                    totalGdes: 0,
-                    totalUs: 0
-                },
-                CREDIT: {
-                    totalGdes: 0,
-                    totalUs: 0
-                }
-            };
-
             // Générer le contenu HTML pour les totaux par catégorie, par article et par devise
-            let html = '<h3>Rapport De Toutes Les Ventes</h3>';
+            let html = '<h3>Rapport Du Jour</h3>';
 
             // Boucle à travers chaque catégorie
             for (const category in totalsByItemCategoryAndCurrency) {
                 if (totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
                     html += `<h4>${category}:</h4>`;
-
-                    html += '<table border="1" cellpadding="5" cellspacing="0">';
-                    html += '<thead>';
-                    html += '<tr>';
-                    html += '<th>Item</th>';
-                    html += '<th>Quantity Gdes</th>';
-                    html += '<th>Revenu Gdes</th>';
-                    html += '<th>Quantity Us</th>';
-                    html += '<th>Revenu Us</th>';
-                    html += '</tr>';
-                    html += '</thead>';
-                    html += '<tbody>';
-
                     let totalGdes = 0;
                     let totalUs = 0;
 
-                    const itemsProcessed = new Set();
-
+                    html += '<h5>Gdes:</h5>';
+                    html += '<ul>';
                     // Afficher les produits en Gdes et calculer le total
                     for (const item in totalsByItemCategoryAndCurrency[category].Gdes) {
                         if (totalsByItemCategoryAndCurrency[category].Gdes.hasOwnProperty(item)) {
-                            const totalGdesData = totalsByItemCategoryAndCurrency[category].Gdes[item];
-                            const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item] || {
-                                totalQuantity: 0,
-                                totalRevenue: 0
-                            };
-
-                            html += '<tr>';
-                            html += `<td>${item}</td>`;
-                            html += `<td>${totalGdesData.totalQuantity}</td>`;
-                            html += `<td>${totalGdesData.totalRevenue}</td>`;
-                            html += `<td>${totalUsData.totalQuantity}</td>`;
-                            html += `<td>${totalUsData.totalRevenue}</td>`;
-                            html += '</tr>';
-
-                            totalGdes += totalGdesData.totalRevenue;
-                            totalUs += totalUsData.totalRevenue;
-                            itemsProcessed.add(item);
+                            const total = totalsByItemCategoryAndCurrency[category].Gdes[item];
+                            html += `<li>${item}: Quantité - ${total.totalQuantity}, Revenu - ${total.totalRevenue}</li>`;
+                            totalGdes += total.totalRevenue;
                         }
                     }
+                    html += '</ul>';
+                    html += `Total en Gdes: ${totalGdes}<br><br>`;
 
-                    // Afficher les produits en Us qui n'ont pas de correspondance en Gdes
+                    html += '<h5>Us:</h5>';
+                    html += '<ul>';
+                    // Afficher les produits en Us et calculer le total
                     for (const item in totalsByItemCategoryAndCurrency[category].Us) {
-                        if (totalsByItemCategoryAndCurrency[category].Us.hasOwnProperty(item) && !itemsProcessed.has(item)) {
-                            const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item];
-
-                            html += '<tr>';
-                            html += `<td>${item}</td>`;
-                            html += `<td>${totalUsData.totalQuantity}</td>`;
-                            html += `<td>0</td>`;
-                            html += `<td>${totalUsData.totalRevenue}</td>`;
-                            html += '</tr>';
-
-                            totalUs += totalUsData.totalRevenue;
+                        if (totalsByItemCategoryAndCurrency[category].Us.hasOwnProperty(item)) {
+                            const total = totalsByItemCategoryAndCurrency[category].Us[item];
+                            html += `<li>${item}: Quantité - ${total.totalQuantity}, Revenu - ${total.totalRevenue}</li>`;
+                            totalUs += total.totalRevenue;
                         }
                     }
-
-                    html += '</tbody>';
-                    html += '<tfoot>';
-                    html += `<tr><td colspan="2"><strong>Total</strong></td><td><strong>${totalGdes}</strong></td><td><strong>${totalUs}</strong></td></tr>`;
-                    html += '</tfoot>';
-                    html += '</table><br><br>';
-                }
-            }
-
-            // Calculer les totaux par méthode de paiement et par statut de paiement à partir des données de vente (salesData)
-            salesData.forEach(sale => {
-                const paymentMethod = sale.paymentmeth;
-                const paymentStatus = sale.paymentStatut;
-                const totalGdes = sale.totalGdes || 0;
-                const totalUs = sale.totalUs || 0;
-
-                if (paymentMethod) {
-                    if (!paymentMethodTotals[paymentMethod]) {
-                        paymentMethodTotals[paymentMethod] = {
-                            totalGdes: 0,
-                            totalUs: 0
-                        };
-                    }
-                    paymentMethodTotals[paymentMethod].totalGdes += totalGdes;
-                    paymentMethodTotals[paymentMethod].totalUs += totalUs;
-                }
-
-                if (paymentStatus) {
-                    if (!paymentStatusTotals[paymentStatus]) {
-                        paymentStatusTotals[paymentStatus] = {
-                            totalGdes: 0,
-                            totalUs: 0
-                        };
-                    }
-                    paymentStatusTotals[paymentStatus].totalGdes += totalGdes;
-                    paymentStatusTotals[paymentStatus].totalUs += totalUs;
-                }
-            });
-
-            // Afficher les totaux par méthode de paiement
-            html += '<h3>Totaux par Méthode de Paiement</h3>';
-            for (const paymentMethod in paymentMethodTotals) {
-                if (paymentMethodTotals.hasOwnProperty(paymentMethod)) {
-                    html += `<p>${paymentMethod}: Total Gdes - ${paymentMethodTotals[paymentMethod].totalGdes}, Total Us - ${paymentMethodTotals[paymentMethod].totalUs}</p>`;
-                }
-            }
-
-            // Afficher les totaux par statut de paiement
-            html += '<h3>Totaux par Statut de Paiement</h3>';
-            for (const paymentStatus in paymentStatusTotals) {
-                if (paymentStatusTotals.hasOwnProperty(paymentStatus)) {
-                    html += `<p>${paymentStatus}: Total Gdes - ${paymentStatusTotals[paymentStatus].totalGdes}, Total Us - ${paymentStatusTotals[paymentStatus].totalUs}</p>`;
+                    html += '</ul>';
+                    html += `Total en Us: ${totalUs}<br><br>`;
                 }
             }
 
@@ -1449,10 +1453,12 @@
             resultContainer.innerHTML = html;
         }
 
-        // Appeler la fonction pour afficher toutes les ventes lors du chargement de la page
-        window.addEventListener('load', displayAllSales);
-    </script>
+        // Appeler la fonction pour filtrer les ventes par date lorsqu'une date est sélectionnée
+        document.getElementById("date").addEventListener("change", filterSalesByDate);
 
+        // Appeler la fonction pour filtrer les ventes par date lors du chargement de la page
+        filterSalesByDate();
+    </script>
 
 
 </body>

@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,102 +10,12 @@
     <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/libs/css/style.css">
     <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
-
-
-    <title>Duen-Hotel drinks</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        
-        .container h2 {
-            text-align: center;
-        }
-        
-        form>div {
-            margin-bottom: 10px;
-        }
-        
-        .container label {
-            display: inline-block;
-        }
-        
-        button {
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        
-        button:hover {
-            background-color: #b35100;
-        }
-        
-        #card-display {
-            margin-top: 20px;
-            width: 300px;
-        }
-        
-        #myForm input {
-            text-align: center;
-        }
-        
-        center {
-            width: 100%;
-        }
-        
-        #myForm th,
-        tr {
-            width: 280px;
-            text-align: center;
-        }
-        
-        #myForm input,
-        label,
-        select,
-        i,
-        th,
-        td {
-            font-size: small;
-            text-align: center;
-        }
-        
-        #myForm select,
-        input,
-        textarea:focus {
-            outline: none;
-            border: none;
-            /* Supprime la bordure de focus */
-        }
-        
-        .calculatesection {
-            display: flex;
-            width: 300px;
-            margin-left: 30px;
-        }
-        
-        .container input {
-            width: 100%;
-        }
-        
-        .calculatesection input {
-            width: 60px;
-        }
-        
-        #invoiceTable {
-            width: 300px;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <title>Duen Hotel Admin</title>
 </head>
 
 <body>
@@ -123,19 +32,61 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
 
-                        <li class="" style=" width: 100%; margin-right: 10px;">
-                            <a class="nav-link nav-icons"><button style="width: 100%; background-color: #b35100; border-radius: 50%;" class="fas fa-fw fa-user" id="UserName"></button> </a>
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
 
+                                <li>
+                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                </li>
+                            </ul>
                         </li>
+                        <li class="nav-item dropdown connection">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-plus"></i> </a>
+                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
+
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="restoandbarinvoice.html">Drink-Food-Invoice</a></div>
+
+                                </li>
+
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="roomandpoolinvoice.html">Room-Pool-Invoice</a></div>
+
+                                </li>
 
 
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="updatebarandresto.html">UpdateDrink-Food</a></div>
 
+                                </li>
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="updateroomandpool.html">UpdateRoom-Pool</a></div>
+
+                                </li>
+                                <li class="connection-list">
+                                    <div class="conntection-footer"><a href="newexpences.html">New Expense</a></div>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/iconuser (2).png" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 class="mb-0 text-white nav-user-name" id="username"></h5>
+                                    <span class="status"></span><span class="ml-2" id="email"></span>
+                                </div>
+                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a id="logout" class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                            </div>
+                        </li>
                     </ul>
-
                 </div>
             </nav>
         </div>
@@ -145,140 +96,78 @@
         <!-- ============================================================== -->
         <!-- left sidebar -->
         <!-- ============================================================== -->
-        <div class="nav-left-sidebar sidebar-dark" style="width: 350px;">
+        <div class="nav-left-sidebar sidebar-dark">
             <div class="menu-list">
                 <nav class="navbar navbar-expand-lg navbar-light">
-
+                    <a class="d-xl-none d-lg-none" href="home.html">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                                <div id="submenu-1" class="collapse submenu">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="home.html" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">DUEN-HOTEL Dashboard</a>
+
+                                        </li>
 
 
-                        <center>
-                            <div class="card" id="card-display">
-
-
-                                <form id="myForm">
-                                    <center>
-
-
-                                        <h2>DUEN-HOTEL</h2>
-                                        <h3 class="info" id="idInvoicedisplay">
-
-                                        </h3><br>
-
-                                        <i class="info">📍7, Angle des rues A. <br>
-                                         Martial & Costa, Delmas 33
-                                    </i><br>
-
-                                        <i class="info">☎ +509 35 10 1329 <br> / 36 43 7237
-                                    </i><br>
-                                        <i class="info">📧 duenhotel@gmail.com</i><br>
-
-
-                                        <input type="date" id="dateInvoicedis" required readonly><br>
-                                        <input type="time" id="timeInvoicedis" required readonly><br>
-
-                                        <input id="fullname" name="choices" required placeholder="ID">
-
-                                        <br>
-
-
-                                        <select name="choices" id="paymentmeth" required>
-                                    <option value="cash" name="cash">cash</option>
-                                    <option value="check" name="check">check</option>
-                                    <option value="card" name="card">Credit/Debit card</option>
-                                    <option value="moncash" name="moncash">moncash</option>
-                                    <option value="zelle" name="zelle">Zelle</option>
-                                  </select>
-                                        <br>
-                                    </center>
-                                    <center>
-                                        <div class="form-group">
-
-                                            <div class="productconsommation">
-                                                <table id="invoiceTable" class=" table-striped table-bordered">
-                                                    <thead>
-                                                        <tr style="width: 200px;">
-                                                            <th>Item</th>
-
-                                                            <th>Prx</th>
-                                                            <th>Cur</th>
-                                                            <th>Qt</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="calculatesection">
-                                            <label for="pay-onGdes">Pay&eacute; avec Gdes:</label>
-                                            <input type="number" class="pay-onGdes" placeholder="0.000" value="0" required>
-                                        </div>
-                                        <div class="calculatesection">
-                                            <label for="pay-onUs">Pay&eacute; avec Us:</label>
-                                            <input type="number" class="pay-onUs" placeholder="0.000" value="0" required>
-                                        </div>
-
-                                        <div class="calculatesection">
-                                            <label for="changeGdes">Change Gdes:</label>
-                                            <input type="number" class="changeGdes" placeholder="0.000" required>
-                                        </div>
-
-                                        <div class="calculatesection">
-                                            <label for="changeUs">Change Us:</label>
-                                            <input type="number" class="changeUs" placeholder="0.000" required>
-                                        </div>
-
-
-                                        <div class="calculatesection">
-                                            <label for="totalGdes">Total Gdes</label>
-                                            <input type="number" class="totalGdes" placeholder="0.000" step="0.01" min="0" max="100000" required readonly><br>
-                                        </div>
-                                        <div class="calculatesection">
-                                            <label for="totalUs">Total Us</label>
-                                            <input type="number" class="totalUs" placeholder="0.000" step="0.01" min="0" max="100000" required readonly>
-                                        </div>
-                                        <div class="calculatesection">
-                                            <label for="back">Balance Gdes</label>
-                                            <input type="number" class="balanceGdes" placeholder="0.000" step="0.01" min="0" max="100000" required>
-                                        </div>
-                                        <div class="calculatesection">
-                                            <label for="balanceUs">Balance Us</label>
-                                            <input type="number" class="balanceUs" placeholder="0.000" step="0.01" min="0" max="100000" required>
-                                        </div>
-                                        <br>
-                                        <select name="choices" id="paymentStatut" required>
-                            <option value="check">NON PAY&Eacute;</option>
-                            <option value="cash">PAY&Eacute;</option>
-                            
-                            <option value="card">CREDIT&Eacute;</option>
-                            
-                          </select><br>
-
-
-                                        <input type="text" class="vendeur" id="sellerNameInvoicedis" placeholder="Vendeur" required readonly><br>
+                                    </ul>
+                                </div>
+                            </li>
 
 
 
-                                    </center>
+                            <li class="nav-divider">
+                                Features
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fas fa-fw fa-file"></i> Pages </a>
+                                <div id="submenu-6" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
 
-                                </form>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="stockmanagementbarandresto.html">Drink-Food-Stock</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="stockmanagementRooms.html">Room-Pool-Stock</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="employes.html">Employ&eacute;s</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="sign-up.html">Utilisateurs</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
 
 
-                                <button id="Confirm" class="newcustomer"> Confirm</button>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-10" aria-controls="submenu-10"><i class="fas fa-f fa-folder"></i>Repport</a>
+                                <div id="submenu-10" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="repportgeneral.html">On Sales</a>
+                                        </li>
 
 
-                                <button id="print" class="newcustomer" onclick="generatePDF();"> print</button>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="home.html" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-upload"></i>Update Data</a>
 
+                            </li>
 
-
-                            </div>
-                        </center>
-
-
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -286,932 +175,307 @@
         <!-- ============================================================== -->
         <!-- end left sidebar -->
         <!-- ============================================================== -->
+        <!-- ============================================================== -->
         <!-- wrapper  -->
         <!-- ============================================================== -->
-        <div class="dashboard-wrapper" style="margin-left: 350px;">
-            <div class="influence-profile">
+        <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
                 <div class="container-fluid dashboard-content ">
                     <!-- ============================================================== -->
-                    <!-- pageheader -->
+                    <!-- pageheader  -->
                     <!-- ============================================================== -->
                     <div class="row">
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h3 class="mb-2">ORDER Dashboard </h3>
-                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                <h2 class="pageheader-title">Duen Dashboard </h2>
+                                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Duen-Hotel Sale</li>
+                                            <li class="breadcrumb-item active" aria-current="page">Duen-Hotel Dashboard</li>
                                         </ol>
                                     </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <style>
-                        #cardHidden {
-                            display: none;
-                        }
-                    </style>
                     <!-- ============================================================== -->
-                    <!-- end pageheader -->
+                    <!-- end pageheader  -->
                     <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- content -->
-                    <!-- ============================================================== -->
+                    <div class="ecommerce-widget">
 
-                    <button id="addBtn">Ajouter Facture</button>
-                    <div class="container" id="cardHidden">
-                        <h2>Enregistrement des Ventes</h2>
-                        <form id="salesForm">
-                            <div>
-                                <label for="date">Date:</label>
-                                <input type="date" id="date" name="date" required>
+                        <div class="row" id="row">
 
-                            </div>
-                            <div>
+                        </div>
 
-                                <label for="timeInvoice">Time:</label>
-                                <input type="time" id="timeInvoice" name="timeInvoice" required><br>
-                            </div>
+                        <div class="row" id="row1">
 
-                            <div>
-                                <label for="invoiceId">Id:</label>
-                                <input type="text" id="idInvoice" name="idInvoice" required><br><br>
-                                <button for="priceChoice" id="foundInvoice" type="button">Trouver Facture</button>
-
-                            </div>
-                            <div>
-                                <label for="name">Nom du Client:</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            <div>
-                                <label for="sellerName">Nom du Vendeur:</label>
-                                <input type="text" id="sellerName" name="sellerName" required readonly>
-                            </div>
-                            <div>
-                                <label for="product">Produit:</label>
-                                <input type="text" id="product" name="product" list="productList" required>
-                                <datalist id="productList"></datalist>
-                                <div>
-                                    <label for="category">Category:</label>
-                                    <input type="text" id="category" name="category" required>
-                                </div>
-                                <div><br>
-                                    <button for="priceChoice" id="priceChoice1" type="button">Afficher les Prix:</button>
-                                    <select id="priceChoice" name="priceChoice" required>
-                             
-                            </select>
-                                </div>
-                                <div>
-                                    <label for="quantity">Quantité:</label>
-                                    <input type="number" id="quantity" name="quantity" min="1" required>
-                                    <input type="text" id="currencyChoice" hidden>
-                                </div>
-                                <br>
-                                <button for="priceChoice" id="addProductOnTable" type="button">Inserer le produit:</button>
-                                <button id="deleteRow" class="newcustomer" type="button"> Suprimer le dernier produit</button><br>
-                                <table class="table table-striped table-bordered first" id="productConsumed">
-                                    <thead>
-                                        <tr>
-
-                                            <th>Item</th>
-                                            <th>quantity</th>
-                                            <th>Price</th>
-
-                                            <th>Currency</th>
-                                            <th>Category</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="consumedTableBody">
-                                        <!-- Les lignes de tableau seront insérées ici -->
-
-                                    </tbody>
-
-                                </table>
-                            </div>
-                            <label for="totalGdesToPay">Total Gdes</label>
-                            <input type="number" name="totalGdesToPay" id="totalGdesToPay" step="0.01" min="0" max="100000" readonly><br>
-                            <label for="totalUsToPay">Total Us</label>
-                            <input type="number" name="totalUsToPay" id="totalUsToPay" step="0.01" min="0" max="100000" readonly><br><br>
-                            <button id="caluculate" type="button">Calculer</button>
-
-                            <center><button type="button" id="addProduct">Enregistrer La Facture</button></center>
-                        </form><br><br>
-                        <center><button id="closeForm">Close Form</button></center>
-                    </div>
+                        </div>
 
 
-                    <div class="table-responsive">
 
 
-                        <table class="table table-striped table-bordered first" id="invoicesTable">
-                            <thead>
-                                <tr>
-                                    <th>Invoice ID</th>
-                                    <th>Name</th>
-                                    <th>Total Products</th>
-                                    <th>Total Gdes</th>
-                                    <th>Total US</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Les lignes de tableau seront insérées ici -->
-                            </tbody>
-
-                        </table>
                     </div>
                     <!-- ============================================================== -->
-                    <!-- end campaign data -->
+                    <!-- footer -->
                     <!-- ============================================================== -->
+
+
                 </div>
+
             </div>
-        </div>
+            <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+            <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+            <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+            <script src="firebase-config.js"></script>
 
-    </div>
 
-    <!-- ============================================================== -->
-    <!-- end wrapper -->
-    <!-- ============================================================== -->
-    </div>
+            <script>
+                function displayTotalSalesByCategoryAndCurrency() {
+                    db.collection("globalSales").get().then((querySnapshot) => {
+                        const salesData = {};
 
+                        querySnapshot.forEach((doc) => {
+                            const products = doc.data().products;
 
+                            products.forEach((product) => {
+                                const category = product.category;
+                                const currency = product.currency;
+                                const price = parseFloat(product.price);
+                                const quantity = parseFloat(product.quantity);
 
-    <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+                                const total = price * quantity;
 
-    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
-    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
-    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
-    <script src="firebase-config.js"></script>
-    <script>
-        const cardHidden = document.querySelector("#cardHidden");
-        const addBtn = document.querySelector("#addBtn");
-        const closeform = document.querySelector("#closeForm");
-        addBtn.addEventListener("click", (e) => {
-            cardHidden.style.display = "block";
-
-
-        });
-
-        closeform.addEventListener("click", (e) => {
-            cardHidden.style.display = "none";
-
-        });
-    </script>
-
-    <script>
-        document.getElementById('caluculate').addEventListener('click', function() {
-            // Initialisation des variables pour stocker les totaux
-            let totalGdesToPay = 0;
-            let totalUsToPay = 0;
-
-            // Sélectionner toutes les lignes du tableau
-            const rows = document.querySelectorAll('#consumedTableBody tr');
-
-            // Créer un objet pour stocker les quantités par devise
-            const quantitiesByCurrency = {};
-
-            // Parcourir chaque ligne du tableau
-            rows.forEach(row => {
-                const item = row.cells[0].textContent;
-                const quantity = parseInt(row.cells[1].querySelector('input').value);
-                const price = parseFloat(row.cells[2].textContent);
-                const currency = row.cells[3].textContent;
-
-                // Ajouter la quantité à la devise correspondante
-                if (!quantitiesByCurrency[currency]) {
-                    quantitiesByCurrency[currency] = 0;
-                }
-                quantitiesByCurrency[currency] += quantity * price;
-
-                // Calculer les totaux en fonction de la devise
-                if (currency === 'Gdes') {
-                    totalGdesToPay += quantity * price;
-                } else if (currency === 'Us') {
-                    totalUsToPay += quantity * price;
-                }
-            });
-
-            // Mettre à jour les champs de total
-            document.getElementById('totalGdesToPay').value = totalGdesToPay;
-            document.getElementById('totalUsToPay').value = totalUsToPay;
-        });
-    </script>
-
-    <script>
-        // Get current date
-        const today = new Date();
-
-        // Format date to 'YYYY-MM-DD' (required by HTML date input)
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
-
-        // Set the value of the input field to the current date
-        document.getElementById('date').value = formattedDate;
-    </script>
-
-    <script>
-        // Format time to 'HH:MM' (required by HTML time input)
-        const hours = String(today.getHours()).padStart(2, '0');
-        const minutes = String(today.getMinutes()).padStart(2, '0');
-        const formattedTime = `${hours}:${minutes}`;
-
-        // Set the value of the input field to the current time
-        document.getElementById('timeInvoice').value = formattedTime;
-    </script>
-
-
-    <script>
-        const salesForm = document.getElementById('salesForm');
-        const addProductButton = document.getElementById('addProduct');
-        const salesTable = document.getElementById('salesTable');
-        const productNameInput = document.getElementById('product');
-        const productList = document.getElementById('productList');
-        const priceChoiceSelect = document.getElementById('priceChoice');
-        const priceChoiceSelect1 = document.getElementById('priceChoice1');
-
-
-
-        // Fonction pour récupérer les produits correspondant au préfixe et les afficher dans la liste de suggestions
-        async function fetchAndDisplayProducts() {
-            const prefix = productNameInput.value.trim();
-            const querySnapshot = await db.collection('DrinkStock').where('name', '>=', prefix)
-                .where('name', '<=', prefix + '\uf8ff').get();
-            productList.innerHTML = ''; // Vider les options existantes
-            querySnapshot.forEach(doc => {
-                const productName = doc.data().name;
-                const option = document.createElement('option');
-                option.value = productName;
-                productList.appendChild(option);
-            });
-        }
-
-        // Tableau pour stocker les produits consommés
-        let productsConsumed = [];
-        // Fonction pour vérifier si le produit existe et afficher ses prix comme options dans le champ priceChoice
-        async function checkProductAndDisplayPrices() {
-            const productName = productNameInput.value.trim();
-            const productRef = db.collection('DrinkStock').where('name', '==', productName);
-
-            try {
-                const snapshot = await productRef.get();
-                if (snapshot.empty) {
-                    alert('Le produit sélectionné n\'existe pas.');
-                    return;
-                }
-
-                snapshot.forEach(doc => {
-                    const productData = doc.data();
-                    priceChoiceSelect.innerHTML = ''; // Vider les options existantes
-
-                    // Afficher les options de prix dans le champ priceChoice
-                    const option1 = document.createElement('option');
-                    option1.value = productData.priceGdes;
-                    option1.textContent = `Gourdes: ${productData.priceGdes.toString()} Gdes`;
-
-                    const option2 = document.createElement('option');
-                    option2.value = productData.priceUs;
-                    option2.textContent = `US: ${productData.priceUs.toString()} US`;
-
-                    priceChoiceSelect.appendChild(option1);
-                    priceChoiceSelect.appendChild(option2);
-
-                    // Afficher la catégorie dans l'input avec l'ID 'category'
-                    const categoryInput = document.getElementById('category');
-                    categoryInput.value = productData.category || '';
-                    const currencyInput = document.getElementById('currencyChoice');
-                    const selectedIndex = priceChoiceSelect.selectedIndex;
-                    const selectedCurrency = selectedIndex === 0 ? 'Gdes' : 'Us';
-                    currencyInput.value = selectedCurrency;
-                });
-
-                // Ajouter un écouteur d'événements pour le changement d'option dans priceChoiceSelect
-                priceChoiceSelect.addEventListener('change', () => {
-                    const currencyInput = document.getElementById('currencyChoice');
-                    const selectedIndex = priceChoiceSelect.selectedIndex;
-                    const selectedCurrency = selectedIndex === 0 ? 'Gdes' : 'Us';
-                    currencyInput.value = selectedCurrency;
-                });
-            } catch (error) {
-                console.error('Erreur lors de la récupération des informations du produit :', error);
-            }
-        }
-
-        // Ajouter un produit au tableau
-        addProductOnTable.addEventListener('click', () => {
-            // Récupérer les valeurs des champs
-            const productName = document.getElementById('product').value.trim();
-
-            const category = document.getElementById('category').value.trim();
-            const quantity = parseInt(document.getElementById('quantity').value.trim());
-            const price = parseFloat(document.getElementById('priceChoice').value.trim());
-            const currency = document.getElementById('currencyChoice').value.trim();
-
-            // Vérifier si tous les champs nécessaires sont remplis
-            if (!productName || !category || isNaN(quantity) || isNaN(price) || !currency) {
-                alert('Veuillez remplir tous les champs nécessaires.');
-                return;
-            }
-
-
-            // Vérifier si le produit existe déjà dans le tableau avec la même devise
-            const existingProductIndex = productsConsumed.findIndex(product => product.name === productName && product.currency === currency);
-
-            if (existingProductIndex !== -1) {
-                // Le produit existe déjà avec la même devise, mettre à jour la quantité et le total
-                const existingProduct = productsConsumed[existingProductIndex];
-                existingProduct.quantity = quantity;
-                existingProduct.total = total;
-
-                // Mettre à jour la ligne du tableau HTML
-                const tableBody = document.getElementById('consumedTableBody');
-                const row = tableBody.rows[existingProductIndex];
-                row.cells[1].innerHTML = `<input type="number" value="${quantity}" min="1">`;
-
-            } else {
-                // Le produit n'existe pas encore avec la même devise, l'ajouter au tableau
-                productsConsumed.push({
-                    name: productName,
-                    quantity: quantity,
-                    price: price,
-
-                    currency: currency,
-                    category: category
-                });
-
-                // Ajouter une nouvelle ligne au tableau HTML
-                const tableBody = document.getElementById('consumedTableBody');
-                const row = tableBody.insertRow();
-                row.insertCell().textContent = productName;
-                row.insertCell().innerHTML = `<input type="number" value="${quantity}" min="1">`;
-                row.insertCell().textContent = price;
-
-                row.insertCell().textContent = currency;
-                row.insertCell().textContent = category;
-            }
-        });
-
-        // Écouter les changements dans le champ de saisie du produit
-        productNameInput.addEventListener('input', fetchAndDisplayProducts);
-
-        // Ajouter un écouteur d'événements pour le clic sur le champ priceChoice
-        priceChoiceSelect1.addEventListener('click', checkProductAndDisplayPrices);
-
-        // Ajouter un écouteur d'événements pour le bouton "Ajouter Produit"
-        // Ajouter un écouteur d'événements pour le bouton "Ajouter Produit"
-        addProductButton.addEventListener('click', async() => {
-            const formData = new FormData(salesForm);
-            var invoiceId = formData.get('idInvoice');
-            const productRows = document.querySelectorAll('#productConsumed tbody tr');
-
-            const sellerNameInput = document.getElementById('sellerName');
-            const nameInput = document.getElementById('name');
-            const totalGdsinput = document.getElementById('totalGdesToPay');
-            const totalUsinput = document.getElementById('totalUsToPay');
-
-            // Vérifier si les champs sellerName et name ne sont pas vides
-            if (sellerNameInput.value.trim() === '' || totalUsinput.value.trim() === '') {
-                alert('Veuillez remplir tous les champs obligatoires.');
-                return; // Arrêter l'exécution de la fonction si les champs sont vides
-            }
-
-            if (totalGdsinput.value.trim() === '' || nameInput.value.trim() === '') {
-                alert('Veuillez remplir tous les champs obligatoires.');
-                return; // Arrêter l'exécution de la fonction si les champs sont vides
-            }
-
-            // Vérifier si l'ID de la facture est vide
-            if (!invoiceId) {
-                // Générer un ID automatique pour la facture
-                invoiceId = generateInvoiceId();
-            }
-
-            // Tableau pour stocker les produits
-            const products = [];
-
-            // Parcourir les lignes du tableau pour collecter les informations sur chaque produit
-            productRows.forEach(row => {
-                const productName = row.cells[0].textContent.trim();
-                const quantity = parseInt(row.cells[1].querySelector('input').value.trim()); // Utiliser querySelector pour obtenir l'input
-                const productPrice = parseFloat(row.cells[2].textContent.trim());
-
-                const priceCurrency = row.cells[3].textContent.trim();
-                const category = row.cells[4].textContent.trim();
-
-                // Ajouter les informations du produit au tableau de produits
-                products.push({
-                    name: productName,
-                    quantity: quantity,
-                    productPrice: productPrice,
-
-                    priceCurrency: priceCurrency,
-                    category: category, // Vous devez récupérer la catégorie du produit de DrinkStock
-                });
-            });
-
-            // Référence à la collection globalSales
-            const globalSalesRef = db.collection('globalSales');
-
-            try {
-                // Rechercher la facture avec l'ID de la facture spécifié
-                const querySnapshot = await globalSalesRef.where('invoiceId', '==', invoiceId).get();
-
-                if (querySnapshot.empty) {
-                    // La facture avec cet ID n'existe pas, ajouter une nouvelle vente
-                    await addNewSale(formData, products, invoiceId);
-                } else {
-                    // La facture avec cet ID existe, mettre à jour la vente
-                    await updateExistingSale(querySnapshot, formData, products);
-                }
-
-                // Afficher les données des ventes
-                displaySalesData();
-
-                // Réinitialiser le formulaire
-                salesForm.reset();
-                window.location.href = 'restoandbarinvoice.html';
-                console.log('Vente ajoutée ou mise à jour avec succès dans Firestore');
-            } catch (error) {
-                console.error('Erreur lors de l\'ajout ou de la mise à jour de la vente dans Firestore :', error);
-            }
-        });
-
-        // Fonction pour ajouter une nouvelle vente
-
-
-        // Fonction pour soustraire la quantité de produits vendus de la quantité disponible dans la collection DrinkStock
-        async function subtractQuantityFromDrinkStock(productName, quantity) {
-            const drinkStockRef = db.collection('DrinkStock');
-            const snapshot = await drinkStockRef.where('name', '==', productName).get();
-            if (!snapshot.empty) {
-                snapshot.forEach(doc => {
-                    const productData = doc.data();
-                    const availableQuantity = productData.quantity;
-                    const updatedQuantity = availableQuantity - quantity;
-                    doc.ref.update({
-                        quantity: updatedQuantity
-                    });
-                });
-            }
-        }
-
-        // Fonction pour ajouter la quantité de produits vendus à la quantité disponible dans la collection DrinkStock
-        async function addQuantityToDrinkStock(productName, quantity) {
-            const drinkStockRef = db.collection('DrinkStock');
-            const snapshot = await drinkStockRef.where('name', '==', productName).get();
-            if (!snapshot.empty) {
-                snapshot.forEach(doc => {
-                    const productData = doc.data();
-                    const availableQuantity = productData.quantity;
-                    const updatedQuantity = availableQuantity + quantity;
-                    doc.ref.update({
-                        quantity: updatedQuantity
-                    });
-                });
-            }
-        }
-
-        // Fonction pour ajouter une nouvelle vente
-        async function addNewSale(formData, products, invoiceId) {
-            // Référence à la collection globalSales
-            const globalSalesRef = db.collection('globalSales');
-
-            try {
-                // Parcourir les produits de la facture
-                for (const product of products) {
-                    await subtractQuantityFromDrinkStock(product.name, product.quantity);
-                }
-
-                // Créer un objet pour la nouvelle vente avec le tableau de produits
-                const newSale = {
-                    date: formData.get('date'),
-                    time: formData.get('timeInvoice'),
-                    name: formData.get('name'),
-                    sellerName: formData.get('sellerName'),
-                    invoiceId: invoiceId,
-                    totalGdes: formData.get('totalGdesToPay'),
-                    totalUs: formData.get('totalUsToPay'),
-                    products: products,
-                };
-
-                // Ajouter la vente dans Firestore
-                await globalSalesRef.add(newSale);
-
-                console.log('Nouvelle vente ajoutée avec succès à Firestore');
-
-                // Réinitialiser le tableau productsPreference
-                productsPreference = [];
-
-                // Récupérer à nouveau les données de la facture
-                const querySnapshot = await globalSalesRef.where('invoiceId', '==', invoiceId).get();
-                if (!querySnapshot.empty) {
-                    querySnapshot.forEach(doc => {
-                        const saleData = doc.data();
-                        saleData.products.forEach(product => {
-                            productsPreference.push({
-                                name: product.name,
-                                quantity: product.quantity,
-                                price: product.productPrice,
-
-                                currency: product.priceCurrency,
-                                category: product.category
-                            });
-                        });
-                    });
-
-
-                }
-            } catch (error) {
-                console.error('Erreur lors de l\'ajout de la nouvelle vente à Firestore :', error);
-            }
-        }
-
-        // Fonction pour mettre à jour une vente existante
-        async function updateExistingSale(querySnapshot, formData, products) {
-            try {
-                // Prendre la première facture trouvée (il ne devrait y avoir qu'une seule facture avec cet ID)
-                const doc = querySnapshot.docs[0];
-                const saleData = doc.data();
-
-
-                // Parcourir les produits de la facture avant la mise à jour
-                for (const existingProduct of saleData.products) {
-                    const updatedProduct = products.find(product => product.name === existingProduct.name);
-                    if (updatedProduct) {
-                        const quantityDifference = updatedProduct.quantity - existingProduct.quantity;
-                        if (quantityDifference > 0) {
-                            await subtractQuantityFromDrinkStock(updatedProduct.name, quantityDifference);
-                        } else if (quantityDifference < 0) {
-                            await addQuantityToDrinkStock(updatedProduct.name, Math.abs(quantityDifference));
-                        }
-                    }
-                }
-
-                // Pour les nouveaux produits ajoutés à la facture, soustraire leur quantité de la quantité disponible dans la collection DrinkStock
-                for (const updatedProduct of products) {
-                    const existingProduct = saleData.products.find(product => product.name === updatedProduct.name);
-                    if (!existingProduct) {
-                        await subtractQuantityFromDrinkStock(updatedProduct.name, updatedProduct.quantity);
-                    }
-                }
-
-                // Mettre à jour la facture dans Firestore avec les données mises à jour
-                await doc.ref.update({
-                    products: products,
-                    name: formData.get('name'), // Mettre à jour le nom de la vente
-                    totalGdes: formData.get('totalGdesToPay'),
-                    totalUs: formData.get('totalUsToPay'),
-                    sellerName: formData.get('sellerName'), // Mettre à jour le nom du vendeur
-
-
-                });
-
-                console.log('Vente mise à jour avec succès dans Firestore');
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour de la vente dans Firestore :', error);
-            }
-        }
-
-
-        // Fonction pour générer un ID automatique pour la facture
-        function generateInvoiceId() {
-            const randomFourDigits = Math.floor(1000 + Math.random() * 9000); // Générer un nombre aléatoire entre 1000 et 9999
-            return `DH${randomFourDigits}`; // Format de l'ID automatique
-        }
-    </script>
-
-
-
-    <script>
-        // Référence à la collection globalSales
-        const globalSalesRef = db.collection('globalSales');
-
-        // Référence au champ idInvoice et au bouton foundInvoice
-        const idInvoiceInput = document.getElementById('idInvoice');
-        const foundInvoiceButton = document.getElementById('foundInvoice');
-        const nameInput = document.getElementById('name');
-        const sellerNameInput = document.getElementById('sellerName');
-
-        // Tableau de préférence pour stocker les données des produits
-        let productsPreference = [];
-
-        // Écouteur d'événements pour le bouton foundInvoice
-        foundInvoiceButton.addEventListener('click', async() => {
-            const invoiceId = idInvoiceInput.value.trim();
-
-            // Vérifier si l'invoiceId est vide
-            if (invoiceId === '') {
-                alert('Veuillez saisir un invoiceId.');
-                return;
-            }
-
-            try {
-                // Réinitialiser le tableau de préférence
-                productsPreference = [];
-
-                // Rechercher la facture avec l'invoiceId spécifié
-                const querySnapshot = await globalSalesRef.where('invoiceId', '==', invoiceId).get();
-
-                // Vérifier si une facture correspondante a été trouvée
-                if (querySnapshot.empty) {
-                    alert('Aucune facture trouvée avec cet invoiceId.');
-                    return;
-                }
-
-                // Remplir le tableau de préférence avec les données des produits de la facture trouvée
-                querySnapshot.forEach(doc => {
-                    const saleData = doc.data();
-                    // Ajouter les données des produits à la variable productsPreference
-                    saleData.products.forEach(product => {
-                        productsPreference.push({
-                            name: product.name,
-                            quantity: product.quantity,
-                            price: product.productPrice,
-
-                            currency: product.priceCurrency,
-                            category: product.category
-                        });
-                    });
-                    // Remplir les champs d'entrée avec le nom du client et le nom du vendeur
-                    nameInput.value = saleData.name;
-                    sellerNameInput.value = saleData.sellerName;
-                });
-
-                // Afficher les données des produits dans le tableau (vous pouvez modifier cette partie selon votre structure HTML)
-                const tableBody = document.getElementById('consumedTableBody');
-                tableBody.innerHTML = ''; // Réinitialiser le corps du tableau
-
-                productsPreference.forEach(product => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                  <td>${product.name}</td>
-                  <td><input type="number" value="${product.quantity}"></td>
-                  <td>${product.price}</td>
-                 
-                  <td>${product.currency}</td>
-                  <td>${product.category}</td>
-              `;
-                    tableBody.appendChild(row);
-                });
-
-                console.log('Données des produits affichées avec succès dans le tableau.');
-            } catch (error) {
-                console.error('Erreur lors de la recherche de la facture ou de l\'affichage des données des produits :', error);
-            }
-        });
-    </script>
-
-
-    <script>
-        // Fonction pour afficher les détails de la facture lors du clic sur Checkout
-        async function showInvoiceDetails(invoiceId) {
-            try {
-                const invoiceRef = db.collection('globalSales').doc(invoiceId);
-                const invoiceDoc = await invoiceRef.get();
-                const invoiceData = invoiceDoc.data();
-
-                // Remplir les champs avec les détails de la facture
-                document.getElementById('dateInvoicedis').value = invoiceData.date;
-                document.getElementById('timeInvoicedis').value = invoiceData.time;
-                document.getElementById('idInvoicedisplay').textContent = `Invoice Id: ${invoiceData.invoiceId}`;
-                document.getElementById('fullname').value = invoiceData.name;
-                document.getElementById('sellerNameInvoicedis').value = invoiceData.sellerName;
-
-                // Afficher la liste des produits dans le tableau
-                const tableBody = document.querySelector('#invoiceTable tbody');
-                tableBody.innerHTML = '';
-                let totalGeneral = 0;
-                const paymentMethodTotals = {};
-
-                invoiceData.products.forEach(product => {
-                    const row = tableBody.insertRow();
-                    row.innerHTML = `
-                <td>${product.name}</td>
-                <td>${product.productPrice}</td>
-                <td>${product.priceCurrency}</td>
-                <td>${product.quantity}</td>
-            `;
-                    // Calcul du total général
-                    totalGeneral += product.productPrice * product.quantity;
-
-                    // Calcul des totaux par méthode de paiement
-                    const paymentMethod = product.paymentMethod.toLowerCase();
-                    if (paymentMethod in paymentMethodTotals) {
-                        paymentMethodTotals[paymentMethod] += product.productPrice * product.quantity;
-                    } else {
-                        paymentMethodTotals[paymentMethod] = product.productPrice * product.quantity;
-                    }
-                });
-
-                // Afficher les totaux généraux et par méthode de paiement
-                document.querySelector('.totalGeneral').textContent = `Total General: ${totalGeneral}`;
-                console.log("Totaux par méthode de paiement:", paymentMethodTotals);
-
-                // Mettre à jour les totaux dans Firebase
-                await invoiceRef.update({
-                    totalGeneral: totalGeneral,
-                    paymentMethodTotals: paymentMethodTotals
-                });
-
-            } catch (error) {
-                console.error('Erreur lors de l\'affichage des détails de la facture :', error);
-            }
-        }
-    </script>
-
-
-    <script src="htmltopdf.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-
-    <script>
-        function generatePDF() {
-            const element = document.getElementById('myForm');
-
-            // Options pour la conversion en PDF
-            const options = {
-                margin: 0,
-                filename: 'order.pdf',
-                image: {
-                    type: 'jpeg',
-                    quality: 1
-                }, // Augmenter la qualité de l'image
-                html2canvas: {
-                    scale: 2
-                }, // Augmenter l'échelle
-                jsPDF: {
-                    unit: 'mm',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
-
-            // Conversion de l'élément en PDF
-            html2pdf()
-                .from(element)
-                .set(options)
-                .save();
-        }
-    </script>
-
-
-
-    <script>
-        document.getElementById('Confirm').addEventListener('click', function() {
-            // Récupérer les totaux Gdes et Us
-            const totalGdes = parseFloat(document.querySelector('.totalGdes').value);
-            const totalUs = parseFloat(document.querySelector('.totalUs').value);
-
-            // Récupérer les montants payés en Gdes et en Us
-            const payOnGdes = parseFloat(document.querySelector('.pay-onGdes').value);
-            const payOnUs = parseFloat(document.querySelector('.pay-onUs').value);
-
-            // Vérifier si le montant payé est inférieur au total pour calculer la balance
-            let balanceGdes = 0;
-            let balanceUs = 0;
-
-            let changeGdes = 0;
-            let changeUs = 0;
-
-            if (payOnGdes < totalGdes) {
-                balanceGdes = totalGdes - payOnGdes;
-            }
-            if (payOnUs < totalUs) {
-                balanceUs = totalUs - payOnUs;
-            }
-
-            if (payOnGdes == 0) {
-                balanceGdes = totalGdes;
-            }
-            if (payOnUs == 0) {
-                balanceUs = totalUs;
-            }
-
-            if (payOnGdes > totalGdes) {
-                changeGdes = payOnGdes - totalGdes;
-            }
-            if (payOnUs > totalUs) {
-                changeUs = payOnUs - totalUs;
-            }
-
-            // Mettre à jour les champs avec les calculs
-            document.querySelector('.balanceGdes').value = balanceGdes;
-            document.querySelector('.balanceUs').value = balanceUs;
-            document.querySelector('.changeGdes').value = changeGdes;
-            document.querySelector('.changeUs').value = changeUs;
-        });
-    </script>
-
-    <script>
-        // Attente du chargement du DOM
-        document.addEventListener('DOMContentLoaded', function() {
-            // Récupération du bouton Confirm
-            const confirmButton = document.getElementById('Confirm');
-
-            // Ajout d'un gestionnaire d'événement sur le clic du bouton Confirm
-            confirmButton.addEventListener('click', function() {
-                // Récupération de la valeur du champ idInvoice
-                const idInvoiceElement = document.getElementById('idInvoicedisplay');
-                const idInvoice = idInvoiceElement.textContent.trim();
-
-                // Recherche du document dans la collection globalesales
-                db.collection('globalSales').where('idInvoice', '==', idInvoice).get()
-                    .then(querySnapshot => {
-                        if (!querySnapshot.empty) {
-                            querySnapshot.forEach(doc => {
-                                const documentId = doc.id;
-                                const documentData = doc.data();
-
-                                // Vérification de l'existence des champs statut et paymentmethod
-                                if (documentData.hasOwnProperty('statut') && documentData.hasOwnProperty('paymentmethod')) {
-                                    // Mise à jour des valeurs des champs statut et paymentmethod avec les valeurs des selects respectifs
-                                    const paymentMethodSelect = document.getElementById('paymentmeth');
-                                    const paymentStatutSelect = document.getElementById('paymentStatut');
-                                    const newPaymentMethod = paymentMethodSelect.value;
-                                    const newPaymentStatut = paymentStatutSelect.value;
-
-                                    return db.collection('globalSales').doc(documentId).update({
-                                        paymentmethod: newPaymentMethod,
-                                        statut: newPaymentStatut
-                                    });
-                                } else {
-                                    // Enregistrement des valeurs des selects respectifs
-                                    const paymentMethodSelect = document.getElementById('paymentmeth');
-                                    const paymentStatutSelect = document.getElementById('paymentStatut');
-                                    const paymentMethod = paymentMethodSelect.value;
-                                    const paymentStatut = paymentStatutSelect.value;
-
-                                    return db.collection('globalSales').doc(documentId).update({
-                                        paymentmethod: paymentMethod,
-                                        statut: paymentStatut
-                                    });
+                                if (!salesData[category]) {
+                                    salesData[category] = {};
                                 }
+
+                                if (!salesData[category][currency]) {
+                                    salesData[category][currency] = 0;
+                                }
+
+                                salesData[category][currency] += total;
                             });
-                        } else {
-                            console.log("Aucun document trouvé avec l'ID de facture spécifié.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Erreur lors de la récupération du document :", error);
+                        });
+
+                        injectSalesDataIntoHTML(salesData);
+                    }).catch((error) => {
+                        console.error("Erreur lors de la récupération des ventes : ", error);
                     });
-            });
-        });
-    </script>
+                }
 
+                function injectSalesDataIntoHTML(salesData) {
+                    const row = document.getElementById('row');
+                    row.innerHTML = ''; // Nettoyer le contenu du div row
 
-    <script>
-        // Vérifier si l'utilisateur est connecté
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // Utilisateur connecté
-                const userId = user.uid;
+                    for (const category in salesData) {
+                        for (const currency in salesData[category]) {
+                            const total = salesData[category][currency].toFixed(2);
 
-                // Récupérer le nom de l'utilisateur à partir de la collection 'users'
-                db.collection('users').doc(userId).get()
-                    .then(doc => {
-                        if (doc.exists) {
-                            const userData = doc.data();
-                            const sellerNameInput = document.getElementById('sellerName');
-                            const UserName = document.getElementById('UserName');
-                            UserName.textContent = userData.name;
-                            if (sellerNameInput) {
-                                sellerNameInput.value = userData.name; // Remplir l'input avec le nom de l'utilisateur
-                            }
-                        } else {
-                            console.error('Aucun document trouvé pour cet utilisateur.');
+                            const colDiv = document.createElement('div');
+                            colDiv.className = 'col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12';
+
+                            const cardDiv = document.createElement('div');
+                            cardDiv.className = 'card';
+
+                            const cardBodyDiv = document.createElement('div');
+                            cardBodyDiv.className = 'card-body';
+
+                            const categoryName = document.createElement('h5');
+                            categoryName.className = 'text-muted categoryName';
+                            categoryName.textContent = `Total ${category} Income (${currency})`;
+
+                            const metricValueDiv = document.createElement('div');
+                            metricValueDiv.className = 'metric-value d-inline-block';
+
+                            const totalSalesGdes = document.createElement('h3');
+                            totalSalesGdes.className = 'mb-1';
+
+                            const salesAmount = document.createElement('i');
+                            salesAmount.className = 'totalonsalesGdes';
+                            salesAmount.textContent = `${total}`;
+
+                            totalSalesGdes.appendChild(salesAmount);
+                            totalSalesGdes.innerHTML += currency === 'Gdes' ? 'gdes' : 'us'; // Ajouter le bon suffixe
+
+                            // Ajouter tous les éléments dans la structure appropriée
+                            metricValueDiv.appendChild(totalSalesGdes);
+                            cardBodyDiv.appendChild(categoryName);
+                            cardBodyDiv.appendChild(metricValueDiv);
+                            cardDiv.appendChild(cardBodyDiv);
+
+                            // Ajouter sparkline div
+                            const sparklineDiv = document.createElement('div');
+                            sparklineDiv.id = 'sparkline-revenue3';
+                            cardDiv.appendChild(sparklineDiv);
+
+                            colDiv.appendChild(cardDiv);
+                            row.appendChild(colDiv);
                         }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+                    }
+                }
+
+                // Appeler la fonction pour afficher les ventes
+                displayTotalSalesByCategoryAndCurrency();
+            </script>
+
+            <script>
+                function displayTotalSalesByCategoryAndCurrency1() {
+                    db.collection("globalSalesRoom").get().then((querySnapshot) => {
+                        const salesData = {};
+
+                        querySnapshot.forEach((doc) => {
+                            const products = doc.data().products;
+
+                            products.forEach((product) => {
+                                const category = product.category;
+                                const currency = product.currency;
+                                const price = parseFloat(product.price);
+                                const quantity = parseFloat(product.quantity);
+
+                                const total = price * quantity;
+
+                                if (!salesData[category]) {
+                                    salesData[category] = {};
+                                }
+
+                                if (!salesData[category][currency]) {
+                                    salesData[category][currency] = 0;
+                                }
+
+                                salesData[category][currency] += total;
+                            });
+                        });
+
+                        injectSalesDataIntoHTML1(salesData);
+                    }).catch((error) => {
+                        console.error("Erreur lors de la récupération des ventes : ", error);
                     });
-            } else {
-                // Utilisateur non connecté, rediriger vers la page d'index
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
-    <script src="addrow.js"></script>
-    <!-- Ajoutez jQuery à votre page si ce n'est pas déjà fait -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                }
+
+                function injectSalesDataIntoHTML1(salesData) {
+                    const row = document.getElementById('row1');
+                    row.innerHTML = ''; // Nettoyer le contenu du div row
+
+                    for (const category in salesData) {
+                        for (const currency in salesData[category]) {
+                            const total = salesData[category][currency].toFixed(2);
+
+                            const colDiv = document.createElement('div');
+                            colDiv.className = 'col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12';
+
+                            const cardDiv = document.createElement('div');
+                            cardDiv.className = 'card';
+
+                            const cardBodyDiv = document.createElement('div');
+                            cardBodyDiv.className = 'card-body';
+
+                            const categoryName = document.createElement('h5');
+                            categoryName.className = 'text-muted categoryName';
+                            categoryName.textContent = `Total ${category} Income (${currency})`;
+
+                            const metricValueDiv = document.createElement('div');
+                            metricValueDiv.className = 'metric-value d-inline-block';
+
+                            const totalSalesGdes = document.createElement('h3');
+                            totalSalesGdes.className = 'mb-1';
+
+                            const salesAmount = document.createElement('i');
+                            salesAmount.className = 'totalonsalesGdes';
+                            salesAmount.textContent = `${total}`;
+
+                            totalSalesGdes.appendChild(salesAmount);
+                            totalSalesGdes.innerHTML += currency === 'Gdes' ? 'gdes' : 'us'; // Ajouter le bon suffixe
+
+                            // Ajouter tous les éléments dans la structure appropriée
+                            metricValueDiv.appendChild(totalSalesGdes);
+                            cardBodyDiv.appendChild(categoryName);
+                            cardBodyDiv.appendChild(metricValueDiv);
+                            cardDiv.appendChild(cardBodyDiv);
+
+                            // Ajouter sparkline div
+                            const sparklineDiv = document.createElement('div');
+                            sparklineDiv.id = 'sparkline-revenue3';
+                            cardDiv.appendChild(sparklineDiv);
+
+                            colDiv.appendChild(cardDiv);
+                            row.appendChild(colDiv);
+                        }
+                    }
+                }
+
+                // Appeler la fonction pour afficher les ventes
+                displayTotalSalesByCategoryAndCurrency1();
+            </script>
+
+            <script>
+                // Récupérer l'élément du bouton de déconnexion
+                const logoutButton = document.getElementById('logout');
+
+                // Écouter l'événement de clic sur le bouton de déconnexion
+                logoutButton.addEventListener('click', function() {
+                    // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
+                    localStorage.removeItem('loggedInUser');
+
+                    // Rediriger vers la page de connexion après la déconnexion
+                    window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
+                });
+            </script>
 
 
+            <script>
+                // Vérifier si l'utilisateur est connecté
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // Utilisateur connecté
+                        const userId = user.uid;
 
-    <script>
-        $(document).ready(function() {
+                        // Récupérer le nom de l'utilisateur à partir de la collection 'users'
+                        db.collection('users').doc(userId).get()
+                            .then(doc => {
+                                if (doc.exists) {
+                                    const userData = doc.data();
+                                    const sellerNameInput = document.getElementById('sellerName');
+                                    const UserName = document.getElementById('UserName');
+                                    UserName.textContent = userData.name;
+                                    if (sellerNameInput) {
+                                        sellerNameInput.value = userData.name; // Remplir l'input avec le nom de l'utilisateur
+                                    }
+                                } else {
+                                    console.error('Aucun document trouvé pour cet utilisateur.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+                            });
+                    } else {
+                        // Utilisateur non connecté, rediriger vers la page d'index
+                        window.location.href = 'index.html';
+                    }
+                });
+            </script>
 
-
-            $("#deleteRow").click(function() {
-                $("#productConsumed tbody tr:last").remove();
-            });
-        });
-    </script>
-
+            <!-- jquery 3.3.1 -->
+            <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+            <!-- bootstap bundle js -->
+            <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+            <!-- slimscroll js -->
+            <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+            <!-- main js -->
+            <script src="assets/libs/js/main-js.js"></script>
+            <!-- chart chartist js -->
+            <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+            <!-- sparkline js -->
+            <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+            <!-- morris js -->
+            <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+            <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+            <!-- chart c3 js -->
+            <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+            <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+            <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
+            <script src="assets/libs/js/dashboard-ecommerce.js"></script>
 </body>
 
 </html>
