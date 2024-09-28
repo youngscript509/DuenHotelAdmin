@@ -263,14 +263,14 @@
                     <div class="row">
                         <div class="ecommerce-widget form card col-xl-12">
 
-                            <h1>Enregistrement des Dépenses</h1>
+                            <h1>Enregistrement des Déposits</h1>
 
                             <!-- Formulaire pour saisir les informations sur la dépense -->
                             <form id="expenseForm">
-                                <label for="expenseName">Description de la Dépense:</label>
+                                <label for="expenseName">Description du depot:</label>
                                 <input type="text" id="expenseName" required><br>
 
-                                <label for="expensePrice">Prix:</label>
+                                <label for="expensePrice">Montant:</label>
                                 <input type="number" id="expensePrice" required><br>
                              <select name="expenseDevise" id="expenseDevise">
                                 <option value="">Devise</option>
@@ -288,14 +288,14 @@
                                 <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
                             </form>
                             <h2>Dépenses</h2>
-                            <label for="filterDate">Afficher les dépenses pour la date:</label>
+                            <label for="filterDate">Afficher les dépots pour la date:</label>
                             <input type="date" id="filterDate" value="" onchange="filterExpenses()">
 
                             <table id="expensesTable">
                                 <thead>
                                     <tr>
-                                        <th>Nom</th>
-                                        <th>Prix</th>
+                                        <th>Description</th>
+                                        <th>Montant</th>
                                         <th>Devise</th>
                                         <th>Date</th>
                                         <th>Utilisateur</th>
@@ -370,7 +370,7 @@
 
                     <script>
                         // Référence à la collection "expenses" dans Firestore
-                        const expensesCollection = firebase.firestore().collection('expenses');
+                        const expensesCollection = firebase.firestore().collection('deposit');
 
                         // Fonction pour ajouter ou mettre à jour une dépense dans Firestore
                         function addExpense() {
@@ -473,15 +473,15 @@
                                         deleteButton.textContent = 'Supprimer';
                                         deleteButton.className = 'btn btn-danger'; // Optionnel : ajouter une classe Bootstrap
                                         deleteButton.onclick = () => {
-                                            if (confirm('Voulez-vous vraiment supprimer cette dépense ?')) {
+                                            if (confirm('Voulez-vous vraiment supprimer ce dépot ?')) {
                                                 // Logique de suppression de la dépense
                                                 expensesCollection.doc(doc.id).delete()
                                                     .then(() => {
-                                                        alert('Dépense supprimée avec succès');
+                                                        alert('Dépot supprimé avec succès');
                                                         filterExpenses(); // Recharger les dépenses après suppression
                                                     })
                                                     .catch(error => {
-                                                        console.error('Erreur lors de la suppression de la dépense: ', error);
+                                                        console.error('Erreur lors de la suppression du dépot: ', error);
                                                     });
                                             }
                                         };
