@@ -85,7 +85,7 @@
     <!-- ============================================================== -->
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-            <a class="navbar-brand" href="home.html">GEMEDIC PHARMA</a>
+            <a class="navbar-brand" href="home.html">Duen Hotel</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -136,7 +136,7 @@
                                 <div id="submenu-1" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="home.html" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">GEMEDIC Dashboard</a>
+                                            <a class="nav-link" href="home.html" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">Duen-Hotel Dashboard</a>
 
                                         </li>
 
@@ -156,10 +156,10 @@
                                     <ul class="nav flex-column">
 
                                         <li class="nav-item">
-                                            <a class="nav-link" href="sales.html">Ventes</a>
+                                            <a class="nav-link" href="stockmanagementbarandresto.html">Stock Bar-Resto</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="stock.html">Stock</a>
+                                            <a class="nav-link" href="stockmanagementRooms.html">Stock Room</a>
                                         </li>
 
 
@@ -173,10 +173,10 @@
                                 <div id="submenu-10" class="collapse submenu">
                                     <ul class="nav flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="repportonsales.html">On Sales</a>
+                                            <a class="nav-link" href="updatebarandresto.html">Update Bar-Resto</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="repportonproducts.html">On Stock</a>
+                                            <a class="nav-link" href="updateroomandpool.html">Update Room</a>
                                         </li>
 
 
@@ -272,12 +272,17 @@
 
                                 <label for="expensePrice">Prix:</label>
                                 <input type="number" id="expensePrice" required><br>
-
+                             <select name="expenseDevise" id="expenseDevise">
+                                <option value="">Devise</option>
+                                <option value="Gdes">Gourdes</option>
+                                <option value="US">US</option>
+                             </select>
                                 <label for="expenseDate">Date:</label>
                                 <input type="date" id="expenseDate" required><br>
 
                                 <label for="expenseDate">Utilisateur:</label>
                                 <input type="text" id="sellerName" required readonly><br>
+
                                 <input type="text" id="expenseId" hidden>
 
                                 <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
@@ -291,6 +296,7 @@
                                     <tr>
                                         <th>Nom</th>
                                         <th>Prix</th>
+                                        <th>Devise</th>
                                         <th>Date</th>
                                         <th>Utilisateur</th>
                                     </tr>
@@ -373,6 +379,7 @@
                             const expensePrice = parseFloat(document.getElementById('expensePrice').value);
                             const expenseDate = document.getElementById('expenseDate').value;
                             const expenseUser = document.getElementById('sellerName').value;
+                            const expenseDevise = document.getElementById('expenseDevise').value;
 
                             if (expenseName && !isNaN(expensePrice) && expenseDate) {
                                 if (expenseId) {
@@ -381,7 +388,8 @@
                                             name: expenseName,
                                             price: expensePrice,
                                             date: expenseDate,
-                                            user: expenseUser
+                                            user: expenseUser,
+                                            devise:expenseDevise
                                         })
                                         .then(() => {
                                             alert('Dépense mise à jour avec succès!');
@@ -401,7 +409,8 @@
                                             name: expenseName,
                                             price: expensePrice,
                                             date: expenseDate,
-                                            user: expenseUser
+                                            user: expenseUser,
+                                            devise:expenseDevise
                                         })
                                         .then(() => {
                                             alert('Dépense enregistrée avec succès!');
@@ -437,6 +446,7 @@
 
                                         row.insertCell().textContent = expense.name;
                                         row.insertCell().textContent = expense.price.toFixed(2);
+                                        row.insertCell().textContent = expense.devise;
                                         row.insertCell().textContent = expense.date;
                                         row.insertCell().textContent = expense.user || 'Non spécifié';
 
@@ -452,6 +462,7 @@
                                             document.getElementById('expenseName').value = expense.name;
                                             document.getElementById('expensePrice').value = expense.price;
                                             document.getElementById('expenseDate').value = expense.date;
+                                            document.getElementById('expenseDevise').value = expense.devise;
                                             document.getElementById('sellerName').value = expense.user;
                                             document.getElementById('expenseId').value = doc.id; // stocker l'ID pour la mise à jour
                                         };
