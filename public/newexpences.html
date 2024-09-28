@@ -110,7 +110,7 @@
                     <div class="ecommerce-widget form card">
 
                         <h1>Enregistrement des Dépenses</h1>
-                        <button id="toDisplayForm">Ouvrir Le formulaire</button>
+                        <button id="toDisplayForm" class="btn btn-primary sendbutton">Ouvrir Le formulaire</button>
                         <!-- Formulaire pour saisir les informations sur la dépense -->
                         <form id="expenseForm">
                             <label for="expenseName">Nom de la Dépense:</label>
@@ -145,21 +145,10 @@
 
 
 
-                    <script>
-                        // Retrieve user details from localStorage
-                        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-
-                        if (loggedInUser) {
-                            document.getElementById('username').textContent = loggedInUser.name;
-                            document.getElementById('email').textContent = loggedInUser.email;
-                        } else {
-                            // Handle case where no user is logged in
-                            console.log('No user logged in.');
-                        }
-                    </script>
+                   
 
                     <script>
-                        const displayForm = document.getElementById('expencesForm');
+                        const displayForm = document.getElementById('expenseForm');
                         const toDisplayForm = document.getElementById('toDisplayForm');
                         // Écouter l'événement de clic sur le bouton de déconnexion
 
@@ -178,6 +167,7 @@
                             const expenseName = document.getElementById('expenseName').value;
                             const expensePrice = parseFloat(document.getElementById('expensePrice').value);
                             const expenseDate = document.getElementById('expenseDate').value;
+                            const expenseDevise = document.getElementById('expenseDevise').value;
 
                             // Vérification des champs non vides
                             if (expenseName && !isNaN(expensePrice) && expenseDate) {
@@ -185,7 +175,9 @@
                                 expensesCollection.add({
                                         name: expenseName,
                                         price: expensePrice,
-                                        date: expenseDate
+                                        date: expenseDate,
+                                        devise: expenseDevise
+
                                     })
                                     .then(() => {
                                         alert('Dépense enregistrée avec succès!');
