@@ -80,7 +80,7 @@
                             margin-left: 40px;
                             margin-top: 20px;
                             width: 100%;
-                            display: block;
+                            display: none;
                         }
                         
                         .ecommerce-widget h1 {
@@ -110,7 +110,7 @@
                     <div class="ecommerce-widget form card">
 
                         <h1>Enregistrement des Dépenses</h1>
-
+                        <button id="toDisplayForm">Ouvrir Le formulaire</button>
                         <!-- Formulaire pour saisir les informations sur la dépense -->
                         <form id="expenseForm">
                             <label for="expenseName">Nom de la Dépense:</label>
@@ -118,6 +118,13 @@
 
                             <label for="expensePrice">Prix:</label>
                             <input type="number" id="expensePrice" required><br>
+
+                            <label for="expenseDevise">Devise:</label>
+                            <br>
+                            <select type="text" id="expenseDevise" required style="width: 60%; height: 30px;">
+                                <option value="GDES">Gourdes</option>
+                                <option value="US">US</option>
+                            </select>
 
                             <label for="expenseDate">Date:</label>
                             <input type="date" id="expenseDate" required><br>
@@ -152,16 +159,13 @@
                     </script>
 
                     <script>
-                        // Récupérer l'élément du bouton de déconnexion
-                        const logoutButton = document.getElementById('logout');
-
+                        const displayForm = document.getElementById('expencesForm');
+                        const toDisplayForm = document.getElementById('toDisplayForm');
                         // Écouter l'événement de clic sur le bouton de déconnexion
-                        logoutButton.addEventListener('click', function() {
-                            // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
-                            localStorage.removeItem('loggedInUser');
 
-                            // Rediriger vers la page de connexion après la déconnexion
-                            window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
+
+                        toDisplayForm.addEventListener('click', function() {
+                            displayForm.style.display = "block"
                         });
                     </script>
 
