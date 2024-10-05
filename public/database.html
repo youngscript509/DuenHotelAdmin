@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppression des ventes</title>
+    <style>
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .progress {
+            width: 0%;
+            height: 30px;
+            background-color: #4caf50;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Suppression des documents de vente</h2>
+    <button onclick="deleteOldSales()">Supprimer les documents de plus de 60 jours</button>
+
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <p id="progress-text">Progression: 0%</p>
+
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+<script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+
+
+    <script>
+        // Étape 2 : Script JavaScript pour calculer la date limite et supprimer les documents
+        async function deleteOldSales() {
+            const db = firebase.firestore();
+            const salesRef = db.collection('Sales');
+            const today = new Date();
+            const sixtyDaysAgo = new Date(today.setDate(today.getDate() - 60)).toISOString().split('T')[0];
+
+            try {
+                // Récupérer tous les documents
+                const snapshot = await salesRef.get();
+                const totalDocs = snapshot.size;
+                let deletedCount = 0;
+
+                if (totalDocs === 0) {
+                    alert('Aucun document trouvé.');
+                    return;
+                }
+
+                // Parcourir les documents pour comparer les dates et les supprimer si nécessaire
+                snapshot.forEach(async (doc) => {
+                    const data = doc.data();
+                    if (data.date < sixtyDaysAgo) {  // Comparaison de la date
+                        await salesRef.doc(doc.id).delete();
+                        deletedCount++;
+
+                        // Mise à jour de la barre de progression
+                        updateProgress(deletedCount, totalDocs);
+                    }
+                });
+
+                alert('Suppression terminée.');
+            } catch (error) {
+                console.error('Erreur lors de la suppression :', error);
+            }
+        }
+
+        // Étape 3 : Mise à jour de la barre de progression
+        function updateProgress(deletedCount, totalDocs) {
+            const progressPercent = (deletedCount / totalDocs) * 100;
+            document.getElementById('progress').style.width = progressPercent + '%';
+            document.getElementById('progress-text').innerText = 'Progression: ' + Math.floor(progressPercent) + '%';
+        }
+    </script>
+</body>
+</html>
