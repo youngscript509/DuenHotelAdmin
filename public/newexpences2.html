@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <title>GemedicPharma Admin</title>
+    <style>
+        .expense-date {
+            font-weight: bold;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        form {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 70%;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-header">
+        <nav class="navbar navbar-expand-lg bg-white fixed-top">
+            <a class="navbar-brand" href="home.html">GEMEDIC PHARMA</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button style="background-color: blue;"><a style="color: #ffff;" href="home.html">Accueil</a></button>
+           
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto navbar-right-top">
+                   
+
+                    <li class="nav-item dropdown nav-user">
+                        <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/iconuser (2).png" alt="" class="user-avatar-md rounded-circle"></a>
+                        <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                            <div class="nav-user-info">
+                                <h5 class="mb-0 text-white nav-user-name" id="username"></h5>
+                                <span class="status"></span><span class="ml-2" id="email"></span>
+                            </div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                            <a class="dropdown-item" href="index.html"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+       
+
+        <div class="dashboard-expand">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">GemedicPharma Dashboard </h2>
+                                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">GemedicPharma Dashboard</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <style>
+                        .ecommerce-widget {
+                            width: 100%;
+                            background-color: aliceblue;
+                            z-index: 100;
+                        }
+                        
+                        #expenseForm {
+                            margin-left: 10px;
+                            margin-top: 5px;
+                            width: 100%;
+                            display: block;
+                        }
+                        
+                        .ecommerce-widget h1 {
+                            margin-left: 20px;
+                            margin-top: 30px;
+                            margin-bottom: 20px;
+                        }
+                        
+                        #expenseForm label,
+                        input {
+                            width: 50%;
+                            margin-inline: 10px;
+                            font-size: 15px;
+                            font-weight: 100;
+                        }
+                        
+                        .sendbutton {
+                            margin-top: 20px;
+                        }
+                        
+                        #expensesList {
+                            margin-left: 30px;
+                            margin-top: 30px;
+                            margin-bottom: 30px;
+                        }
+                        
+                    </style>
+                    <div class="card displayCard">
+                        <button id="close">Fermer</button>
+                        <h1>Enregistrer Une Dépense</h1>
+
+                        <!-- Formulaire pour saisir les informations sur la dépense -->
+                        <form id="expenseForm">
+                            <label for="expenseName">Description de la Dépense:</label>
+                            <input type="text" id="expenseName" required><br>
+
+                            <label for="expensePrice">Prix:</label>
+                            <input type="number" id="expensePrice" required><br>
+
+                            <label for="expenseDate">Date:</label>
+                            <input type="date" id="expenseDate" required><br>
+
+                            <label for="expenseDate">Utilisateur:</label>
+                            <input type="text" id="sellerName" required readonly><br>
+                            <input type="text" id="expenseId" hidden>
+
+                            <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <style>
+                            .displayCard{
+                                width: 80%;
+                                position: absolute;
+                                z-index: 10000;
+                                top: 1px;
+                                padding: 10px;
+                                box-shadow: rgba(0, 255, 179, 0.9);
+                                display: none;
+                            }
+                        </style>
+                        <div class="ecommerce-widget form card col-xl-12">
+                           
+                            <h2>Dépenses</h2>
+                            <button id="uploadForm">Enregistrer Une Dépense</button>
+                            <label for="filterDate">Afficher les dépenses pour la date:</label>
+                            <input type="date" id="filterDate" value="" onchange="filterExpenses()">
+
+                            <table id="expensesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prix</th>
+                                        <th>Date</th>
+                                        <th>Utilisateur</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                    <script src="firebase-config.js"></script>
+
+
+
+
+
+                    <script>
+                        // Récupérer l'élément du bouton de déconnexion
+                        const logoutButton = document.getElementById('logout');
+
+                        // Écouter l'événement de clic sur le bouton de déconnexion
+                        logoutButton.addEventListener('click', function() {
+                            // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
+                            localStorage.removeItem('loggedInUser');
+
+                            // Rediriger vers la page de connexion après la déconnexion
+                            window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
+                        });
+                    </script>
+
+                    <script>
+                        // Vérifier si l'utilisateur est connecté
+                        firebase.auth().onAuthStateChanged(function(user) {
+                            if (user) {
+                                // Utilisateur connecté
+                                const userId = user.uid;
+
+                                // Récupérer le nom de l'utilisateur à partir de la collection 'users'
+                                db.collection('users').doc(userId).get()
+                                    .then(doc => {
+                                        if (doc.exists) {
+                                            const userData = doc.data();
+                                            const Seller = document.getElementById('sellerName');
+                                            const UserMail = document.getElementById('email');
+
+                                            const UserName = document.getElementById('username');
+
+                                            UserName.textContent = userData.name;
+                                            UserMail.textContent = userData.email;
+                                            Seller.value = userData.name;
+
+
+                                        } else {
+                                            console.error('Aucun document trouvé pour cet utilisateur.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+                                    });
+                            } else {
+                                // Utilisateur non connecté, rediriger vers la page d'index
+                                window.location.href = 'index.html';
+                            }
+                        });
+                    </script>
+
+
+                    <script>
+                        // Référence à la collection "expenses" dans Firestore
+                        const expensesCollection = firebase.firestore().collection('expenses');
+
+                        // Fonction pour ajouter ou mettre à jour une dépense dans Firestore
+                        function addExpense() {
+                            const expenseId = document.getElementById('expenseId').value; // Champ caché pour l'ID
+                            const expenseName = document.getElementById('expenseName').value;
+                            const expensePrice = parseFloat(document.getElementById('expensePrice').value);
+                            const expenseDate = document.getElementById('expenseDate').value;
+                            const expenseUser = document.getElementById('sellerName').value;
+
+                            if (expenseName && !isNaN(expensePrice) && expenseDate) {
+                                if (expenseId) {
+                                    // Si l'ID existe, on met à jour la dépense existante
+                                    expensesCollection.doc(expenseId).update({
+                                            name: expenseName,
+                                            price: expensePrice,
+                                            date: expenseDate,
+                                            user: expenseUser
+                                        })
+                                        .then(() => {
+                                            alert('Dépense mise à jour avec succès!');
+                                            document.getElementById('expenseForm').reset();
+                                            document.getElementById('expenseId').value = ''; // Réinitialiser l'ID
+                                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                                            filterExpenses();
+                                            window.location.href = 'newexpences.html';
+                                        })
+                                        .catch(error => {
+                                            console.error('Erreur lors de la mise à jour de la dépense: ', error);
+                                            alert('Une erreur s\'est produite. Veuillez réessayer.');
+                                        });
+                                } else {
+                                    // Si l'ID n'existe pas, on crée une nouvelle dépense
+                                    expensesCollection.add({
+                                            name: expenseName,
+                                            price: expensePrice,
+                                            date: expenseDate,
+                                            user: expenseUser
+                                        })
+                                        .then(() => {
+                                            alert('Dépense enregistrée avec succès!');
+                                            document.getElementById('expenseForm').reset();
+                                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                                            filterExpenses();
+                                            window.location.href = 'newexpences.html';
+                                        })
+                                        .catch(error => {
+                                            console.error('Erreur lors de l\'enregistrement de la dépense: ', error);
+                                            alert('Une erreur s\'est produite. Veuillez réessayer.');
+                                        });
+                                }
+                            } else {
+                                alert('Veuillez remplir tous les champs correctement.');
+                            }
+                        }
+
+                        // Fonction pour filtrer les dépenses par date
+
+
+                        // Fonction pour filtrer les dépenses par date
+                        function filterExpenses() {
+                            const filterDate = document.getElementById('filterDate').value || new Date().toISOString().split('T')[0];
+                            const tableBody = document.querySelector('#expensesTable tbody');
+                            tableBody.innerHTML = '';
+
+                            expensesCollection.where('date', '==', filterDate).get()
+                                .then(querySnapshot => {
+                                    querySnapshot.forEach(doc => {
+                                        const expense = doc.data();
+                                        const row = tableBody.insertRow();
+
+                                        row.insertCell().textContent = expense.name;
+                                        row.insertCell().textContent = expense.price.toFixed(2);
+                                        row.insertCell().textContent = expense.date;
+                                        row.insertCell().textContent = expense.user || 'Non spécifié';
+
+                                        // Ajout de la colonne Actions
+                                        const actionCell = row.insertCell();
+
+                                        // Bouton Éditer
+                                        const editButton = document.createElement('button');
+                                        editButton.textContent = 'Éditer';
+                                        editButton.className = 'btn btn-primary'; // Optionnel : ajouter une classe Bootstrap
+                                        editButton.onclick = () => {
+                                            // Logique pour renvoyer les données dans le formulaire pour édition
+                                            document.getElementById('expenseName').value = expense.name;
+                                            document.getElementById('expensePrice').value = expense.price;
+                                            document.getElementById('expenseDate').value = expense.date;
+                                            document.getElementById('sellerName').value = expense.user;
+                                            document.getElementById('expenseId').value = doc.id; // stocker l'ID pour la mise à jour
+                                          displayCard.style.display="block"
+                                        };
+
+                                        actionCell.appendChild(editButton);
+
+                                        // Bouton Supprimer
+                                        const deleteButton = document.createElement('button');
+                                        deleteButton.textContent = 'Supprimer';
+                                        deleteButton.className = 'btn btn-danger'; // Optionnel : ajouter une classe Bootstrap
+                                        deleteButton.onclick = () => {
+                                            if (confirm('Voulez-vous vraiment supprimer cette dépense ?')) {
+                                                // Logique de suppression de la dépense
+                                                expensesCollection.doc(doc.id).delete()
+                                                    .then(() => {
+                                                        alert('Dépense supprimée avec succès');
+                                                        filterExpenses(); // Recharger les dépenses après suppression
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Erreur lors de la suppression de la dépense: ', error);
+                                                    });
+                                            }
+                                        };
+                                        actionCell.appendChild(deleteButton);
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Erreur lors de la récupération des dépenses: ', error);
+                                });
+                        }
+
+                        // Initialiser avec les dépenses du jour actuel
+                        document.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                            filterExpenses();
+                        });
+                    </script>
+                    <script>
+                        const displayCard = document.querySelector('.displayCard');
+                          document.getElementById('uploadForm').addEventListener('click', () => {
+                             displayCard.style.display="block"
+                                
+                          });
+                          document.getElementById('close').addEventListener('click', () => {
+                                    displayCard.style.display="none"
+                          });
+                    </script>
+
+                    <!-- jquery 3.3.1 -->
+                    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+                    <!-- bootstap bundle js -->
+                    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+                    <!-- slimscroll js -->
+                    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+                    <!-- main js -->
+                    <script src="assets/libs/js/main-js.js"></script>
+                    <!-- chart chartist js -->
+                    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+                    <!-- sparkline js -->
+                    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
+                    <!-- morris js -->
+                    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
+                    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
+                    <!-- chart c3 js -->
+                    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+                    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
+                    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+</body>
+
+</html>
