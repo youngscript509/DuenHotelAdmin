@@ -146,77 +146,95 @@
                     <!-- ============================================================== -->
                     <!-- end pageheader  -->
                     <!-- ============================================================== -->
-                    <style>
-                        .ecommerce-widget {
-                            width: 100%;
-                            background-color: aliceblue;
-                            z-index: 100;
-                        }
-                        
-                        #expenseForm {
-                            margin-left: 10px;
-                            margin-top: 5px;
-                            width: 100%;
-                            display: block;
-                        }
-                        
-                        .ecommerce-widget h1 {
-                            margin-left: 20px;
-                            margin-top: 30px;
-                            margin-bottom: 20px;
-                        }
-                        
-                        #expenseForm label,
-                        input {
-                            width: 50%;
-                            margin-inline: 10px;
-                            font-size: 15px;
-                            font-weight: 100;
-                        }
-                        
-                        .sendbutton {
-                            margin-top: 20px;
-                        }
-                        
-                        #expensesList {
-                            margin-left: 30px;
-                            margin-top: 30px;
-                            margin-bottom: 30px;
-                        }
-                    </style>
+                
                     <div class="row">
                         <div class="ecommerce-widget form card col-xl-12">
 
                             <h1>Enregistrement des Dépenses</h1>
 
-                            <!-- Formulaire pour saisir les informations sur la dépense -->
                             <form id="expenseForm">
-                                <label for="expenseName">Description de la Dépense:</label>
-                                <input type="text" id="expenseName" required><br>
-                                <select name="expenseType" id="expenseType">
-                                    <option unselected>Type</option>
-                                    <option value="services">Services</option>
+                                <label>Catégorie:
+                                  <select id="category" name="category" required>
+                                    <option value="">--Sélectionner--</option>
                                     <option value="achat">Achat</option>
-                                    <option value="payroll">Payroll</option>
-                                 </select><br>
-
-                                <label for="expensePrice">Montant:</label>
-                                <input type="number" id="expensePrice" required><br>
-                             <select name="expenseDevise" id="expenseDevise">
-                                <option value="">Devise</option>
-                                <option value="Gdes">Gourdes</option>
-                                <option value="US">US</option>
-                             </select>
-                                <label for="expenseDate">Date:</label>
-                                <input type="date" id="expenseDate" required><br>
-
-                                <label for="expenseDate">Utilisateur:</label>
-                                <input type="text" id="sellerName" required readonly><br>
-
-                                <input type="text" id="expenseId" hidden>
-
-                                <button class="btn btn-primary sendbutton" type="button" onclick="addExpense()">Enregistrer la Dépense</button>
-                            </form>
+                                    <option value="prelevement">Prélèvement</option>
+                                    <option value="decaissement">Décaissement</option>
+                                    <option value="autre">Autre</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <div id="achatTableContainer" style="display:none;">
+                                  <h3>Produits achetés</h3>
+                                  <table border="1">
+                                    <thead>
+                                      <tr><th>Description</th><th>Prix</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody id="productTable"></tbody>
+                                  </table>
+                                  <button type="button" onclick="addProductRow()">Ajouter un produit</button>
+                                </div>
+                              
+                                <div id="montantContainer" style="display:none;">
+                                  <label>Montant:
+                                    <input type="number" name="montant" step="0.01" min="0">
+                                  </label><br><br>
+                                </div>
+                              
+                                <label>Date:
+                                  <input type="date" name="date" required>
+                                </label><br><br>
+                              
+                                <label>Demandeur:
+                                  <input type="text" name="demandeur" required>
+                                </label><br><br>
+                              
+                                <label>Responsable:
+                                  <input type="text" name="responsable" required>
+                                </label><br><br>
+                              
+                                <label>Méthode de paiement:
+                                  <select name="methode" id="methode" required>
+                                    <option value="">--Sélectionner--</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="check">Chèque</option>
+                                    <option value="carte">Carte</option>
+                                    <option value="zell">Zell</option>
+                                    <option value="moncash">MonCash</option>
+                                    <option value="natcash">NatCash</option>
+                                    <option value="cashapp">CashApp</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="virement">Virement</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <div id="bankListContainer" style="display:none;">
+                                  <label>Banque:
+                                    <select name="banque">
+                                      <option value="capital">Capital</option>
+                                      <option value="bnc">BNC</option>
+                                      <option value="buh">BUH</option>
+                                      <option value="sogebank">Sogebank</option>
+                                      <option value="unibank">Unibank</option>
+                                    </select>
+                                  </label><br><br>
+                                </div>
+                              
+                                <label>Devise:
+                                  <select name="devise" required>
+                                    <option value="gourdes">Gourdes</option>
+                                    <option value="usd">USD</option>
+                                    <option value="euro">Euro</option>
+                                    <option value="cad">CAD</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <label>Description:
+                                  <textarea name="description" rows="4" required></textarea>
+                                </label><br><br>
+                              
+                                <button type="submit">Enregistrer</button>
+                              </form>
+                             
                             <h2>Dépenses</h2>
                             <label for="filterDate">Afficher les dépenses pour la date:</label>
                             <input type="date" id="filterDate" value="" onchange="filterExpenses()">
@@ -297,6 +315,90 @@
                             }
                         });
                     </script>
+
+
+
+
+  
+  <script>
+    const form = document.getElementById('expenseForm');
+    const productTable = document.getElementById('productTable');
+    const categorySelect = document.getElementById('category');
+    const methodeSelect = document.getElementById('methode');
+    const bankListContainer = document.getElementById('bankListContainer');
+    const achatTableContainer = document.getElementById('achatTableContainer');
+    const montantContainer = document.getElementById('montantContainer');
+  
+    let products = [];
+  
+    categorySelect.addEventListener('change', (e) => {
+      const category = e.target.value;
+      achatTableContainer.style.display = (category === 'achat') ? 'block' : 'none';
+      montantContainer.style.display = (category !== 'achat') ? 'block' : 'none';
+      if (category !== 'achat') {
+        productTable.innerHTML = '';
+      }
+    });
+  
+    methodeSelect.addEventListener('change', (e) => {
+      bankListContainer.style.display = (e.target.value === 'virement') ? 'block' : 'none';
+    });
+  
+    function addProductRow() {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="text" class="product-description" required></td>
+        <td><input type="number" class="productPrice" step="0.01" required></td>
+        <td><button type="button" onclick="removeRow(this)">Supprimer</button></td>
+      `;
+      productTable.appendChild(row);
+    }
+  
+    function removeRow(btn) {
+      const row = btn.closest('tr');
+      row.remove();
+    }
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const category = categorySelect.value;
+  
+      // Ajout des produits s’il s’agit d’un achat
+      if (category === 'achat') {
+        const rows = productTable.querySelectorAll('tr');
+        const productList = [];
+        rows.forEach(row => {
+          const description = row.querySelector('.product-description').value;
+          const price = parseFloat(row.querySelector('.productPrice').value);
+          if (description && !isNaN(price)) {
+            productList.push({ description, price });
+          }
+        });
+        data.products = productList;
+      } else {
+        data.montant = parseFloat(data.montant);
+      }
+  
+      data.timestamp = new Date();
+  
+      try {
+        await db.collection('expenses').add(data);
+        alert('Dépense enregistrée avec succès !');
+        form.reset();
+        productTable.innerHTML = '';
+        achatTableContainer.style.display = 'none';
+        bankListContainer.style.display = 'none';
+        montantContainer.style.display = 'none';
+      } catch (error) {
+        console.error('Erreur lors de l’enregistrement :', error);
+        alert("Erreur lors de l'enregistrement.");
+      }
+    });
+  </script>
+  
+  
 
 
                     <script>
@@ -447,15 +549,8 @@
                     <!-- chart chartist js -->
                     <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
                     <!-- sparkline js -->
-                    <script src="assets/vendor/charts/sparkline/jquery.sparkline.js"></script>
-                    <!-- morris js -->
-                    <script src="assets/vendor/charts/morris-bundle/raphael.min.js"></script>
-                    <script src="assets/vendor/charts/morris-bundle/morris.js"></script>
-                    <!-- chart c3 js -->
-                    <script src="assets/vendor/charts/c3charts/c3.min.js"></script>
-                    <script src="assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-                    <script src="assets/vendor/charts/c3charts/C3chartjs.js"></script>
-                    <script src="assets/libs/js/dashboard-ecommerce.js"></script>
+                 
+                
 </body>
 
 </html>
