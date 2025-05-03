@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <title>Duen-Hotel Admin</title>
+    <style>
+        .expense-date {
+            font-weight: bold;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        form {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 70%;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-header">
+        <nav class="navbar navbar-expand-lg bg-white fixed-top">
+            <a class="navbar-brand" href="home.html">Duen Hotel</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto navbar-right-top">
+                    <li class="nav-item">
+                        <div id="custom-search" class="top-search-bar">
+                            <a href="home.html">
+                        <button type="button">Go Home</button>
+                    </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown nav-user">
+                        <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/iconuser (2).png" alt="" class="user-avatar-md rounded-circle"></a>
+                        <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                            <div class="nav-user-info">
+                                <h5 class="mb-0 text-white nav-user-name" id="username"></h5>
+                                <span class="status"></span><span class="ml-2" id="email"></span>
+                            </div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                            <a class="dropdown-item" href="index.html"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+     
+
+        <div class="dashboard-expand">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Duen Dashboard </h2>
+                                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Duen-Hotel Dashboard</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                
+                    <div class="row">
+                        <div class="ecommerce-widget form card col-xl-12">
+
+                            <h1>Enregistrement des Dépenses</h1>
+
+                            <form id="expenseForm">
+                                <label>Catégorie:
+                                  <select id="category" name="category" required>
+                                    <option value="">--Sélectionner--</option>
+                                    <option value="achat">Achat</option>
+                                    <option value="prelevement">Prélèvement</option>
+                                    <option value="decaissement">Décaissement</option>
+                                    <option value="autre">Autre</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <div id="achatTableContainer" style="display:none;">
+                                  <h3>Produits achetés</h3>
+                                  <table border="1">
+                                    <thead>
+                                      <tr><th>Description</th><th>Prix</th><th>Action</th></tr>
+                                    </thead>
+                                    <tbody id="productTable"></tbody>
+                                  </table>
+                                  <button type="button" onclick="addProductRow()">Ajouter un produit</button>
+                                </div>
+                              
+                                <div id="montantContainer" style="display:none;">
+                                  <label>Montant:
+                                    <input type="number" name="montant" step="0.01" min="0">
+                                  </label><br><br>
+                                </div>
+                              
+                                <label>Date:
+                                  <input type="date" name="date" required>
+                                </label><br><br>
+                              
+                                <label>Demandeur:
+                                  <input type="text" name="demandeur" required>
+                                </label><br><br>
+                              
+                                <label>Responsable:
+                                  <input type="text" name="responsable" required>
+                                </label><br><br>
+                              
+                                <label>Méthode de paiement:
+                                  <select name="methode" id="methode" required>
+                                    <option value="">--Sélectionner--</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="check">Chèque</option>
+                                    <option value="carte">Carte</option>
+                                    <option value="zell">Zell</option>
+                                    <option value="moncash">MonCash</option>
+                                    <option value="natcash">NatCash</option>
+                                    <option value="cashapp">CashApp</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="virement">Virement</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <div id="bankListContainer" style="display:none;">
+                                  <label>Banque:
+                                    <select name="banque">
+                                      <option value="capital">Capital</option>
+                                      <option value="bnc">BNC</option>
+                                      <option value="buh">BUH</option>
+                                      <option value="sogebank">Sogebank</option>
+                                      <option value="unibank">Unibank</option>
+                                    </select>
+                                  </label><br><br>
+                                </div>
+                              
+                                <label>Devise:
+                                  <select name="devise" required>
+                                    <option value="gourdes">Gourdes</option>
+                                    <option value="usd">USD</option>
+                                    <option value="euro">Euro</option>
+                                    <option value="cad">CAD</option>
+                                  </select>
+                                </label><br><br>
+                              
+                                <label>Description:
+                                  <textarea name="description" rows="4" required></textarea>
+                                </label><br><br>
+                              
+                                <button type="submit">Enregistrer</button>
+                              </form>
+                             
+                            <h2>Dépenses</h2>
+                            <label for="filterDate">Afficher les dépenses pour la date:</label>
+                            <input type="date" id="filterDate" value="" onchange="filterExpenses()">
+
+                            <table id="expensesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prix</th>
+                                        <th>Devise</th>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Utilisateur</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+                    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+                    <script src="firebase-config.js"></script>
+
+
+
+
+
+                    <script>
+                        // Récupérer l'élément du bouton de déconnexion
+                        const logoutButton = document.getElementById('logout');
+
+                        // Écouter l'événement de clic sur le bouton de déconnexion
+                        logoutButton.addEventListener('click', function() {
+                            // Effacer les données de l'utilisateur du localStorage lors de la déconnexion
+                            localStorage.removeItem('loggedInUser');
+
+                            // Rediriger vers la page de connexion après la déconnexion
+                            window.location.href = 'index.html'; // Remplacez 'login.html' par la page de connexion
+                        });
+                    </script>
+
+                    <script>
+                        // Vérifier si l'utilisateur est connecté
+                        firebase.auth().onAuthStateChanged(function(user) {
+                            if (user) {
+                                // Utilisateur connecté
+                                const userId = user.uid;
+
+                                // Récupérer le nom de l'utilisateur à partir de la collection 'users'
+                                db.collection('users').doc(userId).get()
+                                    .then(doc => {
+                                        if (doc.exists) {
+                                            const userData = doc.data();
+                                            const Seller = document.getElementById('sellerName');
+                                            const UserMail = document.getElementById('email');
+
+                                            const UserName = document.getElementById('username');
+
+                                            UserName.textContent = userData.name;
+                                            UserMail.textContent = userData.email;
+                                            Seller.value = userData.name;
+
+
+                                        } else {
+                                            console.error('Aucun document trouvé pour cet utilisateur.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+                                    });
+                            } else {
+                                // Utilisateur non connecté, rediriger vers la page d'index
+                                window.location.href = 'index.html';
+                            }
+                        });
+                    </script>
+
+
+
+
+  
+  <script>
+    const form = document.getElementById('expenseForm');
+    const productTable = document.getElementById('productTable');
+    const categorySelect = document.getElementById('category');
+    const methodeSelect = document.getElementById('methode');
+    const bankListContainer = document.getElementById('bankListContainer');
+    const achatTableContainer = document.getElementById('achatTableContainer');
+    const montantContainer = document.getElementById('montantContainer');
+  
+    let products = [];
+  
+    categorySelect.addEventListener('change', (e) => {
+      const category = e.target.value;
+      achatTableContainer.style.display = (category === 'achat') ? 'block' : 'none';
+      montantContainer.style.display = (category !== 'achat') ? 'block' : 'none';
+      if (category !== 'achat') {
+        productTable.innerHTML = '';
+      }
+    });
+  
+    methodeSelect.addEventListener('change', (e) => {
+      bankListContainer.style.display = (e.target.value === 'virement') ? 'block' : 'none';
+    });
+  
+    function addProductRow() {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="text" class="product-description" required></td>
+        <td><input type="number" class="productPrice" step="0.01" required></td>
+        <td><button type="button" onclick="removeRow(this)">Supprimer</button></td>
+      `;
+      productTable.appendChild(row);
+    }
+  
+    function removeRow(btn) {
+      const row = btn.closest('tr');
+      row.remove();
+    }
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      const category = categorySelect.value;
+  
+      // Ajout des produits s’il s’agit d’un achat
+      if (category === 'achat') {
+        const rows = productTable.querySelectorAll('tr');
+        const productList = [];
+        rows.forEach(row => {
+          const description = row.querySelector('.product-description').value;
+          const price = parseFloat(row.querySelector('.productPrice').value);
+          if (description && !isNaN(price)) {
+            productList.push({ description, price });
+          }
+        });
+        data.products = productList;
+      } else {
+        data.montant = parseFloat(data.montant);
+      }
+  
+      data.timestamp = new Date();
+  
+      try {
+        await db.collection('expenses').add(data);
+        alert('Dépense enregistrée avec succès !');
+        form.reset();
+        productTable.innerHTML = '';
+        achatTableContainer.style.display = 'none';
+        bankListContainer.style.display = 'none';
+        montantContainer.style.display = 'none';
+      } catch (error) {
+        console.error('Erreur lors de l’enregistrement :', error);
+        alert("Erreur lors de l'enregistrement.");
+      }
+    });
+  </script>
+  
+  
+
+
+                    <script>
+                        // Référence à la collection "expenses" dans Firestore
+                        const expensesCollection = firebase.firestore().collection('expenses');
+
+                        // Fonction pour ajouter ou mettre à jour une dépense dans Firestore
+                        function addExpense() {
+                            const expenseId = document.getElementById('expenseId').value; // Champ caché pour l'ID
+                            const expenseName = document.getElementById('expenseName').value;
+                            const expensePrice = parseFloat(document.getElementById('expensePrice').value);
+                            const expenseDate = document.getElementById('expenseDate').value;
+                            const expenseUser = document.getElementById('sellerName').value;
+                            const expenseDevise = document.getElementById('expenseDevise').value;
+                            const expenseType = document.getElementById('expenseType').value;
+
+                            if (expenseName && !isNaN(expensePrice) && expenseDate) {
+                                if (expenseId) {
+                                    // Si l'ID existe, on met à jour la dépense existante
+                                    expensesCollection.doc(expenseId).update({
+                                            name: expenseName,
+                                            price: expensePrice,
+                                            date: expenseDate,
+                                            user: expenseUser,
+                                            devise:expenseDevise,
+                                            type:expenseType
+                                        })
+                                        .then(() => {
+                                            alert('Dépense mise à jour avec succès!');
+                                            document.getElementById('expenseForm').reset();
+                                            document.getElementById('expenseId').value = ''; // Réinitialiser l'ID
+                                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                                            filterExpenses();
+                                            window.location.href = 'newexpences.html';
+                                        })
+                                        .catch(error => {
+                                            console.error('Erreur lors de la mise à jour de la dépense: ', error);
+                                            alert('Une erreur s\'est produite. Veuillez réessayer.');
+                                        });
+                                } else {
+                                    // Si l'ID n'existe pas, on crée une nouvelle dépense
+                                    expensesCollection.add({
+                                            name: expenseName,
+                                            price: expensePrice,
+                                            date: expenseDate,
+                                            user: expenseUser,
+                                            devise:expenseDevise,
+                                            type:expenseType
+                                        })
+                                        .then(() => {
+                                            alert('Dépense enregistrée avec succès!');
+                                            document.getElementById('expenseForm').reset();
+                                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                                            filterExpenses();
+                                            window.location.href = 'newexpences.html';
+                                        })
+                                        .catch(error => {
+                                            console.error('Erreur lors de l\'enregistrement de la dépense: ', error);
+                                            alert('Une erreur s\'est produite. Veuillez réessayer.');
+                                        });
+                                }
+                            } else {
+                                alert('Veuillez remplir tous les champs correctement.');
+                            }
+                        }
+
+                        // Fonction pour filtrer les dépenses par date
+
+
+                        // Fonction pour filtrer les dépenses par date
+                        function filterExpenses() {
+                            const filterDate = document.getElementById('filterDate').value || new Date().toISOString().split('T')[0];
+                            const tableBody = document.querySelector('#expensesTable tbody');
+                            tableBody.innerHTML = '';
+
+                            expensesCollection.where('date', '==', filterDate).get()
+                                .then(querySnapshot => {
+                                    querySnapshot.forEach(doc => {
+                                        const expense = doc.data();
+                                        const row = tableBody.insertRow();
+
+                                        row.insertCell().textContent = expense.name;
+                                        row.insertCell().textContent = expense.price.toFixed(2);
+                                        row.insertCell().textContent = expense.devise;
+                                        row.insertCell().textContent = expense.type;
+                                        row.insertCell().textContent = expense.date;
+                                        row.insertCell().textContent = expense.user || 'Non spécifié';
+
+                                        // Ajout de la colonne Actions
+                                        const actionCell = row.insertCell();
+
+                                        // Bouton Éditer
+                                        const editButton = document.createElement('button');
+                                        editButton.textContent = 'Éditer';
+                                        editButton.className = 'btn btn-primary'; // Optionnel : ajouter une classe Bootstrap
+                                        editButton.onclick = () => {
+                                            // Logique pour renvoyer les données dans le formulaire pour édition
+                                            document.getElementById('expenseName').value = expense.name;
+                                            document.getElementById('expensePrice').value = expense.price;
+                                            document.getElementById('expenseDate').value = expense.date;
+                                            document.getElementById('expenseDevise').value = expense.devise;
+                                            document.getElementById('expenseType').value = expense.type;
+                                            document.getElementById('sellerName').value = expense.user;
+                                            document.getElementById('expenseId').value = doc.id; // stocker l'ID pour la mise à jour
+                                        };
+                                        actionCell.appendChild(editButton);
+
+                                        // Bouton Supprimer
+                                        const deleteButton = document.createElement('button');
+                                        deleteButton.textContent = 'Supprimer';
+                                        deleteButton.className = 'btn btn-danger'; // Optionnel : ajouter une classe Bootstrap
+                                        deleteButton.onclick = () => {
+                                            if (confirm('Voulez-vous vraiment supprimer cette dépense ?')) {
+                                                // Logique de suppression de la dépense
+                                                expensesCollection.doc(doc.id).delete()
+                                                    .then(() => {
+                                                        alert('Dépense supprimée avec succès');
+                                                        filterExpenses(); // Recharger les dépenses après suppression
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Erreur lors de la suppression de la dépense: ', error);
+                                                    });
+                                            }
+                                        };
+                                        actionCell.appendChild(deleteButton);
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Erreur lors de la récupération des dépenses: ', error);
+                                });
+                        }
+
+                        // Initialiser avec les dépenses du jour actuel
+                        document.addEventListener('DOMContentLoaded', () => {
+                            document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+                            filterExpenses();
+                        });
+                    </script>
+
+                    <!-- jquery 3.3.1 -->
+                    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+                    <!-- bootstap bundle js -->
+                    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+                    <!-- slimscroll js -->
+                    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+                    <!-- main js -->
+                    <script src="assets/libs/js/main-js.js"></script>
+                    <!-- chart chartist js -->
+                    <script src="assets/vendor/charts/chartist-bundle/chartist.min.js"></script>
+                    <!-- sparkline js -->
+                 
+                
+</body>
+
+</html>
