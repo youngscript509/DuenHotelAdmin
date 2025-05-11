@@ -620,6 +620,62 @@ document.getElementById('date').value = formattedDate;
 
   </script>
     
+    
+<script>
+    // Fonction de recherche des produits
+    document.getElementById('search').addEventListener('input', (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        const searchResults = document.getElementById('searchResults');
+        searchResults.innerHTML = ''; // Réinitialisation des résultats de recherche
+
+        db.collection('roomsStock').get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const product = doc.data();
+                    if (product.name.toLowerCase().includes(searchTerm)) {
+                        const li = document.createElement("li");
+                        li.textContent = `${product.name} - ${product.quantity}`;
+
+                        // Bouton Éditer
+                        const editButton = document.createElement("button");
+                        editButton.textContent = "Éditer";
+                        editButton.style.marginLeft = "10px";
+                        editButton.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Empêcher le clic sur le <li> de déclencher editProduct
+                            editProduct(doc.id);
+                            searchResults.innerHTML = ''; // Effacer les résultats après sélection
+                        });
+
+                        // Bouton Supprimer
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Supprimer";
+                        deleteButton.style.marginLeft = "10px";
+                        deleteButton.style.color = "red";
+                        deleteButton.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Empêcher le clic sur le <li>
+                            if (confirm(`Voulez-vous vraiment supprimer "${product.name}" ?`)) {
+                                db.collection('DrinkStock').doc(doc.id).delete()
+                                    .then(() => {
+                                        alert("Produit supprimé avec succès.");
+                                        li.remove(); // Supprimer l'élément de la liste
+                                    })
+                                    .catch((error) => {
+                                        console.error("Erreur lors de la suppression :", error);
+                                    });
+                            }
+                        });
+
+                        li.appendChild(editButton);
+                        li.appendChild(deleteButton);
+                        searchResults.appendChild(li);
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la recherche des produits :", error);
+            });
+    });
+</script>
 </body>
  
 </html>
