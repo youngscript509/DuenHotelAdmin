@@ -195,7 +195,7 @@
       </select>
     </label>
     <label>Montant: <input type="number" id="amount" required></label>
-    <label>Responsable: <input type="text" id="responsible" required></label>
+    <label>Responsable: <input type="text" id="responsible" readonly required></label>
     <label>Description: <input type="text" id="description" required></label>
     <button type="submit" id="submitBtn">Enregistrer</button>
     <input type="hidden" id="editDocId"> <!-- Pour gérer les modifications -->
@@ -261,12 +261,15 @@
                                             const userData = doc.data();
                                      
                                             const UserMail = document.getElementById('email');
+                                            const responsi = document.getElementById('responsible');
 
                                             const UserName = document.getElementById('username');
 
                                             UserName.textContent = userData.name;
                                             UserMail.textContent = userData.email;
-                                           
+                                           responsi.value = userData.name;
+                                            // Vous pouvez également stocker le nom de l'utilisateur dans une variable si nécessaire
+                                            console.log('Nom de l\'utilisateur:', userData.name);
 
 
                                         } else {
