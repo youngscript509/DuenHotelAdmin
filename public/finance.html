@@ -340,9 +340,11 @@ document.getElementById('financeForm').addEventListener('submit', async (e) => {
     if (docId) {
       await caisseRef.doc(docId).update(data);
       alert("Opération modifiée.");
+      window.location.href = 'finance.html';
     } else {
       await caisseRef.add(data);
       alert("Opération enregistrée !");
+      window.location.href = 'finance.html';
     }
 
     e.target.reset();
