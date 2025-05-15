@@ -429,6 +429,7 @@ tr.innerHTML = `
   document.getElementById('sousTypeLabel').style.display = show ? 'inline' : 'none';
 });
 
+
 async function editOperation(id) {
   const docSnap = await caisseRef.doc(id).get();
   const data = docSnap.data();
