@@ -247,7 +247,7 @@
                     <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
                     <script src="firebase-config.js"></script>
 
-
+ 
 
 
 
@@ -390,7 +390,7 @@ tr.innerHTML = `
       generateChart(date);
     }
 
-    filterByDate();
+  
 
     let chartInstance;
     async function generateChart(date) {
@@ -499,7 +499,21 @@ async function editOperation(id) {
   </script>
 
          
+ <script>
+        // Get current date
+        const today = new Date();
 
+        // Format date to 'YYYY-MM-DD' (required by HTML date input)
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        // Set the value of the input field to the current date
+        document.getElementById('filterDate').value = formattedDate;
+          filterByDate();
+ 
+    </script>
 
                     <!-- jquery 3.3.1 -->
                     <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
