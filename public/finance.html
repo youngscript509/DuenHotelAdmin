@@ -174,7 +174,7 @@
         <option value="depense">Dépense</option>
          <option value="remboursement">Remboursement</option>
           <option value="retour">Retour</option>
-           <option value="paiement">Paiement</option>
+           <option value="paiementCredit">Paiement Credit</option>
       </select>
     </label>
     <label id="sousTypeLabel" style="display: none;">
@@ -317,7 +317,7 @@
       for (let key in balances) balances[key] = 0;
       snapshot.forEach(doc => {
         const { type, method, amount } = doc.data();
-        if (type === "recette") balances[method] += amount;
+        if (type === "recette" || "remboursement" || "retour" || "paiementCredit") balances[method] += amount;
         else balances[method] -= amount;
       });
       updateDisplay();
@@ -389,6 +389,8 @@ tr.innerHTML = `
 
       generateChart(date);
     }
+
+    filterByDate();
 
     let chartInstance;
     async function generateChart(date) {
