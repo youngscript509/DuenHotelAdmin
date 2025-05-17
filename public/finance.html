@@ -294,34 +294,41 @@
 
   <script>
     // Firebase config
+const caisseRef = db.collection("caisse");
+
+const balances = {
+  gourde: 3175, usd: 504, carteGde: 161644,
+  carteUsd: 30, moncash: 2720, zell: 0
+};
+
+const balanceTable = document.getElementById('balanceTable');
+
+function updateDisplay() {
+  balanceTable.innerHTML = '';
+  for (let [method, amount] of Object.entries(balances)) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${method.toUpperCase()}</td><td>${amount.toLocaleString()}</td>`;
+    balanceTable.appendChild(tr);
+  }
+}
+
+// Types considérés comme positifs pour la caisse
+const typesPositifs = ["recette", "remboursement", "retour", "paiementCredit"];
+
+caisseRef.onSnapshot(snapshot => {
+  for (let key in balances) balances[key] = 0;
   
-    const caisseRef = db.collection("caisse");
-
-    const balances = {
-      gourde: 3175, usd: 504, carteGde: 161644,
-      carteUsd: 30, moncash: 2720, zell: 0
-    };
-
-    const balanceTable = document.getElementById('balanceTable');
-
-    function updateDisplay() {
-      balanceTable.innerHTML = '';
-      for (let [method, amount] of Object.entries(balances)) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${method.toUpperCase()}</td><td>${amount.toLocaleString()}</td>`;
-        balanceTable.appendChild(tr);
-      }
+  snapshot.forEach(doc => {
+    const { type, method, amount } = doc.data();
+    if (typesPositifs.includes(type)) {
+      balances[method] += amount;
+    } else {
+      balances[method] -= amount;
     }
+  });
 
-    caisseRef.onSnapshot(snapshot => {
-      for (let key in balances) balances[key] = 0;
-      snapshot.forEach(doc => {
-        const { type, method, amount } = doc.data();
-        if (type === "recette" || "remboursement" || "retour" || "paiementCredit") balances[method] += amount;
-        else balances[method] -= amount;
-      });
-      updateDisplay();
-    });
+  updateDisplay();
+});
 
 document.getElementById('financeForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -335,7 +342,9 @@ document.getElementById('financeForm').addEventListener('submit', async (e) => {
   const sousType = type === 'depense' ? document.getElementById('sousType').value : null;
   const docId = document.getElementById('editDocId').value;
 
-  if (!date || isNaN(amount) || !responsible || !description) return alert("Tous les champs sont requis.");
+  if (!date || isNaN(amount) || !responsible || !description) {
+    return alert("Tous les champs sont requis.");
+  }
 
   const data = { date, type, method, amount, responsible, description };
   if (sousType) data.sousType = sousType;
@@ -359,6 +368,7 @@ document.getElementById('financeForm').addEventListener('submit', async (e) => {
     console.error("Erreur Firestore :", err);
   }
 });
+
 
 
     async function filterByDate() {
