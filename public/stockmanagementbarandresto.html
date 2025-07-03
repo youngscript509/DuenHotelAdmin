@@ -572,7 +572,7 @@
                     const product = doc.data();
                     if (product.name.toLowerCase().includes(searchTerm)) {
                         const li = document.createElement("li");
-                        li.textContent = `${product.name} - ${product.quantity}`;
+                        li.textContent = `${product.name} - ${product.quantity}- ${product.priceGdes} Gdes - ${product.priceUs} Us - ${product.category}`;
 
                         // Bouton Éditer
                         const editButton = document.createElement("button");
