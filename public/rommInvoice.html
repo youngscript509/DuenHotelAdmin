@@ -1,0 +1,1560 @@
+<!doctype html>
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" rel="icon" href="logo.png">
+
+    <meta name="generator" content="DuenInvoice v1.0, https://dueninvoice.netlify.app">
+    <link rel="canonical" href="https://dueninvoice.netlify.app">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image:src" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
+    <meta name="twitter:title" content="Home">
+    <script>
+    </script>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <meta name="description" content="Duen Invoice">
+    <meta property="og:title" content="Duen">
+    <meta property="og:description" content="DuenInvoice">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:image" content="https://dueninvoice.netlify.app/logo.png">
+    <meta property="og:locale" content="fr_FR">
+    <link rel="stylesheet" rel="icon" href="logo.png">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+
+
+    <title>Duen-Hotel drinks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        td input {
+            width: 70px;
+            height: 100%;
+        }
+
+        .container h2 {
+            text-align: center;
+        }
+
+        form>div {
+            margin-bottom: 10px;
+        }
+
+        .container label {
+            display: inline-block;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b35100;
+        }
+
+        #card-display {
+            margin-top: 20px;
+            width: 300px;
+        }
+
+        #myForm input {
+            text-align: center;
+        }
+
+        center {
+            width: 100%;
+        }
+
+        #myForm th,
+        tr {
+            width: 175px;
+            text-align: center;
+        }
+
+        #myForm th,
+        td {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        #myForm select,
+        input,
+        textarea:focus {
+            outline: none;
+            border: none;
+            /* Supprime la bordure de focus */
+        }
+
+        .calculatesection {
+            display: flex;
+            width: 175px;
+            margin-left: 10px;
+        }
+
+        .calculatesection input {
+            width: 60px;
+        }
+
+        #productConsumed th:nth-child(5),
+        #productConsumed td:nth-child(5) {
+            display: none;
+        }
+
+        #productConsumed {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="orderinvoice1.html">DUEN-HOTEL</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="custom-search" class="top-search-bar" style="display: flex;">
+                    <input class="form-control" type="text" id="search" placeholder="Search.."
+                        style="margin-right: 10px;"> <button id="rechercheFacture">Rechercher</button>
+
+                </div>
+
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+
+                        <li class="" style=" width: 100%; margin-right: 10px;">
+                            <a class="nav-link nav-icons"><button
+                                    style="width: 100%; background-color: #b35100; border-radius: 50%;"
+                                    class="fas fa-fw fa-user" id="UserName"></button> </a>
+
+                        </li>
+                        <li class="" style=" width: 100%; margin-right: 10px;">
+                            <a class="nav-link nav-icons" href="orderinvoice1.html"><button style="width: 100%;"
+                                    class="fas fa-fw fa-circle">Reload</button> </a>
+
+                        </li>
+
+
+
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar sidebar-dark" style="width: 350px;">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+
+                    <div>
+
+
+                        <center>
+                            <div class="card" id="card-display">
+
+
+                                <form id="myForm">
+                                    <center>
+
+
+                                        <h2>DUEN-HOTEL</h2>
+
+
+
+                                        <i class="info">☎ +509 35 10 1329 / 36 43 7237
+                                        </i><br>
+
+                                        <input type="text" id="factureId" required readonly><br>
+
+                                        <input type="date" id="date" required readonly>
+                                        <input type="time" id="time" required readonly><br>
+
+                                        <input id="fullname" name="choices" required placeholder="Nom du client">
+
+                                        <br>
+
+
+                                        <select name="paymentmeth" id="paymentmeth" required>
+                                            <option value="cash">cash</option>
+                                            <option value="check">check</option>
+                                            <option value="moncash">moncash</option>
+                                            <option value="natcash">NatCash</option>
+                                            <option value="virement">virement</option>
+                                            <option value="zelle">zelle</option>
+                                            <option value="paypal">paypal</option>
+                                            <option value="card">Credit/Debit card</option>
+
+                                        </select>
+                                        <br>
+                                    </center>
+                                    <center>
+                                        <div class="form-group">
+
+                                            <div class="productconsommation">
+                                                <table class="table  table-bordered" id="productConsumed">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>Item</th>
+                                                            <th>Qt</th>
+                                                            <th>Prx</th>
+
+                                                            <th>Cur</th>
+                                                            <th>Cat</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="consumedTableBody">
+
+                                                    </tbody>
+
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <div class="calculatesection"><textarea placeholder="Note"
+                                                style="height: 50px;"></textarea>
+                                        </div>
+                                        <div class="calculatesection">
+                                            <label for="pay-onGdes">Pay&eacute; avec Gdes:</label>
+                                            <input type="number" class="pay-onGdes" placeholder="0.000" value="0"
+                                                required>
+                                        </div>
+                                        <div class="calculatesection">
+                                            <label for="pay-onUs">Pay&eacute; avec Us:</label>
+                                            <input type="number" class="pay-onUs" placeholder="0.000" value="0"
+                                                required>
+                                        </div>
+
+                                        <div class="calculatesection">
+                                            <label for="changeGdes">Change Gdes:</label>
+                                            <input type="number" class="changeGdes" placeholder="0.000" required>
+                                        </div>
+
+                                        <div class="calculatesection">
+                                            <label for="changeUs">Change Us:</label>
+                                            <input type="number" class="changeUs" placeholder="0.000" required>
+                                        </div>
+
+
+                                        <div class="calculatesection">
+                                            <label for="totalGdes">Total Gdes</label>
+                                            <input type="number" class="totalGdes" placeholder="0.000" step="0.01"
+                                                min="0" max="100000" required readonly><br>
+                                        </div>
+                                        <div class="calculatesection">
+                                            <label for="totalUs">Total Us</label>
+                                            <input type="number" class="totalUs" placeholder="0.000" step="0.01" min="0"
+                                                max="100000" required readonly>
+                                        </div>
+                                        <div class="calculatesection">
+                                            <label for="back">Balance Gdes</label>
+                                            <input type="number" class="balanceGdes" placeholder="0.000" step="0.01"
+                                                min="0" max="100000" required>
+                                        </div>
+                                        <div class="calculatesection">
+                                            <label for="balanceUs">Balance Us</label>
+                                            <input type="number" class="balanceUs" placeholder="0.000" step="0.01"
+                                                min="0" max="100000" required>
+                                        </div>
+                                        <br>
+                                        <input name="paymentStatut" type="text" id="paymentStatut" list="paymentstat"
+                                            placeholder="Statut" required>
+
+                                        <datalist id="paymentstat">
+                                            <option value="NONPAYE">
+                                            <option value="PAYE">
+                                            <option value="CREDIT">
+                                        </datalist>
+                                        <br>
+
+
+                                        <input type="text" class="vendeur" id="sellerName" placeholder="Vendeur"
+                                            required readonly><br>
+
+
+
+                                    </center>
+                                    <button style="width: 100%;" class="newcustomer" type="submit">
+                                        Aprouv&eacute;</button>
+                                </form>
+                                <br>
+                                <br><br>
+
+                            </div>
+                        </center>
+
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <style>
+            #invoices li {
+                font-size: 18px;
+                margin-top: 10px;
+            }
+        </style>
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper" style="margin-left: 350px;">
+            <div class="influence-profile">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                            <div class="page-header">
+                                <h3 class="mb-2">ORDER Dashboard </h3>
+                                <p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta,
+                                    fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="#"
+                                                    class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Duen-Hotel Sale</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+
+                    </style>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader -->
+                    <!-- ============================================================== -->
+
+                    <div class="container" id="cardHidden">
+                        <h2>Enregistrement des Ventes</h2>
+                        <form id="salesForm">
+
+
+                            <div>
+                                <label for="product">Produit:</label>
+                                <input type="text" id="product" name="product" list="productList" required>
+                                <datalist id="productList"></datalist>
+                                <div>
+                                    <label for="category">Category:</label>
+                                    <input type="text" id="category" name="category" required readonly>
+                                </div>
+                                <div><br>
+                                    <label for="priceChoice" id="priceChoice1" type="button"> Prix:</label>
+                                    <select id="priceChoice" name="priceChoice" required>
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="quantity">Quantité:</label>
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                                    <input type="text" id="currencyChoice" hidden>
+                                </div>
+                                <br>
+                                <button for="priceChoice" id="addProductOnTable" type="button">Inserer</button>
+
+
+                                <button id="deleteRow" class="newcustomer" type="button"> Suprimer</button>
+
+
+                                <button onclick="printDiv('myForm')" type="button">Imprimer</button>
+                                <button id="print" class="newcustomer" onclick="generatePDF();" type="button">
+                                    Download</button>
+
+                                <button id="Confirm" class="newcustomer" type="button"> Confirm</button>
+
+                            </div>
+
+
+
+
+
+                        </form><br><br>
+
+                        <input type="date" id="datedisplay" class="card" style="width: 100%;height: 30px;">
+                        <br> <br>
+
+                        <ul style="display: block; background-color: aqua;" id="invoices"></ul>
+
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="">
+                            <div class="card" style="width: 100%;">
+                                <button id="print" class="newcustomer" onclick="generatePDFDetails();"
+                                    type="button">Print Repport</button>
+                                <div class="card-body">
+
+                                    <div class="metric-value d-inline-block" id="repportgene"><br><br><br><br>
+                                        <center> <input type="date" id="daterepport" style="font-size:30px;" required
+                                                readonly>
+                                            <h3 id="userrepport"></h3>
+                                        </center>
+
+                                        <div style="margin-top: 30px; margin-left: 30px;" id="resultsContainer"></div>
+
+                                    </div>
+                                    <div class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                        <span class="icon-circle-small icon-box-xs text-success bg-success-light"><i
+                                                class="fa fa-fw fa-arrow-up"></i></span><span class="ml-1">25%</span>
+                                    </div>
+                                </div>
+                                <div class="card-body bg-light p-t-40 p-b-40">
+                                    <div id="sparkline-revenue3"></div>
+                                    <div id="listperpayment"></div>
+                                </div>
+
+                                <div class="card-footer text-center bg-white">
+                                    <a href="#" class="card-link">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- end wrapper -->
+    <!-- ============================================================== -->
+    </div>
+
+
+
+    <!-- Ajoutez ces scripts avant la fermeture de la balise body -->
+
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js"></script>
+    <script src="https://konbitmarket.netlify.app/js/js/auth.js"></script>
+    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+
+
+
+    <script>
+        // Get current date
+        const today = new Date();
+
+        // Format date to 'YYYY-MM-DD' (required by HTML date input)
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        // Set the value of the input field to the current date
+        document.getElementById('date').value = formattedDate;
+    </script>
+
+    <script>
+        // Set the value of the input field to the current date
+
+        document.getElementById('daterepport').value = formattedDate;
+        document.getElementById('datedisplay').value = formattedDate;
+    </script>
+
+    <script>
+        // Format time to 'HH:MM' (required by HTML time input)
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        const formattedTime = `${hours}:${minutes}`;
+
+        // Set the value of the input field to the current time
+        document.getElementById('time').value = formattedTime;
+    </script>
+
+
+    <script>
+        const salesForm = document.getElementById('salesForm');
+        const addProductButton = document.getElementById('addProduct');
+        const salesTable = document.getElementById('salesTable');
+        const productNameInput = document.getElementById('product');
+        const productList = document.getElementById('productList');
+        const priceChoiceSelect = document.getElementById('priceChoice');
+        const priceChoiceSelect1 = document.getElementById('priceChoice1');
+
+
+
+        // Fonction pour récupérer les produits correspondant au préfixe et les afficher dans la liste de suggestions
+        async function fetchAndDisplayProducts() {
+            const prefix = productNameInput.value.trim();
+            const querySnapshot = await db.collection('DrinkStock').where('name', '>=', prefix)
+                .where('name', '<=', prefix + '\uf8ff').get();
+            productList.innerHTML = ''; // Vider les options existantes
+            querySnapshot.forEach(doc => {
+                const productName = doc.data().name;
+                const option = document.createElement('option');
+                option.value = productName;
+                productList.appendChild(option);
+            });
+        }
+
+        // Tableau pour stocker les produits consommés
+        let productsConsumed = [];
+        // Fonction pour vérifier si le produit existe et afficher ses prix comme options dans le champ priceChoice
+        async function checkProductAndDisplayPrices() {
+            const productName = productNameInput.value.trim();
+            const productRef = db.collection('DrinkStock').where('name', '==', productName);
+
+            try {
+                const snapshot = await productRef.get();
+                if (snapshot.empty) {
+                    alert('Le produit sélectionné n\'existe pas.');
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const productData = doc.data();
+                    priceChoiceSelect.innerHTML = ''; // Vider les options existantes
+
+                    // Afficher les options de prix dans le champ priceChoice
+                    const option1 = document.createElement('option');
+                    option1.value = productData.priceGdes;
+                    option1.textContent = `Gourdes: ${productData.priceGdes.toString()} Gdes`;
+
+                    const option2 = document.createElement('option');
+                    option2.value = productData.priceUs;
+                    option2.textContent = `US: ${productData.priceUs.toString()} US`;
+
+                    priceChoiceSelect.appendChild(option1);
+                    priceChoiceSelect.appendChild(option2);
+
+                    // Afficher la catégorie dans l'input avec l'ID 'category'
+                    const categoryInput = document.getElementById('category');
+                    categoryInput.value = productData.category || '';
+                    const currencyInput = document.getElementById('currencyChoice');
+                    const selectedIndex = priceChoiceSelect.selectedIndex;
+                    const selectedCurrency = selectedIndex === 0 ? 'Gdes' : 'Us';
+                    currencyInput.value = selectedCurrency;
+                });
+
+                // Ajouter un écouteur d'événements pour le changement d'option dans priceChoiceSelect
+                priceChoiceSelect.addEventListener('change', () => {
+                    const currencyInput = document.getElementById('currencyChoice');
+                    const selectedIndex = priceChoiceSelect.selectedIndex;
+                    const selectedCurrency = selectedIndex === 0 ? 'Gdes' : 'Us';
+                    currencyInput.value = selectedCurrency;
+                });
+            } catch (error) {
+                console.error('Erreur lors de la récupération des informations du produit :', error);
+            }
+        }
+
+        // Ajouter un produit au tableau
+        addProductOnTable.addEventListener('click', () => {
+            // Récupérer les valeurs des champs
+            const productName = document.getElementById('product').value.trim();
+
+            const category = document.getElementById('category').value.trim();
+            const quantity = parseInt(document.getElementById('quantity').value.trim());
+            const price = parseFloat(document.getElementById('priceChoice').value.trim());
+            const currency = document.getElementById('currencyChoice').value.trim();
+
+            // Vérifier si tous les champs nécessaires sont remplis
+            if (!productName || !category || isNaN(quantity) || isNaN(price) || !currency) {
+                alert('Veuillez remplir tous les champs nécessaires.');
+                return;
+            }
+
+
+            // Vérifier si le produit existe déjà dans le tableau avec la même devise
+            const existingProductIndex = productsConsumed.findIndex(product => product.name === productName && product.currency === currency);
+
+            if (existingProductIndex !== -1) {
+                // Le produit existe déjà avec la même devise, mettre à jour la quantité et le total
+                const existingProduct = productsConsumed[existingProductIndex];
+                existingProduct.quantity = quantity;
+                existingProduct.total = total;
+
+                // Mettre à jour la ligne du tableau HTML
+                const tableBody = document.getElementById('consumedTableBody');
+                const row = tableBody.rows[existingProductIndex];
+                row.cells[1].innerHTML = `<input type="number" value="${quantity}" min="1">`;
+
+            } else {
+                // Le produit n'existe pas encore avec la même devise, l'ajouter au tableau
+                productsConsumed.push({
+                    name: productName,
+                    quantity: quantity,
+                    price: price,
+
+                    currency: currency,
+                    category: category
+                });
+
+                // Ajouter une nouvelle ligne au tableau HTML
+                const tableBody = document.getElementById('consumedTableBody');
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = productName;
+                row.insertCell().innerHTML = `<input type="number" value="${quantity}" min="1">`;
+                row.insertCell().textContent = price;
+
+                row.insertCell().textContent = currency;
+                row.insertCell().textContent = category;
+
+            }
+            CalculerProduct();
+        });
+
+        // Écouter les changements dans le champ de saisie du produit
+        productNameInput.addEventListener('input', fetchAndDisplayProducts);
+
+
+
+        const productInput = document.getElementById('product');
+        productInput.addEventListener('change', checkProductAndDisplayPrices);
+
+
+        // Fonction pour générer un ID automatique pour la facture
+        function generateInvoiceId() {
+            const randomFourDigits = Math.floor(1000 + Math.random() * 9000); // Générer un nombre aléatoire entre 1000 et 9999
+            return `DH${randomFourDigits}`; // Format de l'ID automatique
+        }
+    </script>
+
+
+
+    <script src="htmltopdf.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('myForm');
+
+            // Options pour la conversion en PDF
+            const options = {
+                margin: 0,
+                filename: 'order.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                }, // Augmenter la qualité de l'image
+                html2canvas: {
+                    scale: 2
+                }, // Augmenter l'échelle
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            // Conversion de l'élément en PDF
+            html2pdf()
+                .from(element)
+                .set(options)
+                .save();
+        }
+    </script>
+
+
+    <script>
+        function generatePDFDetails() {
+            const element = document.getElementById('repportgene');
+
+            // Options pour la conversion en PDF
+            const options = {
+                margin: 0,
+                filename: 'order.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                }, // Augmenter la qualité de l'image
+                html2canvas: {
+                    scale: 2
+                }, // Augmenter l'échelle
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            // Conversion de l'élément en PDF
+            html2pdf()
+                .from(element)
+                .set(options)
+                .save();
+        }
+    </script>
+
+
+
+    <script>
+        function CalculerProduct() {
+            // Récupérer les totaux Gdes et Us
+            const totalGdes = parseFloat(document.querySelector('.totalGdes').value);
+            const totalUs = parseFloat(document.querySelector('.totalUs').value);
+
+            // Récupérer les montants payés en Gdes et en Us
+            const payOnGdes = parseFloat(document.querySelector('.pay-onGdes').value);
+            const payOnUs = parseFloat(document.querySelector('.pay-onUs').value);
+
+            let totalGdesToPay = 0;
+            let totalUsToPay = 0;
+
+            // Sélectionner toutes les lignes du tableau
+            const rows = document.querySelectorAll('#consumedTableBody tr');
+
+            // Créer un objet pour stocker les quantités par devise
+            const quantitiesByCurrency = {};
+
+            // Parcourir chaque ligne du tableau
+            rows.forEach(row => {
+                const item = row.cells[0].textContent;
+                const quantity = parseInt(row.cells[1].querySelector('input').value);
+                const price = parseFloat(row.cells[2].textContent);
+                const currency = row.cells[3].textContent;
+
+                // Ajouter la quantité à la devise correspondante
+                if (!quantitiesByCurrency[currency]) {
+                    quantitiesByCurrency[currency] = 0;
+                }
+                quantitiesByCurrency[currency] += quantity * price;
+
+                // Calculer les totaux en fonction de la devise
+                if (currency === 'Gdes') {
+                    totalGdesToPay += quantity * price;
+                } else if (currency === 'Us') {
+                    totalUsToPay += quantity * price;
+                }
+            });
+
+            // Mettre à jour les champs de total
+            document.querySelector('.totalGdes').value = totalGdesToPay;
+            document.querySelector('.totalUs').value = totalUsToPay;
+
+            // Vérifier si le montant payé est inférieur au total pour calculer la balance
+            let balanceGdes = 0;
+            let balanceUs = 0;
+
+            let changeGdes = 0;
+            let changeUs = 0;
+
+            if (payOnGdes < totalGdes) {
+                balanceGdes = totalGdes - payOnGdes;
+            }
+            if (payOnUs < totalUs) {
+                balanceUs = totalUs - payOnUs;
+            }
+
+            if (payOnGdes == 0) {
+                balanceGdes = totalGdes;
+            }
+            if (payOnUs == 0) {
+                balanceUs = totalUs;
+            }
+
+            if (payOnGdes > totalGdes) {
+                changeGdes = payOnGdes - totalGdes;
+            }
+            if (payOnUs > totalUs) {
+                changeUs = payOnUs - totalUs;
+            }
+
+            // Mettre à jour les champs avec les calculs
+            document.querySelector('.balanceGdes').value = balanceGdes;
+            document.querySelector('.balanceUs').value = balanceUs;
+            document.querySelector('.changeGdes').value = changeGdes;
+            document.querySelector('.changeUs').value = changeUs;
+        };
+
+        document.getElementById('Confirm').addEventListener('click', CalculerProduct);
+    </script>
+
+
+
+
+    <script>
+        // Vérifier si l'utilisateur est connecté
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // Utilisateur connecté
+                const userId = user.uid;
+
+                // Récupérer le nom de l'utilisateur à partir de la collection 'users'
+                db.collection('users').doc(userId).get()
+                    .then(doc => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            const sellerNameInput = document.getElementById('sellerName');
+                            const UserName = document.getElementById('UserName');
+                            const UserName1 = document.getElementById('userrepport');
+                            UserName.textContent = userData.name;
+                            UserName1.textContent = userData.name;
+                            if (sellerNameInput) {
+                                sellerNameInput.value = userData.name; // Remplir l'input avec le nom de l'utilisateur
+                            }
+                        } else {
+                            console.error('Aucun document trouvé pour cet utilisateur.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
+                    });
+            } else {
+                // Utilisateur non connecté, rediriger vers la page d'index
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+
+    <script src="addrow.js"></script>
+    <!-- Ajoutez jQuery à votre page si ce n'est pas déjà fait -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+
+            $("#deleteRow").click(function () {
+                $("#productConsumed tbody tr:last").remove();
+                CalculerProduct();
+            });
+        });
+    </script>
+    <script>
+        function generateRandomId(prefix) {
+            const randomId = Math.floor(1000 + Math.random() * 9000); // Génère un nombre aléatoire à 4 chiffres
+            return prefix + randomId;
+        }
+
+        // Attendre que le DOM soit entièrement chargé
+        document.addEventListener('DOMContentLoaded', function () {
+            // Assigner les IDs lors du chargement de la page
+            document.getElementById('factureId').value = generateRandomId('DH');
+
+        });
+    </script>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const factureId = document.getElementById('factureId').value.trim();
+            const customerName = document.getElementById('fullname').value;
+            const sellerName = document.getElementById('sellerName').value;
+            const paymentmeth = document.getElementById('paymentmeth').value;
+            const paymentStatut = document.getElementById('paymentStatut').value;
+            const date = document.querySelector('#date').value;
+            const time = document.querySelector('#time').value;
+            const amountGdesPaid = parseFloat(document.querySelector('.pay-onGdes').value);
+            const amountUsPaid = parseFloat(document.querySelector('.pay-onUs').value);
+            const changeGdes = parseFloat(document.querySelector('.changeGdes').value);
+            const changeUs = parseFloat(document.querySelector('.changeUs').value);
+            const balanceGdes = parseFloat(document.querySelector('.balanceGdes').value);
+            const balanceUs = parseFloat(document.querySelector('.balanceUs').value);
+            const totalGdes = parseFloat(document.querySelector('.totalGdes').value);
+            const totalUs = parseFloat(document.querySelector('.totalUs').value);
+
+            const invoiceTable = document.getElementById('productConsumed');
+            const rows = invoiceTable.querySelectorAll('tbody tr');
+            const products = [];
+
+            rows.forEach(row => {
+                const columns = row.querySelectorAll('td');
+                const item = columns[0].textContent.trim();
+                const quantity = parseFloat(columns[1].querySelector('input').value);
+                const price = columns[2].textContent.trim();
+                const currency = columns[3].textContent.trim();
+                const category = columns[4].textContent.trim();
+
+                products.push({ item, quantity, price, currency, category });
+            });
+
+            const insufficientProducts = await checkInsufficientStock(products);
+            if (insufficientProducts.length > 0) {
+                alert("Stock insuffisant pour :\n" + insufficientProducts.map(p => `${p.item} - ${p.message}`).join('\n'));
+                return;
+            }
+
+            try {
+                const docRef = db.collection("globalSalesRoom").doc(factureId);
+                const doc = await docRef.get();
+
+                if (doc.exists) {
+                    const oldProducts = doc.data().products;
+
+                    // Rétablir l'ancien stock
+                    oldProducts.forEach(oldProduct => {
+                        const newProduct = products.find(p => p.item === oldProduct.item);
+                        const newQty = newProduct ? newProduct.quantity : 0;
+                        updateStock(oldProduct.item, oldProduct.quantity, newQty);
+                    });
+
+                    await docRef.update({
+                        customerName,
+                        sellerName,
+                        paymentmeth,
+                        paymentStatut,
+                        date,
+                        time,
+                        amountGdesPaid,
+                        amountUsPaid,
+                        changeGdes,
+                        changeUs,
+                        balanceGdes,
+                        balanceUs,
+                        products,
+                        totalGdes,
+                        totalUs
+                    });
+
+                    console.log("Facture mise à jour.");
+                } else {
+                    // Nouvelle facture
+                    products.forEach(p => updateStock(p.item, 0, p.quantity));
+
+                    await docRef.set({
+                        factureId,
+                        customerName,
+                        sellerName,
+                        paymentmeth,
+                        paymentStatut,
+                        date,
+                        time,
+                        payOnGdes,
+                        payOnUs,
+                        changeGdes,
+                        changeUs,
+                        balanceGdes,
+                        balanceUs,
+                        products,
+                        totalGdes,
+                        totalUs
+                    });
+
+                    console.log("Nouvelle facture créée.");
+                }
+
+                window.location.href = 'orderinvoice1.html';
+
+            } catch (error) {
+                console.error("Erreur lors du traitement de la facture :", error);
+            }
+        });
+
+        // Fonction de vérification du stock
+        async function checkInsufficientStock(products) {
+            const insufficient = [];
+
+            for (let product of products) {
+                const snapshot = await db.collection("DrinkStock").where("name", "==", product.item).get();
+                if (snapshot.empty) {
+                    insufficient.push({ item: product.item, message: "Produit inconnu dans le stock" });
+                    continue;
+                }
+
+                snapshot.forEach(doc => {
+                    const currentQty = doc.data().quantity;
+                    if (product.quantity > currentQty) {
+                        insufficient.push({
+                            item: product.item,
+                            message: `Stock insuffisant (dispo : ${currentQty}, demandé : ${product.quantity})`
+                        });
+                    }
+                });
+            }
+
+            return insufficient;
+        }
+
+        // Fonction pour mettre à jour le stock
+        function updateStock(item, oldQty, newQty) {
+            db.collection("DrinkStock").where("name", "==", item).get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    const currentQty = doc.data().quantity;
+                    const finalQty = currentQty + oldQty - newQty;
+                    db.collection("DrinkStock").doc(doc.id).update({ quantity: finalQty });
+                });
+            }).catch(error => {
+                console.error(`Erreur de mise à jour du stock pour ${item}:`, error);
+            });
+        }
+    </script>
+    <script>
+        function printDiv(divId) {
+            var divElement = document.getElementById(divId);
+            var clonedDiv = divElement.cloneNode(true);
+
+            // Copier les valeurs des inputs et textareas dans leurs attributs value / contenu
+            const inputs = clonedDiv.querySelectorAll("input");
+            inputs.forEach(input => {
+                input.setAttribute("value", input.value);
+            });
+
+            const textareas = clonedDiv.querySelectorAll("textarea");
+            textareas.forEach(textarea => {
+                textarea.textContent = textarea.value;
+            });
+
+            // Créer une nouvelle fenêtre pour l'impression
+            var printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Impression</title>');
+
+            // Vous pouvez y inclure des styles CSS ici si nécessaire
+            printWindow.document.write('<style>body{ font-family: sans-serif; margin: 20px; }</style>');
+
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(clonedDiv.innerHTML);
+            printWindow.document.write('</body></html>');
+
+            printWindow.document.close();
+
+            // Attendre le rendu du contenu avant d'imprimer
+            printWindow.onload = function () {
+                printWindow.focus();
+                printWindow.print();
+                printWindow.close(); // Fermer automatiquement après impression
+            };
+        }
+    </script>
+
+
+    <script>
+
+        // Fonction pour récupérer l'utilisateur connecté
+        function getCurrentUser() {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                return db.collection('users').doc(user.uid).get()
+                    .then(function (doc) {
+                        if (doc.exists) {
+                            return doc.data().name;
+                        } else {
+                            throw new Error("No such document!");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error("Error getting document: ", error);
+                    });
+            } else {
+                return Promise.reject(new Error("No user is currently logged in."));
+            }
+        }
+
+        // Fonction pour afficher les ventes
+        function displaySales() {
+            const userList = document.getElementById('invoices');
+            userList.innerHTML = ''; // Réinitialiser la liste des utilisateurs
+            const selectedDate = document.getElementById('datedisplay').value;
+
+            if (!selectedDate) {
+                alert('Veuillez sélectionner une date.');
+                return;
+            }
+
+
+            // Récupérer l'utilisateur connecté
+            getCurrentUser().then(function (currentUserName) {
+                // Récupérer la collection de ventes pour la date sélectionnée et le vendeur connecté
+                db.collection('globalSalesRoom')
+                    .where("date", "==", selectedDate)
+                    // Filtrer par vendeur connecté
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            const data = doc.data();
+                            const li = document.createElement('li');
+
+                            // Créer des éléments span pour chaque donnée
+                            const customerNameSpan = document.createElement('span');
+                            customerNameSpan.textContent = data.customerName;
+
+                            const totalGdesSpan = document.createElement('span');
+                            totalGdesSpan.textContent = `${data.totalGdes} Gdes`;
+
+                            const totalUsSpan = document.createElement('span');
+                            totalUsSpan.textContent = `${data.totalUs} Us`;
+
+                            const timeSpan = document.createElement('span');
+                            timeSpan.textContent = data.time;
+
+                            const seller = document.createElement('span');
+                            seller.textContent = data.sellerName;
+
+                            // Créer le bouton d'édition
+                            const editBtn = document.createElement('button');
+                            editBtn.textContent = 'Edit';
+                            editBtn.setAttribute('data-id', doc.id);
+                            editBtn.classList.add('editBtn');
+
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.textContent = 'Delete';
+                            deleteBtn.setAttribute('data-id', doc.id);
+                            deleteBtn.classList.add('deleteBtn');
+                            // Style de base pour le bouton
+                            deleteBtn.style.backgroundColor = '#ff4d4d'; // Rouge
+                            deleteBtn.style.color = 'white';
+                            deleteBtn.style.border = 'none';
+                            deleteBtn.style.padding = '5px 10px';
+                            deleteBtn.style.cursor = 'pointer';
+                            deleteBtn.style.marginLeft = '10px';
+                            // Ajouter un écouteur d'événement pour le bouton de suppression
+                            deleteBtn.addEventListener('click', function () {
+                                const docId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to delete this invoice?')) {
+                                    db.collection('globalSalesRoom').doc(docId).delete()
+                                        .then(() => {
+                                            alert('Invoice successfully deleted!');
+                                            displaySales(); // Rafraîchir la liste après la suppression
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error removing document: ', error);
+                                        });
+                                }
+                            });
+
+                            // Ajouter tous les éléments à la balise li
+                            li.appendChild(customerNameSpan);
+                            li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                            li.appendChild(totalGdesSpan);
+                            li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                            li.appendChild(totalUsSpan);
+                            li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                            li.appendChild(timeSpan);
+                            li.appendChild(document.createTextNode(' - ')); // Ajouter un espace
+                            li.appendChild(seller);
+                            li.appendChild(document.createTextNode(' ')); // Ajouter un espace
+                            li.appendChild(editBtn);
+                            li.appendChild(deleteBtn);
+
+
+                            // Ajouter la balise li à la liste
+                            userList.appendChild(li);
+                        });
+                    }).catch(function (error) {
+                        console.error("Error getting documents: ", error);
+                    });
+            }).catch(function (error) {
+                console.error('Error getting current user: ', error);
+                alert('Veuillez vous connecter pour afficher les ventes.');
+            });
+        }
+
+        // Attendre que Firebase Auth soit prêt avant d'ajouter l'écouteur d'événement
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                document.getElementById("datedisplay").addEventListener("change", displaySales);
+                displaySales(); // Afficher les ventes dès que l'utilisateur est connecté
+            } else {
+                alert('Veuillez vous connecter pour afficher les ventes.');
+            }
+        });
+
+
+        // Charger les données de la facture sélectionnée dans le formulaire pour édition
+        const userList = document.getElementById('invoices');
+        userList.addEventListener('click', function (event) {
+            if (event.target.classList.contains('editBtn')) {
+                const docId = event.target.dataset.id;
+                db.collection("globalSalesRoom").doc(docId).get().then(function (doc) {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        document.getElementById('factureId').value = data.factureId;
+                        document.getElementById('fullname').value = data.customerName;
+                        document.getElementById('date').value = data.date;
+                        document.getElementById('time').value = data.time;
+                        document.getElementById('sellerName').value = data.sellerName;
+                        document.querySelector('.pay-onGdes').value = data.payOnGdes;
+                        document.querySelector('.pay-onUs').value = data.payOnUs;
+                        document.querySelector('.changeGdes').value = data.changeGdes;
+                        document.querySelector('.changeUs').value = data.changeUs;
+                        document.querySelector('.balanceGdes').value = data.balanceGdes;
+                        document.querySelector('.balanceUs').value = data.balanceUs;
+                        document.querySelector('.totalUs').value = data.totalUs;
+                        document.querySelector('.totalGdes').value = data.totalGdes;
+                        document.getElementById('paymentStatut').value = data.paymentStatut;
+
+
+
+                        // Code pour remplir les données dans le tableau de l'édition
+                        const invoiceTable = document.getElementById('productConsumed');
+                        const tableBody = invoiceTable.querySelector('tbody');
+                        tableBody.innerHTML = '';
+
+                        data.products.forEach(product => {
+
+                            const tableBody = document.getElementById('consumedTableBody');
+                            const row = tableBody.insertRow();
+                            row.insertCell().textContent = product.item;
+                            row.insertCell().innerHTML = `<input type="number" value="${product.quantity}" min="1">`;
+                            row.insertCell().textContent = product.price;
+
+                            row.insertCell().textContent = product.currency;
+                            row.insertCell().textContent = product.category;
+
+
+
+                        });
+                    } else {
+                        console.log("No such document!");
+                    }
+                }).catch(function (error) {
+                    console.error("Error getting document:", error);
+                });
+            }
+        });
+
+        // Fonction utilitaire pour créer un input avec une valeur par défaut
+        function createInput(type, value) {
+            const input = document.createElement('input');
+            input.type = type;
+            input.value = value;
+            return input;
+        }
+
+        // Fonction utilitaire pour créer une cellule de tableau avec un élément enfant
+        function createTableCell(child) {
+            const cell = document.createElement('td');
+            cell.appendChild(child);
+            return cell;
+        }
+        // Reste du code pour afficher les données et gérer les interactions utilisateur...
+    </script>
+
+    <script>
+        // Fonction pour récupérer les ventes en fonction de la date sélectionnée et afficher les totaux par jour avec la liste des produits et le grand total pour chaque collection
+        function filterSalesByDate() {
+            const selectedDate = document.getElementById('datedisplay').value; // Récupérer la date sélectionnée dans l'input
+
+            // Si aucune date n'est sélectionnée, afficher un message d'erreur ou une notification à l'utilisateur
+            if (!selectedDate) {
+                alert('Veuillez sélectionner une date.');
+                return;
+            }
+
+            // Récupérer l'utilisateur connecté
+            getCurrentUser().then(function (currentUserName) {
+                // Définir les catégories disponibles
+                const categories = ['drink', 'food', 'room', 'spec18', 'pool', 'smoke'];
+
+                // Initialiser l'objet pour stocker les totaux par article, par catégorie et par devise
+                const totalsByItemCategoryAndCurrency = [];
+                const salesData = [];
+
+                // Récupérer la collection de ventes pour la date sélectionnée et le vendeur connecté
+                db.collection('globalSalesRoom')
+                    .where("date", "==", selectedDate)
+
+                    .get()
+                    .then(function (querySnapshot) {
+                        querySnapshot.forEach(function (doc) {
+                            const data = doc.data();
+                            salesData.push(data);
+                            const products = data.products;
+
+                            // Parcourir les produits de cette vente
+                            products.forEach(function (product) {
+                                const category = product.category;
+                                const currency = product.currency;
+                                const quantity = parseInt(product.quantity);
+                                const price = parseFloat(product.price);
+                                const revenue = quantity * price;
+
+                                // Vérifier si la catégorie est une catégorie valide
+                                if (categories.includes(category)) {
+                                    // Si la catégorie n'existe pas encore dans les totaux, l'initialiser
+                                    if (!totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
+                                        totalsByItemCategoryAndCurrency[category] = {
+                                            Gdes: {},
+                                            Us: {}
+                                        };
+                                    }
+
+                                    // Vérifier si l'article existe déjà dans la devise spécifiée
+                                    const itemKey = product.item.toLowerCase(); // Utiliser le nom de l'article comme clé, en minuscules pour éviter les doublons
+                                    if (!totalsByItemCategoryAndCurrency[category][currency].hasOwnProperty(itemKey)) {
+                                        // Si l'article n'existe pas encore, l'initialiser avec la quantité et le revenu actuels
+                                        totalsByItemCategoryAndCurrency[category][currency][itemKey] = {
+                                            totalQuantity: quantity,
+                                            totalRevenue: revenue
+                                        };
+                                    } else {
+                                        // Si l'article existe déjà, mettre à jour la quantité et le revenu
+                                        totalsByItemCategoryAndCurrency[category][currency][itemKey].totalQuantity += quantity;
+                                        totalsByItemCategoryAndCurrency[category][currency][itemKey].totalRevenue += revenue;
+                                    }
+                                }
+                            });
+                        });
+
+                        // Afficher les totaux par catégorie, par article et par devise
+                        displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, salesData);
+                    })
+                    .catch(function (error) {
+                        console.error('Error getting documents: ', error);
+                    });
+            }).catch(function (error) {
+                console.error('Error getting current user: ', error);
+                alert('Veuillez vous connecter pour afficher les ventes.');
+            });
+        }
+
+        // Fonction pour afficher les totaux par catégorie, par article et par devise
+        function displayTotalSalesByCategoryAndCurrency(totalsByItemCategoryAndCurrency, salesData) {
+            const resultContainer = document.getElementById('resultsContainer');
+            resultContainer.innerHTML = ''; // Effacer le contenu précédent
+
+            // Variables pour stocker les totaux par méthode de paiement
+            const paymentMethodTotals = {};
+            const paymentStatusTotals = {
+                PAYE: {
+                    totalGdes: 0,
+                    totalUs: 0
+                },
+                NONPAYE: {
+                    totalGdes: 0,
+                    totalUs: 0
+                },
+                CREDIT: {
+                    totalGdes: 0,
+                    totalUs: 0
+                }
+            };
+
+            // Générer le contenu HTML pour les totaux par catégorie, par article et par devise
+            let html = '<h3>Rapport Du Jour</h3>';
+
+            // Boucle à travers chaque catégorie
+            for (const category in totalsByItemCategoryAndCurrency) {
+                if (totalsByItemCategoryAndCurrency.hasOwnProperty(category)) {
+                    html += `<h4>${category}:</h4>`;
+
+                    html += '<table border="1" cellpadding="5" cellspacing="0">';
+                    html += '<thead>';
+                    html += '<tr>';
+                    html += '<th>Item</th>';
+                    html += '<th>Quantity Gdes</th>';
+                    html += '<th>Revenu Gdes</th>';
+                    html += '<th>Quantity Us</th>';
+                    html += '<th>Revenu Us</th>';
+                    html += '</tr>';
+                    html += '</thead>';
+                    html += '<tbody>';
+
+                    let totalGdes = 0;
+                    let totalUs = 0;
+
+                    const itemsProcessed = new Set();
+
+                    // Afficher les produits en Gdes et calculer le total
+                    for (const item in totalsByItemCategoryAndCurrency[category].Gdes) {
+                        if (totalsByItemCategoryAndCurrency[category].Gdes.hasOwnProperty(item)) {
+                            const totalGdesData = totalsByItemCategoryAndCurrency[category].Gdes[item];
+                            const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item] || {
+                                totalQuantity: 0,
+                                totalRevenue: 0
+                            };
+
+                            html += '<tr>';
+                            html += `<td>${item}</td>`;
+                            html += `<td>${totalGdesData.totalQuantity}</td>`;
+                            html += `<td>${totalGdesData.totalRevenue}</td>`;
+                            html += `<td>${totalUsData.totalQuantity}</td>`;
+                            html += `<td>${totalUsData.totalRevenue}</td>`;
+                            html += '</tr>';
+
+                            totalGdes += totalGdesData.totalRevenue;
+                            totalUs += totalUsData.totalRevenue;
+                            itemsProcessed.add(item);
+                        }
+                    }
+
+                    // Afficher les produits en Us qui n'ont pas de correspondance en Gdes
+                    for (const item in totalsByItemCategoryAndCurrency[category].Us) {
+                        if (totalsByItemCategoryAndCurrency[category].Us.hasOwnProperty(item) && !itemsProcessed.has(item)) {
+                            const totalUsData = totalsByItemCategoryAndCurrency[category].Us[item];
+
+                            html += '<tr>';
+                            html += `<td>${item}</td>`;
+                            html += `<td>${totalUsData.totalQuantity}</td>`;
+                            html += `<td>0</td>`;
+                            html += `<td>${totalUsData.totalRevenue}</td>`;
+                            html += '</tr>';
+
+                            totalUs += totalUsData.totalRevenue;
+                        }
+                    }
+
+                    html += '</tbody>';
+                    html += '<tfoot>';
+                    html += `<tr><td colspan="2"><strong>Total</strong></td><td><strong>${totalGdes}</strong></td><td><strong>${totalUs}</strong></td></tr>`;
+                    html += '</tfoot>';
+                    html += '</table><br><br>';
+                }
+            }
+
+            // Calculer les totaux par méthode de paiement et par statut de paiement à partir des données de vente (salesData)
+            salesData.forEach(sale => {
+                const paymentMethod = sale.paymentmeth;
+                const paymentStatus = sale.paymentStatut;
+                const totalGdes = sale.totalGdes || 0;
+                const totalUs = sale.totalUs || 0;
+
+                if (paymentMethod) {
+                    if (!paymentMethodTotals[paymentMethod]) {
+                        paymentMethodTotals[paymentMethod] = {
+                            totalGdes: 0,
+                            totalUs: 0
+                        };
+                    }
+                    paymentMethodTotals[paymentMethod].totalGdes += totalGdes;
+                    paymentMethodTotals[paymentMethod].totalUs += totalUs;
+                }
+
+                if (paymentStatus) {
+                    if (!paymentStatusTotals[paymentStatus]) {
+                        paymentStatusTotals[paymentStatus] = {
+                            totalGdes: 0,
+                            totalUs: 0
+                        };
+                    }
+                    paymentStatusTotals[paymentStatus].totalGdes += totalGdes;
+                    paymentStatusTotals[paymentStatus].totalUs += totalUs;
+                }
+            });
+
+            // Afficher les totaux par méthode de paiement
+            html += '<h3>Totaux par Méthode de Paiement</h3>';
+            for (const paymentMethod in paymentMethodTotals) {
+                if (paymentMethodTotals.hasOwnProperty(paymentMethod)) {
+                    html += `<p>${paymentMethod}: Total Gdes - ${paymentMethodTotals[paymentMethod].totalGdes}, Total Us - ${paymentMethodTotals[paymentMethod].totalUs}</p>`;
+                }
+            }
+
+            // Afficher les totaux par statut de paiement
+            html += '<h3>Totaux par Statut de Paiement</h3>';
+            for (const paymentStatus in paymentStatusTotals) {
+                if (paymentStatusTotals.hasOwnProperty(paymentStatus)) {
+                    html += `<p>${paymentStatus}: Total Gdes - ${paymentStatusTotals[paymentStatus].totalGdes}, Total Us - ${paymentStatusTotals[paymentStatus].totalUs}</p>`;
+                }
+            }
+
+            // Insérer le contenu dans l'élément "resultContainer"
+            resultContainer.innerHTML = html;
+        }
+
+        // Attendre que Firebase Auth soit prêt avant d'ajouter l'écouteur d'événement
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // Appeler la fonction pour filtrer les ventes par date lorsqu'une date est sélectionnée
+                document.getElementById("datedisplay").addEventListener("change", filterSalesByDate);
+                // Appeler la fonction pour filtrer les ventes par date lors du chargement de la page
+                filterSalesByDate();
+
+            } else {
+                alert('Veuillez vous connecter pour afficher les ventes.');
+            }
+        });
+    </script>
+
+    <script>
+
+        document.getElementById('rechercheFacture').addEventListener('click', () => {
+            const customerName = document.getElementById('search').value.trim();
+            if (!customerName) {
+                alert("Veuillez entrer un ID de facture");
+                return;
+            }
+
+            db.collection("sales").where("customerName", "==", customerName).get().then((querySnapshot) => {
+                if (querySnapshot.empty) {
+                    alert("Facture non trouvée");
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        let sale = doc.data();
+                        document.getElementById('factureId').value = data.factureId;
+                        document.getElementById('fullname').value = data.customerName;
+                        document.getElementById('date').value = data.date;
+                        document.getElementById('time').value = data.time;
+                        document.getElementById('sellerName').value = data.sellerName;
+                        document.querySelector('.pay-onGdes').value = data.payOnGdes;
+                        document.querySelector('.pay-onUs').value = data.payOnUs;
+                        document.querySelector('.changeGdes').value = data.changeGdes;
+                        document.querySelector('.changeUs').value = data.changeUs;
+                        document.querySelector('.balanceGdes').value = data.balanceGdes;
+                        document.querySelector('.balanceUs').value = data.balanceUs;
+                        document.querySelector('.totalUs').value = data.totalUs;
+                        document.querySelector('.totalGdes').value = data.totalGdes;
+                        document.getElementById('paymentStatut').value = data.paymentStatut;
+
+
+                        const consumedTableBody = document.getElementById('consumedTableBody');
+                        consumedTableBody.innerHTML = '';
+                        sale.products.forEach(product => {
+                            const tableBody = document.getElementById('consumedTableBody');
+                            const row = tableBody.insertRow();
+                            row.insertCell().textContent = product.item;
+                            row.insertCell().innerHTML = `<input type="number" value="${product.quantity}" min="1">`;
+                            row.insertCell().textContent = product.price;
+
+                            row.insertCell().textContent = product.currency;
+                            row.insertCell().textContent = product.category;
+
+                        });
+                    });
+                }
+            }).catch((error) => {
+                console.error("Erreur lors de la recherche de la facture :", error);
+            });
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>
