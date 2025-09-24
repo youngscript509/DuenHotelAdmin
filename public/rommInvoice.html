@@ -986,42 +986,8 @@
         });
 
         // Fonction de vérification du stock
-        async function checkInsufficientStock(products) {
-            const insufficient = [];
-
-            for (let product of products) {
-                const snapshot = await db.collection("DrinkStock").where("name", "==", product.item).get();
-                if (snapshot.empty) {
-                    insufficient.push({ item: product.item, message: "Produit inconnu dans le stock" });
-                    continue;
-                }
-
-                snapshot.forEach(doc => {
-                    const currentQty = doc.data().quantity;
-                    if (product.quantity > currentQty) {
-                        insufficient.push({
-                            item: product.item,
-                            message: `Stock insuffisant (dispo : ${currentQty}, demandé : ${product.quantity})`
-                        });
-                    }
-                });
-            }
-
-            return insufficient;
-        }
-
-        // Fonction pour mettre à jour le stock
-        function updateStock(item, oldQty, newQty) {
-            db.collection("DrinkStock").where("name", "==", item).get().then(snapshot => {
-                snapshot.forEach(doc => {
-                    const currentQty = doc.data().quantity;
-                    const finalQty = currentQty + oldQty - newQty;
-                    db.collection("DrinkStock").doc(doc.id).update({ quantity: finalQty });
-                });
-            }).catch(error => {
-                console.error(`Erreur de mise à jour du stock pour ${item}:`, error);
-            });
-        }
+    
+       
     </script>
     <script>
         function printDiv(divId) {
