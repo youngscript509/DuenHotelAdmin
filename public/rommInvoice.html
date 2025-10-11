@@ -913,11 +913,7 @@
                 products.push({ item, quantity, price, currency, category });
             });
 
-            const insufficientProducts = await checkInsufficientStock(products);
-            if (insufficientProducts.length > 0) {
-                alert("Stock insuffisant pour :\n" + insufficientProducts.map(p => `${p.item} - ${p.message}`).join('\n'));
-                return;
-            }
+            // Fonction pour mettre à jour le stock
 
             try {
                 const docRef = db.collection("globalSalesRoom").doc(factureId);
@@ -954,7 +950,6 @@
                     console.log("Facture mise à jour.");
                 } else {
                     // Nouvelle facture
-                    products.forEach(p => updateStock(p.item, 0, p.quantity));
 
                     await docRef.set({
                         factureId,
