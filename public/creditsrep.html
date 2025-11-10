@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crédits par Client</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 30px;
+            max-width: 1350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-box {
+            background: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-list {
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Liste des Crédits par Client</h2>
+
+        <!-- Filtres -->
+        <div id="filter-section" class="mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="startDate" class="form-label">Date Début :</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="endDate" class="form-label">Date Fin :</label>
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label for="user" class="form-label">Utilisateur :</label>
+                    <select id="user" class="form-select">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button id="exportPDF" class="btn btn-danger w-100">Exporter en PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau principal -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="creditTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Client</th>
+                        <th>Date</th>
+                        <th>Produits</th>
+                        <th>Total (Gdes)</th>
+                        <th>Total (US)</th>
+                        <th>Méthode</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody id="creditBody">
+                    <tr>
+                        <td colspan="7" class="text-center">Chargement des données...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bilan -->
+        <div class="summary-box">
+            <h4>Bilan Crédits</h4>
+            <p><strong>Total en Gdes :</strong> <span id="totalGdes">0</span></p>
+            <p><strong>Total en US :</strong> <span id="totalUs">0</span></p>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+        const creditBody = document.getElementById("creditBody");
+        const userSelect = document.getElementById("user");
+
+        // ✅ Charger les utilisateurs pour le filtre
+        db.collection("users").get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const option = document.createElement("option");
+                option.value = doc.data().name;
+                option.textContent = doc.data().name;
+                userSelect.appendChild(option);
+            });
+        });
+
+        // ✅ Fonction d'affichage des crédits par intervalle
+        async function displayCredits() {
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const selectedUser = userSelect.value;
+
+            let query = db.collection("globalSales")
+                .where("paymentStatut", "in", ["credit", "Credit", "CREDIT"]);
+
+            if (startDate && endDate) {
+                query = query.where("date", ">=", startDate).where("date", "<=", endDate);
+            }
+            if (selectedUser) {
+                query = query.where("sellerName", "==", selectedUser);
+            }
+
+            const snapshot = await query.get();
+            creditBody.innerHTML = "";
+
+            let totalGdes = 0;
+            let totalUs = 0;
+
+            if (snapshot.empty) {
+                creditBody.innerHTML = "<tr><td colspan='7' class='text-center'>Aucun crédit trouvé</td></tr>";
+                document.getElementById("totalGdes").textContent = 0;
+                document.getElementById("totalUs").textContent = 0;
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                totalGdes += data.totalGdes || 0;
+                totalUs += data.totalUs || 0;
+
+                let productsHTML = "<ul class='product-list'>";
+                data.products.forEach(p => {
+                    productsHTML += `<li>${p.item} (${p.quantity})</li>`;
+                });
+                productsHTML += "</ul>";
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+            <td>${data.customerName}</td>
+            <td>${data.date}</td>
+            <td>${productsHTML}</td>
+            <td>${data.totalGdes || 0}</td>
+            <td>${data.totalUs || 0}</td>
+            <td>${data.paymentmeth}</td>
+            <td>${data.paymentStatut}</td>
+        `;
+                creditBody.appendChild(tr);
+            });
+
+            document.getElementById("totalGdes").textContent = totalGdes;
+            document.getElementById("totalUs").textContent = totalUs;
+        }
+
+        // ✅ Événements filtres
+        document.getElementById("startDate").addEventListener("change", displayCredits);
+        document.getElementById("endDate").addEventListener("change", displayCredits);
+        document.getElementById("user").addEventListener("change", displayCredits);
+
+        // ✅ Export PDF
+        document.getElementById("exportPDF").addEventListener("click", () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text("Liste des Crédits", 14, 10);
+            const rows = [];
+            document.querySelectorAll("#creditBody tr").forEach(row => {
+                const cols = row.querySelectorAll("td");
+                const rowData = Array.from(cols).map(td => td.textContent);
+                rows.push(rowData);
+            });
+
+            doc.autoTable({
+                head: [['Client', 'Date', 'Produits', 'Total (Gdes)', 'Total (US)', 'Méthode', 'Statut']],
+                body: rows
+            });
+
+            doc.save("credits_interval.pdf");
+        });
+
+        // ✅ Charger par défaut les crédits du mois actuel
+        window.onload = () => {
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+            const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
+
+            document.getElementById("startDate").value = firstDay;
+            document.getElementById("endDate").value = lastDay;
+
+            displayCredits();
+        };
+    </script>
+</body>
+
+</html>
