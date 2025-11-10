@@ -140,12 +140,16 @@
         <!-- ============================================================== -->
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="orderinvoice1.html">DUEN-HOTEL</a>
+                <a class="navbar-brand" href="home.html">DUEN-HOme</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                 <li class="" style=" width: 150px; margin-right: 10px;">
+                    <a class="nav-link nav-icons" href="orderinvoice1.html"><button style="width: 100%;" class="fas fa-fw fa-circle">ROOM
+                            INVOICE</button> </a>
+                </li>
                 <div id="custom-search" class="top-search-bar" style="display: flex;">
                     <input class="form-control" type="text" id="search" placeholder="Search.."
                         style="margin-right: 10px;"> <button id="rechercheFacture">Rechercher</button>
@@ -528,7 +532,7 @@
         // Fonction pour récupérer les produits correspondant au préfixe et les afficher dans la liste de suggestions
         async function fetchAndDisplayProducts() {
             const prefix = productNameInput.value.trim();
-            const querySnapshot = await db.collection('DrinkStock').where('name', '>=', prefix)
+            const querySnapshot = await db.collection('roomsStock').where('name', '>=', prefix)
                 .where('name', '<=', prefix + '\uf8ff').get();
             productList.innerHTML = ''; // Vider les options existantes
             querySnapshot.forEach(doc => {
@@ -544,7 +548,7 @@
         // Fonction pour vérifier si le produit existe et afficher ses prix comme options dans le champ priceChoice
         async function checkProductAndDisplayPrices() {
             const productName = productNameInput.value.trim();
-            const productRef = db.collection('DrinkStock').where('name', '==', productName);
+            const productRef = db.collection('roomsStock').where('name', '==', productName);
 
             try {
                 const snapshot = await productRef.get();
