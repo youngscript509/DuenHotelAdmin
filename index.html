@@ -2212,7 +2212,10 @@
                     '<tr><td colspan="7" class="text-muted" style="text-align:center;padding:30px;">Aucun crédit</td></tr>';
                 document.getElementById('credTotalG').innerHTML = `${totalG.toFixed(0)} <span class="currency">G</span>`;
                 document.getElementById('credTotalU').innerHTML = `${totalU.toFixed(0)} <span class="currency">$</span>`;
-            } catch (e) { toast(e.message, 'error'); }
+            } catch (e) {
+                console.error(e);
+                toast(e.message, 'error');
+            }
         }
 
         function exportCreditsPDF() {
