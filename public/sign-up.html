@@ -54,7 +54,9 @@
                     <div class="form-group">
                         <input class="form-control form-control-lg" id="password" type="password" required placeholder="Password">
                     </div>
-
+                  <div class="form-group">
+                        <input class="form-control form-control-lg" id="role" type="text" required placeholder="Role">
+                    </div>
                     <div class=" pt-2">
                         <button class="btn btn-block btn-primary" onclick="signup()" type="button">Register My Account</button>
                     </div>
@@ -122,7 +124,7 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+            const role = document.getElementById('role').value;
             // Créer un compte utilisateur avec l'e-mail et le mot de passe
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
@@ -130,7 +132,8 @@
                     const userId = userCredential.user.uid;
                     firebase.firestore().collection('users').doc(userId).set({
                             name: name,
-                            email: email
+                            email: email,
+                            role: role
                         })
                         .then(() => {
                             alert('Utilisateur enregistré avec succès.');
@@ -154,7 +157,7 @@
     <script>
         // Configuration de Firebase
 
-        const auth = firebase.auth();
+     
 
         // Fonction pour charger et afficher les utilisateurs
         function loadUsers() {
@@ -167,6 +170,8 @@
                     userDiv.classList.add('user');
                     userDiv.innerHTML = `
                 <span>${user.name}</span>
+                <span>${user.email}</span>
+                <span>${user.role}</span>
                 <button onclick="deleteUser('${doc.id}')">Supprimer</button>
             `;
                     userList.appendChild(userDiv);
