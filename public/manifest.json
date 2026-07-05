@@ -1,6 +1,13 @@
 {
   "short_name": "DuenAdmin",
-  "name": "Duen Admin",
+  "name": "Duen Hotel Admin",
+  "id": "/",
+  "scope": "/",
+  "start_url": "/home.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#111827",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "hotel.png",
@@ -17,9 +24,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }

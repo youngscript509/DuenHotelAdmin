@@ -1,4 +1,3 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyBue8nwSXtBDOxTDBlKjl0NmMbyB9tMlgY",
     authDomain: "duenhotel-bbf03.firebaseapp.com",
@@ -9,20 +8,20 @@ const firebaseConfig = {
     measurementId: "G-X06DV737HC"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
-const firestore = firebase.firestore();
+const auth = firebase.auth();
 const db = firebase.firestore();
 
-firebase.firestore().settings({
-    timestampsInSnapshots: true
-});
-
-firebase.firestore().enablePersistence()
-    .catch(function(err) {
-        if (err.code == 'failed-precondition') {
+if (typeof firebase.firestore === 'function') {
+    db.settings({ timestampsInSnapshots: true });
+    db.enablePersistence().catch(function(err) {
+        if (err && err.code === 'failed-precondition') {
             console.log('La persistance des données a échoué car plusieurs onglets sont ouverts.');
-        } else if (err.code == 'unimplemented') {
+        } else if (err && err.code === 'unimplemented') {
             console.log('La persistance des données n\'est pas prise en charge par le navigateur.');
         }
     });
+}

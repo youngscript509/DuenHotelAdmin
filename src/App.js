@@ -1,24 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <main className="app-shell">
+      <section className="app-card">
+        <p className="eyebrow">Duen Hotel Admin</p>
+        <h1>Tableau de bord optimisé</h1>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Une interface plus légère, installable et prête pour l’usage mobile.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <ul>
+          <li>Chargement plus rapide des ressources principales</li>
+          <li>Cache de base pour un accès hors ligne</li>
+          <li>Manifest et icônes prêts pour l’installation</li>
+        </ul>
+      </section>
+    </main>
   );
 }
 
