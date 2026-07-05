@@ -4,6 +4,9 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/firebase-config.js',
+  '/manifest.json',
+  '/icon-192x192.png',
+  '/icon-512x512.png',
   // Ajoutez ici d'autres ressources statiques si vous les séparez (CSS, JS)
   // Exemple : '/css/styles.css', '/js/app.js'
 ];
