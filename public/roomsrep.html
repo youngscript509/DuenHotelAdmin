@@ -58,6 +58,30 @@
             flex: 1;
             min-width: 250px;
         }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-dialog {
+            background: white;
+            border-radius: 10px;
+            width: min(100%, 420px);
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            pointer-events: auto;
+        }
     </style>
 </head>
 
@@ -90,15 +114,12 @@
             <table class="table table-bordered table-striped" id="reportTable">
                 <thead class="table-dark">
                     <tr>
-                        <th>Client</th>
-                       
-                        <th>Date</th>
+                        <th>Infos</th>
                         <th>Produits</th>
                         <th>Total (Gdes)</th>
                         <th>Total (US)</th>
-                        <th>Méthode</th>
-                        <th>Statut</th>
-                        
+                        <th>Statut de Paiement</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="reportBody">
@@ -129,6 +150,24 @@
         </div>
     </div>
 
+    <div id="discountModal" class="modal-overlay">
+        <div class="modal-dialog">
+            <h5 class="mb-3">Appliquer un discount</h5>
+            <div class="mb-3">
+                <label for="discountAmount" class="form-label">Montant du discount</label>
+                <input type="number" id="discountAmount" class="form-control" min="1" step="0.01">
+            </div>
+            <div class="mb-3">
+                <label for="discountCurrencySelect" class="form-label">Devise</label>
+                <select id="discountCurrencySelect" class="form-select"></select>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" id="cancelDiscount" class="btn btn-secondary">Annuler</button>
+                <button type="button" id="confirmDiscount" class="btn btn-primary">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase -->
     <!-- Firebase & Config -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -145,6 +184,102 @@
 
         const reportBody = document.getElementById("reportBody");
         const userSelect = document.getElementById("user");
+        const discountModal = document.getElementById("discountModal");
+        const discountAmountInput = document.getElementById("discountAmount");
+        const discountCurrencySelect = document.getElementById("discountCurrencySelect");
+        const confirmDiscountBtn = document.getElementById("confirmDiscount");
+        const cancelDiscountBtn = document.getElementById("cancelDiscount");
+        let pendingSaleId = null;
+
+        function populateCurrencyOptions() {
+            discountCurrencySelect.innerHTML = "";
+            ["Gdes", "US"].forEach(currency => {
+                const option = document.createElement("option");
+                option.value = currency;
+                option.textContent = currency;
+                discountCurrencySelect.appendChild(option);
+            });
+            discountCurrencySelect.value = "Gdes";
+        }
+
+        function closeDiscountModal() {
+            discountModal.classList.remove("show");
+            pendingSaleId = null;
+        }
+
+        function openDiscountModal(saleId) {
+            pendingSaleId = saleId;
+            discountAmountInput.value = "";
+            populateCurrencyOptions();
+            discountModal.classList.add("show");
+        }
+
+        cancelDiscountBtn.addEventListener("click", closeDiscountModal);
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && discountModal.classList.contains("show")) {
+                closeDiscountModal();
+            }
+        });
+
+        const discountDialog = document.querySelector("#discountModal .modal-dialog");
+        if (discountDialog) {
+            discountDialog.addEventListener("click", (event) => {
+                event.stopPropagation();
+            });
+            discountDialog.addEventListener("mousedown", (event) => {
+                event.stopPropagation();
+            });
+        }
+
+        confirmDiscountBtn.addEventListener("click", async () => {
+            if (!pendingSaleId) return;
+
+            const discount = discountAmountInput.value;
+            const currency = discountCurrencySelect.value;
+
+            if (discount === "" || isNaN(discount) || Number(discount) <= 0) {
+                alert("Montant invalide.");
+                return;
+            }
+
+            if (!["Gdes", "US"].includes(currency)) {
+                alert("Veuillez sélectionner une devise.");
+                return;
+            }
+
+            const saleRef = db.collection("globalSalesRoom").doc(pendingSaleId);
+            const saleDoc = await saleRef.get();
+            if (!saleDoc.exists) {
+                alert("Vente introuvable.");
+                closeDiscountModal();
+                return;
+            }
+
+            const saleData = saleDoc.data();
+            let newTotalGdes = saleData.totalGdes || 0;
+            let newTotalUs = saleData.totalUs || 0;
+
+            if (currency === "Gdes") {
+                newTotalGdes -= Number(discount);
+                if (newTotalGdes < 0) newTotalGdes = 0;
+            } else {
+                newTotalUs -= Number(discount);
+                if (newTotalUs < 0) newTotalUs = 0;
+            }
+
+            await saleRef.update({
+                totalGdes: newTotalGdes,
+                totalUs: newTotalUs,
+                discountApplied: true,
+                discountAmount: Number(discount),
+                discountCurrency: currency
+            });
+
+            alert(`Discount de ${discount} ${currency} appliqué avec succès.`);
+            closeDiscountModal();
+            displayReports();
+        });
 
         // ✅ Charger les utilisateurs
         db.collection("users").get().then(snapshot => {
@@ -184,6 +319,7 @@
 
             snapshot.forEach(doc => {
                 const data = doc.data();
+                const saleId = doc.id;
 
                 // Totaux
                 totalGdes += data.totalGdes || 0;
@@ -205,22 +341,19 @@
 
                 // Produits en liste
                 let productsHTML = "<ul class='product-list'>";
-                data.products.forEach(p => {
-                    productsHTML += `<li>${p.item} (${p.quantity})</li>`;
+                (data.products || []).forEach(p => {
+                    productsHTML += `<li>${p.item} - (Quantité: ${p.quantity}) - prix unitaire: ${p.price || 0} ${p.currency || ''}</li>`;
                 });
                 productsHTML += "</ul>";
 
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                <td>${data.customerName}</td>
-              
-                <td>${data.date}</td>
-                <td>${productsHTML} ${data.typeOperation} <label>${data.checkinDate}</label></td>
+                <td>Client: ${data.customerName || '-'}<br>Vendeur: ${data.sellerName || '-'}<br>Date: ${data.date || '-'}<br>${data.typeOperation || ''} ${data.checkinDate ? `- ${data.checkinDate}` : ''}</td>
+                <td>${productsHTML}</td>
                 <td>${data.totalGdes || 0}</td>
                 <td>${data.totalUs || 0}</td>
-                <td>${data.paymentmeth}</td>
-                <td>${data.paymentStatut}</td>
-                
+                <td>${data.paymentmeth || '-'} / ${data.paymentStatut || '-'}</td>
+                <td><button class="btn btn-sm btn-primary" onclick="applyDiscount('${saleId}')">Discount</button></td>
             `;
                 reportBody.appendChild(tr);
             });
@@ -244,6 +377,24 @@
 
         document.getElementById("date").addEventListener("change", displayReports);
         document.getElementById("user").addEventListener("change", displayReports);
+
+        async function applyDiscount(saleId) {
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                alert("Vous devez être connecté pour appliquer un discount.");
+                return;
+            }
+
+            const userDoc = await db.collection("users").doc(user.uid).get();
+            const userData = userDoc.data();
+
+            if (!["Admin", "DG", "Manager"].includes(userData.role)) {
+                alert("Vous n'avez pas la permission d'appliquer un discount.");
+                return;
+            }
+
+            openDiscountModal(saleId);
+        }
 
         // ✅ Export PDF
         document.getElementById("exportPDF").addEventListener("click", () => {
