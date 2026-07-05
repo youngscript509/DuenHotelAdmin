@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#111827">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Duen Admin">
     <link rel="manifest" href="manifest.json">
@@ -55,6 +55,7 @@ function isInstallable() {
 // Afficher une invitation à l'installation
 function showInstallPrompt() {
   const installButton = document.getElementById('install-button');
+  if (!installButton) return;
 
   installButton.addEventListener('click', () => {
     deferredPrompt.prompt();
@@ -111,44 +112,29 @@ let deferredPrompt;
         </div>
     </div>
 
-    <script src="https://konbitmarket.netlify.app/js/js/firebase-app.js" defer></script>
-    <script src="https://konbitmarket.netlify.app/js/js/auth.js" defer></script>
-    <script src="https://konbitmarket.netlify.app/js/js/firebase-firestore.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js" defer></script>
     <script src="firebase-config.js" defer></script>
     
-<script>
-   
-
-    // Référence à l'authentification Firebase
-    const auth = firebase.auth();
-
-    // Fonction pour gérer la soumission du formulaire de connexion
+<script defer>
     document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+        event.preventDefault();
 
-        // Récupérer les valeurs des champs email et mot de passe
+        const auth = window.auth;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Connexion de l'utilisateur avec son email et mot de passe
-       // Connexion de l'utilisateur avec son email et mot de passe
-auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-        // Utilisateur connecté avec succès
-        const user = userCredential.user;
-        console.log('Utilisateur connecté:', user);
-        // Rediriger vers la page orderinvoice.html après la connexion
-        window.location.href = 'home.html';
-    })
-    .catch((error) => {
-        // Gestion des erreurs de connexion
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error('Erreur de connexion:', errorMessage);
-        // Afficher un message d'erreur à l'utilisateur
-        alert(errorMessage);
-    });
-
+        auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log('Utilisateur connecté:', user);
+                window.location.href = 'home.html';
+            })
+            .catch((error) => {
+                console.error('Erreur de connexion:', error.message);
+                alert(error.message);
+            });
     });
 </script>
   
@@ -161,7 +147,7 @@ auth.signInWithEmailAndPassword(email, password)
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch((error) => {
+                navigator.serviceWorker.register('sw.js', { scope: './' }).catch((error) => {
                     console.error('Service worker registration failed:', error);
                 });
             });

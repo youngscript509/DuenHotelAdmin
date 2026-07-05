@@ -1,17 +1,20 @@
-const CACHE_NAME = 'duen-admin-cache-v1';
+﻿const CACHE_NAME = 'duen-admin-cache-v1';
 const APP_SHELL = [
-  '/',
-  '/index.html',
-  '/home.html',
-  '/manifest.json',
-  '/hotel.png',
-  '/assets/vendor/bootstrap/css/bootstrap.min.css',
-  '/assets/libs/css/style.css'
+  'index.html',
+  'home.html',
+  'manifest.json',
+  'hotel.png',
+  'assets/vendor/bootstrap/css/bootstrap.min.css',
+  'assets/libs/css/style.css'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(APP_SHELL).catch((error) => {
+        console.warn('Service worker cache.addAll échoué:', error);
+      });
+    })
   );
   self.skipWaiting();
 });
@@ -42,6 +45,9 @@ self.addEventListener('fetch', (event) => {
         const responseToCache = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
         return networkResponse;
+      }).catch((error) => {
+        console.error('Fetch échoué dans service worker:', error);
+        throw error;
       });
     })
   );

@@ -1,4 +1,4 @@
-const firebaseConfig = {
+﻿const firebaseConfig = {
     apiKey: "AIzaSyBue8nwSXtBDOxTDBlKjl0NmMbyB9tMlgY",
     authDomain: "duenhotel-bbf03.firebaseapp.com",
     projectId: "duenhotel-bbf03",
@@ -8,20 +8,43 @@ const firebaseConfig = {
     measurementId: "G-X06DV737HC"
 };
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+if (typeof firebase === 'undefined') {
+    console.error('Firebase SDK non chargé. Vérifiez les scripts Firebase.');
+} else {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+    const authFactory = firebase.auth;
+    if (typeof authFactory === 'function') {
+        window.auth = window.auth || authFactory();
+    } else if (authFactory) {
+        window.auth = window.auth || authFactory;
+    } else {
+        window.auth = window.auth || null;
+    }
 
-if (typeof firebase.firestore === 'function') {
-    db.settings({ timestampsInSnapshots: true });
-    db.enablePersistence().catch(function(err) {
-        if (err && err.code === 'failed-precondition') {
-            console.log('La persistance des données a échoué car plusieurs onglets sont ouverts.');
-        } else if (err && err.code === 'unimplemented') {
-            console.log('La persistance des données n\'est pas prise en charge par le navigateur.');
+    const firestoreFactory = firebase.firestore;
+    if (typeof firestoreFactory === 'function') {
+        window.db = window.db || firestoreFactory();
+    } else if (firestoreFactory) {
+        window.db = window.db || firestoreFactory;
+    } else {
+        window.db = window.db || null;
+    }
+
+    if (window.db) {
+        if (typeof window.db.settings === 'function') {
+            window.db.settings({ timestampsInSnapshots: true });
         }
-    });
+        if (typeof window.db.enablePersistence === 'function') {
+            window.db.enablePersistence().catch(function(err) {
+                if (err && err.code === 'failed-precondition') {
+                    console.log('La persistance des données a échoué car plusieurs onglets sont ouverts.');
+                } else if (err && err.code === 'unimplemented') {
+                    console.log('La persistance des données n\'est pas prise en charge par le navigateur.');
+                }
+            });
+        }
+    }
 }

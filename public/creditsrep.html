@@ -115,9 +115,14 @@
     <script>
         const creditBody = document.getElementById("creditBody");
         const userSelect = document.getElementById("user");
+        const db = window.db || (typeof firebase !== 'undefined' && firebase.firestore ? firebase.firestore() : null);
+
+        if (!db) {
+            console.error('La base de données Firebase n\'est pas disponible.');
+        }
 
         // ✅ Charger les utilisateurs pour le filtre
-        db.collection("users").get().then(snapshot => {
+        db && db.collection("users").get().then(snapshot => {
             snapshot.forEach(doc => {
                 const option = document.createElement("option");
                 option.value = doc.data().name;
