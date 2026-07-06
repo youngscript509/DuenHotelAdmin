@@ -1,65 +1,67 @@
-// sw.js – Service Worker pour Duen Hotel PWA
-const CACHE_NAME = 'duen-hotel-v2.2';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/firebase-config.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
-  // Ajoutez ici d'autres ressources statiques si vous les séparez (CSS, JS)
-  // Exemple : '/css/styles.css', '/js/app.js'
+const CACHE_NAME = "duen-hotel-room-v2"; // bump de version pour forcer le rafraîchissement du cache
+const APP_SHELL = [
+  "index.html",
+  "manifest.json",
+  "firebase-config.js",
+  "favicon-192.png",
+  "favicon-512.png",
+  "sw.js",
 ];
 
-// Installation – mise en cache des ressources essentielles
-self.addEventListener('install', event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Service Worker : mise en cache des ressources');
-        return cache.addAll(urlsToCache);
-      })
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
   );
 });
 
-// Activation – nettoyage des anciens caches
-self.addEventListener('activate', event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cache => {
-          if (cache !== CACHE_NAME) {
-            console.log('Service Worker : suppression de l\'ancien cache', cache);
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
-    .then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// Stratégie : Stale-While-Revalidate pour les requêtes GET
-self.addEventListener('fetch', event => {
+// Stratégie : App shell "cache first" (assets locaux). Le reste (Firestore, CDN)
+// passe directement au réseau — IndexedDB gère déjà le mode hors-ligne des données.
+self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
+  // On ne gère que le GET, même origine. Tout le reste (Firestore, CDN, POST...)
+  // passe directement au réseau sans interception.
+  if (url.origin !== self.location.origin) return;
+  if (event.request.method !== "GET") return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => {
-        const fetchPromise = fetch(event.request)
-          .then(networkResponse => {
-            // Mettre à jour le cache avec la nouvelle réponse
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, networkResponse.clone());
-            });
-            return networkResponse;
-          })
-          .catch(() => {
-            // En cas d'échec réseau, on retourne la réponse en cache si elle existe
-            return cachedResponse;
-          });
+    (async () => {
+      const cached = await caches.match(event.request);
+      if (cached) return cached;
 
-        // Retourner la réponse en cache immédiatement si disponible, sinon attendre le réseau
-        return cachedResponse || fetchPromise;
-      })
+      try {
+        const networkResponse = await fetch(event.request);
+
+        // On ne clone/cache QUE les réponses "basic" (même origine, valides).
+        // Les réponses opaques/redirigées/erreurs ne se clonent pas de façon
+        // fiable et sont la cause la plus fréquente de l'erreur
+        // "Response body is already used".
+        if (networkResponse && networkResponse.ok && networkResponse.type === "basic") {
+          // Cloner IMMÉDIATEMENT, avant tout autre traitement du corps.
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache).catch(() => {
+              /* mise en cache best-effort — on ignore un échec ponctuel */
+            });
+          });
+        }
+
+        return networkResponse;
+      } catch (err) {
+        // Hors ligne / échec réseau : on retombe sur le cache s'il existe,
+        // sinon on laisse l'erreur remonter (page non disponible hors ligne).
+        if (cached) return cached;
+        throw err;
+      }
+    })()
   );
 });
