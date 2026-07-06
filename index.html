@@ -1613,6 +1613,16 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         db.settings({ timestampsInSnapshots: true });
+        // Persistance hors-ligne : permet à Firestore de servir depuis son
+        // propre cache local quand internet coupe, et de se resynchroniser
+        // automatiquement au retour du réseau.
+        db.enablePersistence().catch(err => {
+            if (err.code === 'failed-precondition') {
+                console.log('Persistance Firestore désactivée : plusieurs onglets ouverts.');
+            } else if (err.code === 'unimplemented') {
+                console.log('Persistance Firestore non supportée par ce navigateur.');
+            }
+        });
     </script>
 
     <!-- ============================================================
@@ -1636,6 +1646,106 @@
             modifRequests: 'id, factureId, statut, module',
             auditLog: 'id, requestId, date'
         });
+
+        // ============================================================
+        //  SYNCHRO TEMPS RÉEL — Firestore → Dexie (IndexedDB)
+        // ============================================================
+        // Chaque collection Firestore reste la source de vérité, mais un
+        // écouteur onSnapshot() reste connecté en permanence et reflète
+        // chaque changement (venant d'ici, de l'app Resto/Bar ou de l'app
+        // Chambres & Piscine) dans Dexie quasi instantanément. Les pages
+        // ouvertes se rafraîchissent alors toutes seules, sans F5.
+        //
+        // ⚠️ Point à vérifier : l'app Resto/Bar (js/sync.js) pousse les
+        // demandes de modification vers la collection "modifRequestsResto",
+        // alors que ce tableau de bord lit "modifRequests" (sans suffixe)
+        // pour le module restobar. Si les demandes de l'app Resto/Bar
+        // n'apparaissent jamais ici, c'est cette différence de nom qu'il
+        // faut aligner (dans un sens ou dans l'autre).
+        const REALTIME_COLLECTIONS = [
+            { collection: 'DrinkStock', store: 'inventory', extra: { collection: 'DrinkStock' }, page: 'inventory' },
+            { collection: 'roomsStock', store: 'inventory', extra: { collection: 'roomsStock' }, page: 'inventory' },
+            { collection: 'globalSales', store: 'sales', page: 'sales' },
+            { collection: 'globalSalesRoom', store: 'salesRoom', page: 'sales' },
+            { collection: 'caisse', store: 'finance', page: 'finance' },
+            { collection: 'expenses', store: 'expenses', page: 'expenses' },
+            { collection: 'users', store: 'users', page: 'users' },
+            { collection: 'employees', store: 'employees', page: 'hr' },
+            { collection: 'modifRequests', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
+            { collection: 'modifRequestsRoom', store: 'modifRequests', extra: { module: 'room' }, page: 'modifications' },
+            { collection: 'auditLog', store: 'auditLog', page: null },
+        ];
+
+        const _dhAdminUnsubs = [];
+        let _dhFlashTimeout = null;
+
+        function dhFlashSyncStatus() {
+            const dot = document.getElementById('syncDot');
+            const label = document.getElementById('syncLabel');
+            if (!dot || !label) return;
+            dot.className = 'dot online';
+            label.textContent = '⬇️ Mise à jour reçue...';
+            clearTimeout(_dhFlashTimeout);
+            _dhFlashTimeout = setTimeout(() => updateSyncStatus(navigator.onLine), 1200);
+        }
+
+        // Fonctions de rechargement par page, appelées automatiquement quand
+        // une donnée pertinente change à distance ET que la page est ouverte.
+        function dhReloadersForPage(page) {
+            return {
+                dashboard: [loadDashboard],
+                inventory: [renderInventory],
+                sales: [loadSales],
+                credits: [loadCredits],
+                finance: [loadFinance],
+                expenses: [loadExpenses],
+                modifications: [loadModifRequests],
+                users: [loadUsers],
+                hr: [loadEmployees],
+            }[page] || [];
+        }
+
+        function dhAttachAdminRealtimeSync() {
+            if (_dhAdminUnsubs.length) return; // déjà attaché
+            REALTIME_COLLECTIONS.forEach(cfg => {
+                const unsub = db.collection(cfg.collection).onSnapshot(
+                    { includeMetadataChanges: false },
+                    async (snap) => {
+                        let changed = 0;
+                        for (const change of snap.docChanges()) {
+                            const id = change.doc.id;
+                            try {
+                                if (change.type === 'removed') {
+                                    await localDB[cfg.store].delete(id);
+                                } else {
+                                    const data = { ...change.doc.data(), id, ...(cfg.extra || {}) };
+                                    await localDB[cfg.store].put(data);
+                                }
+                                changed++;
+                            } catch (e) {
+                                console.warn(`[Admin Sync] Écriture Dexie échouée (${cfg.store}/${id}):`, e);
+                            }
+                        }
+                        if (changed > 0) {
+                            dhFlashSyncStatus();
+                            // Rafraîchit la page concernée si elle est actuellement affichée
+                            if (currentPage === cfg.page || (currentPage === 'dashboard' && ['sales', 'finance'].includes(cfg.page))) {
+                                dhReloadersForPage(currentPage).forEach(fn => {
+                                    try { fn(); } catch (e) { /* noop */ }
+                                });
+                            }
+                        }
+                    },
+                    (err) => {
+                        console.warn(`[Admin Sync] Écoute interrompue (${cfg.collection}):`, err.code || err.message);
+                        // Le SDK Firestore retentera de lui-même dès que la
+                        // connexion revient (persistance déjà activée).
+                    }
+                );
+                _dhAdminUnsubs.push(unsub);
+            });
+            console.log('🟢 [Admin Sync] Écoute Firestore temps réel active sur toutes les collections');
+        }
 
         // ============================================================
         //  STATE
@@ -1797,6 +1907,7 @@
                 updateSyncStatus(true);
                 window.addEventListener('online', () => updateSyncStatus(true));
                 window.addEventListener('offline', () => updateSyncStatus(false));
+                dhAttachAdminRealtimeSync();
                 loadUserFilter();
             } else {
                 document.getElementById('loginOverlay').classList.remove('hidden');
