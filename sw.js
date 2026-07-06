@@ -1,5 +1,5 @@
 // sw.js – Service Worker pour Duen Hotel PWA
-const CACHE_NAME = 'duen-hotel-v2.1';
+const CACHE_NAME = 'duen-hotel-v2.2';
 const urlsToCache = [
   '/',
   '/index.html',
