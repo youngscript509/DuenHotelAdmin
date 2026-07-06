@@ -3296,75 +3296,256 @@ function attachModifRealtimeListener() {
     const today = new Date().toISOString().split('T')[0];
     dateInput.value = today;
 
-    // Fonction principale
-    async function loadReport() {
-      const date = dateInput.value;
-      const collection = moduleSelect.value;
-      if (!date) {
+    // Fonction principale - Version améliorée avec regroupement par méthode
+async function loadReport() {
+    const date = dateInput.value;
+    const collection = moduleSelect.value;
+    if (!date) {
         container.innerHTML = '<div class="empty">Veuillez sélectionner une date.</div>';
         return;
-      }
+    }
 
-      container.innerHTML = '<div class="empty"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>';
+    container.innerHTML = '<div class="empty"><i class="fas fa-spinner fa-spin"></i> Chargement...</div>';
 
-      try {
+    try {
         const snapshot = await db.collection(collection).where('date', '==', date).get();
         if (snapshot.empty) {
-          container.innerHTML = '<div class="empty">Aucune vente trouvée pour cette date.</div>';
-          return;
+            container.innerHTML = '<div class="empty">📭 Aucune vente trouvée pour cette date.</div>';
+            return;
         }
 
-        // Structures d'agrégation
-        const categories = ['drink', 'food', 'smoke', 'room', 'pool', 'spec18'];
-        const totalsByCategory = {}; // { category: { Gdes: { item: { qty, rev } }, Us: { ... } } }
-        const totalsByPaymentStatus = { PAYE: { Gdes: 0, Us: 0 }, NONPAYE: { Gdes: 0, Us: 0 }, CREDIT: { Gdes: 0, Us: 0 } };
+        const isRoomModule = collection === 'globalSalesRoom';
+        
+        // Catégories selon le module
+        const categories = isRoomModule 
+            ? ['room', 'pool', 'spec18', 'service']
+            : ['drink', 'food', 'smoke'];
+        
+        const totalsByCategory = {};
+        const totalsByPaymentStatus = { 
+            PAYE: { Gdes: 0, Us: 0 }, 
+            NONPAYE: { Gdes: 0, Us: 0 }, 
+            CREDIT: { Gdes: 0, Us: 0 },
+            NONPAYEE: { Gdes: 0, Us: 0 }  // Pour compatibilité
+        };
         const totalsByPaymentMethod = {};
+        const totalsByType = isRoomModule ? { reservation: { Gdes: 0, Us: 0 }, effectif: { Gdes: 0, Us: 0 } } : null;
 
         // Parcourir les ventes
         snapshot.forEach(doc => {
-          const data = doc.data();
-          const products = data.products || [];
-          const paymentMeth = data.paymentmeth || 'Autre';
-          const paymentStatut = data.paymentStatut || 'NONPAYE';
+            const data = doc.data();
+            const products = data.products || [];
+            const paymentMeth = data.paymentmeth || 'Autre';
+            const paymentStatut = data.paymentStatut || 'NONPAYE';
+            const typeOp = data.typeOperation || 'effectif';
 
-          // Initialiser méthode de paiement
-          if (!totalsByPaymentMethod[paymentMeth]) {
-            totalsByPaymentMethod[paymentMeth] = { Gdes: 0, Us: 0 };
-          }
-
-          products.forEach(product => {
-            const category = product.category;
-            const currency = product.currency; // 'Gdes' ou 'Us'
-            const quantity = parseInt(product.quantity) || 0;
-            const price = parseFloat(product.price) || 0;
-            const revenue = quantity * price;
-            const item = product.item || 'Inconnu';
-
-            // Ignorer si catégorie non reconnue
-            if (!categories.includes(category)) return;
-
-            // Initialiser la catégorie
-            if (!totalsByCategory[category]) {
-              totalsByCategory[category] = { Gdes: {}, Us: {} };
-            }
-            if (!totalsByCategory[category][currency]) {
-              totalsByCategory[category][currency] = {};
-            }
-            if (!totalsByCategory[category][currency][item]) {
-              totalsByCategory[category][currency][item] = { totalQuantity: 0, totalRevenue: 0 };
-            }
-            totalsByCategory[category][currency][item].totalQuantity += quantity;
-            totalsByCategory[category][currency][item].totalRevenue += revenue;
-
-            // Ajouter aux totaux par statut
-            if (totalsByPaymentStatus[paymentStatut]) {
-              totalsByPaymentStatus[paymentStatut][currency] += revenue;
+            // Initialiser méthode de paiement
+            if (!totalsByPaymentMethod[paymentMeth]) {
+                totalsByPaymentMethod[paymentMeth] = { Gdes: 0, Us: 0 };
             }
 
-            // Ajouter aux totaux par méthode
-            totalsByPaymentMethod[paymentMeth][currency] += revenue;
-          });
+            // Pour le module Room, initialiser les types
+            if (isRoomModule && totalsByType) {
+                // Les totaux par type seront calculés à partir des produits
+            }
+
+            products.forEach(product => {
+                const category = product.category;
+                const currency = product.currency; // 'Gdes' ou 'Us'
+                const quantity = parseInt(product.quantity) || 0;
+                const price = parseFloat(product.price) || 0;
+                const revenue = quantity * price;
+                const item = product.item || 'Inconnu';
+                const productType = product.typeOperation || data.typeOperation || 'effectif';
+
+                // Ignorer si catégorie non reconnue
+                if (!categories.includes(category)) return;
+
+                // Initialiser la catégorie
+                if (!totalsByCategory[category]) {
+                    totalsByCategory[category] = { Gdes: {}, Us: {} };
+                }
+                if (!totalsByCategory[category][currency]) {
+                    totalsByCategory[category][currency] = {};
+                }
+                if (!totalsByCategory[category][currency][item]) {
+                    totalsByCategory[category][currency][item] = { 
+                        totalQuantity: 0, 
+                        totalRevenue: 0,
+                        type: productType 
+                    };
+                }
+                totalsByCategory[category][currency][item].totalQuantity += quantity;
+                totalsByCategory[category][currency][item].totalRevenue += revenue;
+
+                // Ajouter aux totaux par statut
+                const statusKey = paymentStatut.toUpperCase();
+                if (totalsByPaymentStatus[statusKey]) {
+                    totalsByPaymentStatus[statusKey][currency] += revenue;
+                }
+
+                // Ajouter aux totaux par méthode
+                totalsByPaymentMethod[paymentMeth][currency] += revenue;
+
+                // Ajouter aux totaux par type (uniquement pour Room)
+                if (isRoomModule && totalsByType) {
+                    const typeKey = productType === 'reservation' ? 'reservation' : 'effectif';
+                    if (totalsByType[typeKey]) {
+                        totalsByType[typeKey][currency] += revenue;
+                    }
+                }
+            });
         });
+
+        // Construire le HTML
+        const moduleLabel = collection === 'globalSales' ? 'Bar & Resto' : 'Chambres & Piscine';
+        let html = `<h2>📊 Rapport du ${date} — ${moduleLabel}</h2>`;
+
+        // --- Section par catégorie ---
+        const categoryLabels = {
+            drink: '🥤 Boissons',
+            food: '🍽️ Nourriture',
+            smoke: '🚬 Tabac',
+            room: '🛏️ Chambres',
+            pool: '🏊 Piscine',
+            spec18: '🔞 Spec18',
+            service: '🧺 Service'
+        };
+
+        let grandTotalGdes = 0, grandTotalUs = 0;
+
+        for (const cat in totalsByCategory) {
+            const catLabel = categoryLabels[cat] || cat.toUpperCase();
+            html += `<h3>${catLabel}</h3>`;
+            html += `<table><thead><tr>
+                <th>Article</th>`;
+            if (isRoomModule) {
+                html += `<th>Type</th>`;
+            }
+            html += `<th>Qté Gdes</th><th>Rev Gdes</th><th>Qté Us</th><th>Rev Us</th>
+            </tr></thead><tbody>`;
+            
+            const itemsG = totalsByCategory[cat].Gdes || {};
+            const itemsU = totalsByCategory[cat].Us || {};
+            const allItems = new Set([...Object.keys(itemsG), ...Object.keys(itemsU)]);
+            let catG = 0, catU = 0;
+
+            allItems.forEach(item => {
+                const g = itemsG[item] || { totalQuantity: 0, totalRevenue: 0 };
+                const u = itemsU[item] || { totalQuantity: 0, totalRevenue: 0 };
+                const typeLabel = isRoomModule ? 
+                    (g.type === 'reservation' || u.type === 'reservation' ? '📅 Réservation' : '🟢 Effectif') : '';
+                html += `<tr>
+                    <td>${item}</td>`;
+                if (isRoomModule) {
+                    html += `<td>${typeLabel}</td>`;
+                }
+                html += `<td>${g.totalQuantity}</td>
+                    <td>${g.totalRevenue.toFixed(2)}</td>
+                    <td>${u.totalQuantity}</td>
+                    <td>${u.totalRevenue.toFixed(2)}</td>
+                </tr>`;
+                catG += g.totalRevenue;
+                catU += u.totalRevenue;
+            });
+
+            html += `<tfoot><tr><td${isRoomModule ? ' colspan="2"' : ''}><strong>Total ${catLabel}</strong></td>
+                <td></td><td><strong>${catG.toFixed(2)}</strong></td>
+                <td></td><td><strong>${catU.toFixed(2)}</strong></td>
+            </tr></tfoot></tbody></table>`;
+            grandTotalGdes += catG;
+            grandTotalUs += catU;
+        }
+
+        // --- Totaux par type d'opération (uniquement pour Room) ---
+        if (isRoomModule && totalsByType) {
+            html += `<h3>📊 Totaux par type d'opération</h3>`;
+            html += `<table><thead><tr><th>Type</th><th>Total Gdes</th><th>Total US</th></tr></thead><tbody>`;
+            for (const type in totalsByType) {
+                const label = type === 'reservation' ? '📅 Réservation' : '🟢 Effectif';
+                html += `<tr><td>${label}</td>
+                    <td>${totalsByType[type].Gdes.toFixed(2)}</td>
+                    <td>${totalsByType[type].Us.toFixed(2)}</td></tr>`;
+            }
+            html += `</tbody></table>`;
+        }
+
+        // --- Grand Total ---
+        html += `<div class="totals-grid">
+            <div class="card"><div class="label">💰 Total Gdes</div><div class="value">${grandTotalGdes.toFixed(2)}</div></div>
+            <div class="card"><div class="label">💵 Total US</div><div class="value">${grandTotalUs.toFixed(2)}</div></div>
+        </div>`;
+
+        // --- Totaux par méthode de paiement (regroupés) ---
+        html += `<h3>💳 Totaux par méthode de paiement</h3>`;
+        html += `<table><thead><tr><th>Méthode</th><th>Total Gdes</th><th>Total US</th></tr></thead><tbody>`;
+        
+        // Regrouper les méthodes combinées
+        const methodTotals = {};
+        for (const meth in totalsByPaymentMethod) {
+            // Gérer les méthodes combinées (ex: "carte&cash")
+            const methods = meth.split('&').map(m => m.trim().toLowerCase());
+            methods.forEach(m => {
+                if (!methodTotals[m]) methodTotals[m] = { Gdes: 0, Us: 0 };
+                const share = 1 / methods.length;
+                methodTotals[m].Gdes += totalsByPaymentMethod[meth].Gdes * share;
+                methodTotals[m].Us += totalsByPaymentMethod[meth].Us * share;
+            });
+        }
+
+        const methodLabels = {
+            cash: '💵 Cash',
+            card: '💳 Carte',
+            moncash: '📱 Moncash',
+            natcash: '📱 Natcash',
+            virement: '🏦 Virement',
+            cheque: '📝 Chèque',
+            autre: '🔹 Autre'
+        };
+
+        const sortedMethods = Object.keys(methodTotals).sort();
+        if (sortedMethods.length > 0) {
+            sortedMethods.forEach(method => {
+                const label = methodLabels[method] || method.charAt(0).toUpperCase() + method.slice(1);
+                html += `<tr><td>${label}</td>
+                    <td>${methodTotals[method].Gdes.toFixed(2)}</td>
+                    <td>${methodTotals[method].Us.toFixed(2)}</td></tr>`;
+            });
+        } else {
+            html += `<tr><td colspan="3" style="text-align:center;color:var(--gray-500);">Aucune donnée</td></tr>`;
+        }
+        html += `</tbody></table>`;
+
+        // --- Totaux par statut de paiement ---
+        html += `<h3>📋 Totaux par statut de paiement</h3>`;
+        html += `<table><thead><tr><th>Statut</th><th>Total Gdes</th><th>Total US</th></tr></thead><tbody>`;
+        const statusLabels = {
+            PAYE: '✅ PAYÉ',
+            NONPAYE: '⏳ NON PAYÉ',
+            NONPAYEE: '⏳ NON PAYÉ',
+            CREDIT: '💳 CRÉDIT'
+        };
+        for (const status in totalsByPaymentStatus) {
+            if (totalsByPaymentStatus[status].Gdes === 0 && totalsByPaymentStatus[status].Us === 0) continue;
+            const label = statusLabels[status] || status;
+            html += `<tr><td>${label}</td>
+                <td>${totalsByPaymentStatus[status].Gdes.toFixed(2)}</td>
+                <td>${totalsByPaymentStatus[status].Us.toFixed(2)}</td></tr>`;
+        }
+        html += `</tbody></table>`;
+
+        // --- Grand Total final ---
+        html += `<div style="margin-top:24px;padding:16px;background:var(--gold);color:var(--black);border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:20px;">
+            🏆 GRAND TOTAL — Gdes: ${grandTotalGdes.toFixed(2)} | US: ${grandTotalUs.toFixed(2)}
+        </div>`;
+
+        container.innerHTML = html;
+        
+    } catch (error) {
+        console.error(error);
+        container.innerHTML = `<div class="empty">❌ Erreur : ${error.message}</div>`;
+    }
+}
 
         // Construire le HTML
         let html = `<h2>Rapport du ${date} — ${moduleSelect.options[moduleSelect.selectedIndex].text}</h2>`;
