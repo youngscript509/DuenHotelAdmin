@@ -991,7 +991,7 @@
             font-size: 16px;
         }
     </style>
-      <style>
+    <style>
     /* ============================================================
        Réutilisation des styles du dashboard
     ============================================================ */
@@ -1154,6 +1154,96 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ============================================================
+   MODIFICATIONS SPECIFIC
+============================================================ */
+.modif-item {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-top: 12px;
+    background: var(--white);
+    transition: all var(--transition);
+}
+.modif-item:hover {
+    border-color: var(--gold);
+    box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
+}
+.modif-item .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.modif-item .facture {
+    font-weight: 700;
+    font-size: 15px;
+}
+.modif-item .meta {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-top: 8px;
+    line-height: 1.6;
+}
+.modif-item .actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.modif-item .comment-box {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--gray-200);
+}
+.modif-item .feedback {
+    background: var(--gray-50);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.modif-item .badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.badge-attente {
+    background: #fff3cd;
+    color: #856404;
+}
+.badge-approuve {
+    background: #d4edda;
+    color: #155724;
+}
+.badge-refuse {
+    background: #f8d7da;
+    color: #721c24;
+}
+.modif-tabs .btn {
+    border: 1px solid var(--gray-300);
+    background: transparent;
+    color: var(--gray-700);
+    font-size: 12px;
+    padding: 6px 14px;
+}
+.modif-tabs .btn.active {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+}
+.modif-tabs .btn:hover {
+    border-color: var(--gold);
+    color: var(--black);
+}
   </style>
 </head>
 <body>
@@ -1460,33 +1550,34 @@
                     </div>
                 </section>
 
-                <!-- ==========================================================
-                PAGE : MODIFICATIONS (approbation workflow)
-                ========================================================== -->
-                <section class="page-section" id="page-modifications">
-                    <div class="card-panel">
-                        <div class="card-title"><i class="fas fa-exchange-alt"></i> Demandes de modification</div>
-                        <div class="flex-wrap gap-12 mb-16">
-                            <div class="modif-tabs flex-wrap gap-8">
-                                <button class="btn btn-sm active" data-module="restobar" onclick="switchModifModule('restobar')">Resto & Bar</button>
-                                <button class="btn btn-sm" data-module="roompool" onclick="switchModifModule('roompool')">Chambres & Piscine</button>
-                            </div>
-                            <div class="modif-tabs flex-wrap gap-8">
-                                <button class="btn btn-sm active" data-filter="en_attente" onclick="setModifFilter('en_attente')">En attente</button>
-                                <button class="btn btn-sm" data-filter="approuve" onclick="setModifFilter('approuve')">Approuvées</button>
-                                <button class="btn btn-sm" data-filter="refuse" onclick="setModifFilter('refuse')">Refusées</button>
-                                <button class="btn btn-sm" data-filter="toutes" onclick="setModifFilter('toutes')">Toutes</button>
-                            </div>
-                        </div>
-                        <div id="modifList"><div class="empty-state">Chargement...</div></div>
-                    </div>
-                    <div class="card-panel">
-                        <details>
-                            <summary style="font-weight:600;cursor:pointer;"><i class="fas fa-history"></i> Journal d'audit</summary>
-                            <div id="auditLog" style="margin-top:10px;"></div>
-                        </details>
-                    </div>
-                </section>
+              <!-- ==========================================================
+PAGE : MODIFICATIONS (approbation workflow)
+========================================================== -->
+<section class="page-section" id="page-modifications">
+    <div class="card-panel">
+        <div class="card-title"><i class="fas fa-exchange-alt"></i> Demandes de modification</div>
+        <div class="flex-wrap gap-12 mb-16">
+            <div class="modif-tabs flex-wrap gap-8">
+                <button class="btn btn-sm active" data-module="restobar" onclick="switchModifModule('restobar')">🍽️ Resto & Bar</button>
+                <button class="btn btn-sm" data-module="roompool" onclick="switchModifModule('roompool')">🛏️ Chambres & Piscine</button>
+            </div>
+            <div class="modif-tabs flex-wrap gap-8">
+                <button class="btn btn-sm active" data-filter="en_attente" onclick="setModifFilter('en_attente')">⏳ En attente</button>
+                <button class="btn btn-sm" data-filter="approuve" onclick="setModifFilter('approuve')">✅ Approuvées</button>
+                <button class="btn btn-sm" data-filter="refuse" onclick="setModifFilter('refuse')">❌ Refusées</button>
+                <button class="btn btn-sm" data-filter="toutes" onclick="setModifFilter('toutes')">📚 Toutes</button>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="refreshModifRequests()"><i class="fas fa-sync"></i> Rafraîchir</button>
+        </div>
+        <div id="modifList"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></div>
+    </div>
+    <div class="card-panel">
+        <details>
+            <summary style="font-weight:600;cursor:pointer;"><i class="fas fa-history"></i> Journal d'audit</summary>
+            <div id="auditLog" style="margin-top:10px;"></div>
+        </details>
+    </div>
+</section>
 
                 <!-- ==========================================================
                 PAGE : UTILISATEURS
@@ -1859,7 +1950,17 @@
                 if (page === 'credits') loadCredits();
                 if (page === 'finance') loadFinance();
                 if (page === 'expenses') loadExpenses();
-                if (page === 'modifications') loadModifRequests();
+                // Dans la fonction de navigation, ajoutez ceci pour la page modifications
+if (page === 'modifications') {
+    // S'assurer que les bons onglets sont actifs
+    document.querySelectorAll('.modif-tabs [data-module]').forEach(b => {
+        b.classList.toggle('active', b.dataset.module === modifModule);
+    });
+    document.querySelectorAll('.modif-tabs [data-filter]').forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === modifFilter);
+    });
+    loadModifRequests();
+}
                 if (page === 'users') loadUsers();
                 if (page === 'hr') loadEmployees();
                 if (page === 'quickreport') loadReport();
@@ -2490,273 +2591,520 @@
             } catch (e) { toast(e.message, 'error'); }
         }
 
-        // ============================================================
-        //  MODIFICATIONS (approbation workflow)
-        // ============================================================
-        function switchModifModule(module) {
-            modifModule = module;
-            document.querySelectorAll('.modif-tabs [data-module]').forEach(b => b.classList.toggle('active', b.dataset.module === module));
-            loadModifRequests();
+// ============================================================
+//  MODIFICATIONS (approbation workflow) - Version complète
+// ============================================================
+
+let modifModule = 'restobar';
+let modifFilter = 'en_attente';
+let modifData = [];
+
+function switchModifModule(module) {
+    modifModule = module;
+    document.querySelectorAll('.modif-tabs [data-module]').forEach(b => {
+        b.classList.toggle('active', b.dataset.module === module);
+    });
+    loadModifRequests();
+}
+
+function setModifFilter(filter) {
+    modifFilter = filter;
+    document.querySelectorAll('.modif-tabs [data-filter]').forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === filter);
+    });
+    loadModifRequests();
+}
+
+function refreshModifRequests() {
+    loadModifRequests();
+}
+
+function getModifCollection() {
+    return modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
+}
+
+function getSalesCollection() {
+    return modifModule === 'restobar' ? 'globalSales' : 'globalSalesRoom';
+}
+
+function getStockCollection() {
+    return modifModule === 'restobar' ? 'DrinkStock' : 'roomsStock';
+}
+
+function getModuleLabel() {
+    return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
+}
+
+async function loadModifRequests() {
+    const container = document.getElementById('modifList');
+    
+    // Vérifier les droits
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
+        return;
+    }
+    
+    try {
+        const collectionName = getModifCollection();
+        const snap = await db.collection(collectionName).get();
+        let requests = [];
+        snap.forEach(d => requests.push({ ...d.data(), id: d.id }));
+        
+        // Filtrer par statut
+        if (modifFilter !== 'toutes') {
+            requests = requests.filter(r => r.statut === modifFilter);
         }
+        
+        // Trier par date (plus récent d'abord)
+        requests.sort((a, b) => new Date(b.dateDemande) - new Date(a.dateDemande));
+        modifData = requests;
 
-        function setModifFilter(filter) {
-            modifFilter = filter;
-            document.querySelectorAll('.modif-tabs [data-filter]').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
-            loadModifRequests();
-        }
+        if (!requests.length) {
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>Aucune demande ${modifFilter === 'toutes' ? '' : modifFilter === 'en_attente' ? 'en attente' : modifFilter} dans le module ${getModuleLabel()}.</div>`;
+        } else {
+            container.innerHTML = requests.map(r => {
+                const isPending = r.statut === 'en_attente';
+                const badgeClass = r.statut === 'approuve' ? 'badge-approuve' :
+                    r.statut === 'refuse' ? 'badge-refuse' : 'badge-attente';
+                const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
+                    r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
 
-        async function loadModifRequests() {
-            const container = document.getElementById('modifList');
-            // Vérifier les droits
-            if (!window.userRole || !['Admin', 'DG', 'Manager'].includes(window.userRole)) {
-                container.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
-                return;
-            }
-            try {
-                const collectionName = modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
-                const snap = await db.collection(collectionName).get();
-                let requests = [];
-                snap.forEach(d => requests.push({ ...d.data(), id: d.id }));
-                if (modifFilter !== 'toutes') {
-                    requests = requests.filter(r => r.statut === modifFilter);
-                }
-                requests.sort((a, b) => new Date(b.dateDemande) - new Date(a.dateDemande));
-
-                if (!requests.length) {
-                    container.innerHTML = '<div class="empty-state">Aucune demande dans cette catégorie.</div>';
-                } else {
-                    container.innerHTML = requests.map(r => {
-                        const isPending = r.statut === 'en_attente';
-                        const badgeClass = r.statut === 'approuve' ? 'badge-approuve' :
-                            r.statut === 'refuse' ? 'badge-refuse' : 'badge-attente';
-                        const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
-                            r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
-
-                        // Détails des items
-                        let itemsHtml = '';
-                        if (r.items && r.items.length) {
-                            itemsHtml = r.items.map(item => {
-                                const actionLabel = item.action === 'increase' ? '➕ Augmentation' :
-                                    item.action === 'decrease' ? '➖ Diminution' :
-                                    item.action === 'delete' ? '🗑️ Suppression' : item.action;
-                                return `<div style="font-size:13px;">• ${item.productName} — ${actionLabel} ${item.amount ? '('+item.amount+')' : ''}</div>`;
-                            }).join('');
-                        } else {
-                            // fallback pour anciennes demandes
-                            itemsHtml = `<div>${r.produitNom || '—'} — ${r.type || ''}</div>`;
-                        }
-
-                        return `
-                            <div class="modif-item">
-                                <div class="top">
-                                    <div>
-                                        <div class="facture">🧾 ${r.factureId || '—'}</div>
-                                        <div style="font-size:13px;color:var(--gray-700);">${itemsHtml}</div>
-                                    </div>
-                                    <span class="badge ${badgeClass}">${badgeLabel}</span>
-                                </div>
-                                <div class="meta">
-                                    👤 Demandé par <strong>${r.demandeur?.nom || '—'}</strong> (${r.demandeur?.role || 'Vendeur'}) le ${new Date(r.dateDemande).toLocaleString('fr-FR')}<br>
-                                    📝 Motif : ${r.motif || '—'}
-                                </div>
-                                ${isPending ? `
-                                    <div class="actions">
-                                        <button class="btn btn-success btn-sm" onclick="approveModif('${r.id}','${collectionName}')"><i class="fas fa-check"></i> Approuver</button>
-                                        <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${r.id}')"><i class="fas fa-times"></i> Refuser</button>
-                                    </div>
-                                    <div class="comment-box" id="comment_box_${r.id}">
-                                        <div class="form-group"><label>Commentaire (obligatoire pour un refus)</label><textarea id="comment_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..."></textarea></div>
-                                        <button class="btn btn-danger btn-sm" onclick="rejectModif('${r.id}','${collectionName}')">Confirmer le refus</button>
-                                    </div>
-                                ` : `
-                                    <div class="feedback">
-                                        Traitée par <strong>${r.traitantPar?.nom || '—'}</strong> (${r.traitantPar?.role || '—'}) le ${new Date(r.dateTraitement).toLocaleString('fr-FR')}
-                                        ${r.commentaireTraitement ? `<br>💬 ${r.commentaireTraitement}` : ''}
-                                    </div>
-                                `}
-                            </div>
-                        `;
+                // Détails des items
+                let itemsHtml = '';
+                let stockUpdateInfo = '';
+                
+                if (r.items && r.items.length) {
+                    itemsHtml = r.items.map(item => {
+                        const actionLabel = item.action === 'increase' ? '➕ Augmentation' :
+                            item.action === 'decrease' ? '➖ Diminution' :
+                            item.action === 'delete' ? '🗑️ Suppression' : item.action;
+                        const amountInfo = item.amount ? `(${item.amount})` : '';
+                        return `<div style="font-size:13px;padding:2px 0;">• ${item.productName} — ${actionLabel} ${amountInfo}</div>`;
                     }).join('');
-                }
-                // Charger l'audit
-                loadAuditLog();
-            } catch (e) {
-                console.error(e);
-                container.innerHTML = '<div class="empty-state">Erreur lors du chargement des demandes.</div>';
-            }
-        }
-
-        function toggleCommentModif(id) {
-            const box = document.getElementById(`comment_box_${id}`);
-            if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        }
-
-        async function approveModif(requestId, collectionName) {
-            if (!window.userRole || !['Admin', 'DG', 'Manager'].includes(window.userRole)) {
-                return toast('Permission refusée', 'error');
-            }
-            try {
-                const docRef = db.collection(collectionName).doc(requestId);
-                const doc = await docRef.get();
-                if (!doc.exists) return toast('Demande introuvable', 'error');
-                const data = doc.data();
-                if (data.statut !== 'en_attente') return toast('Cette demande a déjà été traitée', 'error');
-
-                // Appliquer les modifications à la vente et au stock
-                await applyModification(data, collectionName);
-
-                // Mettre à jour le statut
-                await docRef.update({
-                    statut: 'approuve',
-                    traitantPar: { nom: document.getElementById('userName').textContent, role: window.userRole },
-                    dateTraitement: new Date().toISOString(),
-                    commentaireTraitement: null
-                });
-
-                // Journal d'audit
-                await db.collection('auditLog').add({
-                    requestId,
-                    action: 'approbation',
-                    par: { nom: document.getElementById('userName').textContent, role: window.userRole },
-                    date: new Date().toISOString(),
-                    details: `${document.getElementById('userName').textContent} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId}`
-                });
-
-                toast('Demande approuvée', 'success');
-                loadModifRequests();
-            } catch (e) {
-                toast(e.message, 'error');
-                console.error(e);
-            }
-        }
-
-        async function rejectModif(requestId, collectionName) {
-            if (!window.userRole || !['Admin', 'DG', 'Manager'].includes(window.userRole)) {
-                return toast('Permission refusée', 'error');
-            }
-            const comment = document.getElementById(`comment_${requestId}`)?.value?.trim();
-            if (!comment) return toast('Un commentaire est requis pour un refus', 'error');
-            try {
-                const docRef = db.collection(collectionName).doc(requestId);
-                const doc = await docRef.get();
-                if (!doc.exists) return toast('Demande introuvable', 'error');
-                const data = doc.data();
-                if (data.statut !== 'en_attente') return toast('Cette demande a déjà été traitée', 'error');
-
-                await docRef.update({
-                    statut: 'refuse',
-                    traitantPar: { nom: document.getElementById('userName').textContent, role: window.userRole },
-                    dateTraitement: new Date().toISOString(),
-                    commentaireTraitement: comment
-                });
-
-                await db.collection('auditLog').add({
-                    requestId,
-                    action: 'refus',
-                    par: { nom: document.getElementById('userName').textContent, role: window.userRole },
-                    date: new Date().toISOString(),
-                    details: `${document.getElementById('userName').textContent} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} — Commentaire: ${comment}`
-                });
-
-                toast('Demande refusée', 'success');
-                loadModifRequests();
-            } catch (e) {
-                toast(e.message, 'error');
-                console.error(e);
-            }
-        }
-
-        async function applyModification(request, collectionName) {
-            // Déterminer la collection de vente et de stock
-            const isRoom = collectionName === 'modifRequestsRoom';
-            const salesCol = isRoom ? 'globalSalesRoom' : 'globalSales';
-            const stockCol = isRoom ? 'roomsStock' : 'DrinkStock';
-
-            // Récupérer la vente
-            const saleRef = db.collection(salesCol).doc(request.factureId);
-            const saleDoc = await saleRef.get();
-            if (!saleDoc.exists) throw new Error('Vente introuvable: ' + request.factureId);
-            const saleData = saleDoc.data();
-            let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
-
-            // Appliquer chaque modification
-            for (const item of request.items || []) {
-                const productName = item.productName;
-                const index = products.findIndex(p => p.item === productName);
-                const currentLine = index >= 0 ? products[index] : null;
-
-                // Récupérer le produit en stock
-                const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                if (stockQuery.empty) throw new Error(`Produit introuvable en stock: ${productName}`);
-                const stockDoc = stockQuery.docs[0];
-                const stockData = stockDoc.data();
-                let stockQty = Number(stockData.quantity || 0);
-
-                if (item.action === 'delete') {
-                    if (currentLine) {
-                        // Remettre en stock
-                        stockQty += Number(currentLine.quantity || 0);
-                        await db.collection(stockCol).doc(stockDoc.id).update({ quantity: stockQty, updatedAt: Date
-                                .now() });
-                        products.splice(index, 1);
+                    
+                    // Informations de mise à jour du stock
+                    if (r.statut === 'approuve') {
+                        stockUpdateInfo = r.items.map(item => {
+                            const actionLabel = item.action === 'increase' ? '⬆️ Augmentation' :
+                                item.action === 'decrease' ? '⬇️ Diminution' :
+                                item.action === 'delete' ? '🗑️ Suppression' : item.action;
+                            return `<div style="font-size:12px;">• ${item.productName}: ${actionLabel} ${item.amount ? '('+item.amount+')' : ''}</div>`;
+                        }).join('');
+                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:8px 12px;border-radius:6px;margin-top:6px;font-size:13px;border-left:3px solid #2e7d32;">
+                            <strong>✅ Stock et facture mis à jour</strong>
+                            ${stockUpdateInfo}
+                        </div>`;
                     }
-                } else if (item.action === 'decrease') {
-                    const delta = Number(item.amount || 0);
-                    if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
-                    if (delta > Number(currentLine.quantity || 0)) throw new Error(
-                        `Diminution demandée dépasse la quantité de ${productName}`);
-                    currentLine.quantity = Number(currentLine.quantity || 0) - delta;
-                    stockQty += delta;
-                    await db.collection(stockCol).doc(stockDoc.id).update({ quantity: stockQty, updatedAt: Date.now() });
-                    if (currentLine.quantity <= 0) products.splice(index, 1);
-                    else products[index] = currentLine;
-                } else if (item.action === 'increase') {
-                    const delta = Number(item.amount || 0);
-                    if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
-                    if (delta > stockQty) throw new Error(`Stock insuffisant pour ${productName}`);
-                    currentLine.quantity = Number(currentLine.quantity || 0) + delta;
-                    stockQty -= delta;
-                    await db.collection(stockCol).doc(stockDoc.id).update({ quantity: stockQty, updatedAt: Date.now() });
+                } else {
+                    // Fallback pour anciennes demandes
+                    const typeLabel = r.type === 'suppression_produit' ? '🗑️ Suppression produit' :
+                        r.type === 'diminution_quantite' ? '➖ Diminution quantité' :
+                        r.type === 'augmentation' ? '➕ Augmentation' : r.type || 'Modification';
+                    itemsHtml = `<div style="font-size:13px;">• ${r.productName || '—'} — ${typeLabel}</div>`;
+                    
+                    if (r.statut === 'approuve') {
+                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:8px 12px;border-radius:6px;margin-top:6px;font-size:13px;border-left:3px solid #2e7d32;">
+                            <strong>✅ Stock et facture mis à jour</strong>
+                            ${r.deleteWhole ? '🗑️ Suppression complète du produit' : `Qté: ${r.currentQuantity} → ${r.newQuantity}`}
+                        </div>`;
+                    }
+                }
+
+                // Informations du demandeur
+                const demandeurInfo = r.demandeur ? 
+                    `<strong>${r.demandeur.nom || '—'}</strong> (${r.demandeur.role || 'Vendeur'})` : '—';
+                
+                // Date de demande formatée
+                const dateDemande = r.dateDemande ? new Date(r.dateDemande).toLocaleString('fr-FR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }) : '—';
+                
+                const dateTraitement = r.dateTraitement ? new Date(r.dateTraitement).toLocaleString('fr-FR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }) : '—';
+
+                return `
+                    <div class="modif-item" data-id="${r.id}">
+                        <div class="top">
+                            <div style="flex:1;">
+                                <div class="facture">🧾 ${r.factureId || '—'}</div>
+                                <div style="font-size:13px;color:var(--gray-700);margin-top:4px;">
+                                    ${itemsHtml}
+                                </div>
+                                ${r.invoiceSummary ? `
+                                    <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">
+                                        Client: ${r.invoiceSummary.customerName || '—'} 
+                                        ${r.invoiceSummary.customerId ? '| ID: ' + r.invoiceSummary.customerId : ''}
+                                        ${r.invoiceSummary.amountGdes ? '| Total: ' + r.invoiceSummary.amountGdes + ' Gdes' : ''}
+                                        ${r.invoiceSummary.amountUs ? '/' + r.invoiceSummary.amountUs + ' US' : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <span class="badge ${badgeClass}">${badgeLabel}</span>
+                        </div>
+                        <div class="meta">
+                            👤 Demandé par ${demandeurInfo} le ${dateDemande}<br>
+                            📝 Motif : ${r.motif || r.reason || '—'}
+                            ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
+                        </div>
+                        ${stockUpdateInfo}
+                        ${isPending ? `
+                            <div class="actions">
+                                <button class="btn btn-success btn-sm" onclick="approveModif('${r.id}')"><i class="fas fa-check"></i> Approuver</button>
+                                <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${r.id}')"><i class="fas fa-times"></i> Refuser</button>
+                            </div>
+                            <div class="comment-box" id="comment_box_${r.id}">
+                                <div class="form-group" style="margin-top:8px;">
+                                    <label>Commentaire (obligatoire pour un refus)</label>
+                                    <textarea id="comment_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);"></textarea>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="rejectModif('${r.id}')">Confirmer le refus</button>
+                            </div>
+                        ` : `
+                            <div class="feedback">
+                                Traitée par <strong>${r.traitantPar?.nom || '—'}</strong> (${r.traitantPar?.role || '—'}) le ${dateTraitement}
+                                ${r.commentaireTraitement ? `<br>💬 ${r.commentaireTraitement}` : ''}
+                            </div>
+                        `}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Charger l'audit
+        loadAuditLog();
+        
+    } catch (e) {
+        console.error('Erreur chargement demandes:', e);
+        container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur lors du chargement des demandes.</div>';
+    }
+}
+
+function toggleCommentModif(id) {
+    const box = document.getElementById(`comment_box_${id}`);
+    if (box) {
+        box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        if (box.style.display === 'block') {
+            const textarea = document.getElementById(`comment_${id}`);
+            if (textarea) textarea.focus();
+        }
+    }
+}
+
+async function approveModif(requestId) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+        return toast('Permission refusée', 'error');
+    }
+    
+    try {
+        const collectionName = getModifCollection();
+        const docRef = db.collection(collectionName).doc(requestId);
+        const doc = await docRef.get();
+        
+        if (!doc.exists) return toast('Demande introuvable', 'error');
+        const data = doc.data();
+        
+        if (data.statut !== 'en_attente') {
+            return toast('Cette demande a déjà été traitée', 'error');
+        }
+
+        // Appliquer les modifications à la vente et au stock
+        await applyModification(data);
+
+        // Mettre à jour le statut
+        await docRef.update({
+            statut: 'approuve',
+            traitantPar: { 
+                nom: document.getElementById('userName').textContent || 'Admin', 
+                role: window.userRole 
+            },
+            dateTraitement: new Date().toISOString(),
+            commentaireTraitement: null
+        });
+
+        // Journal d'audit
+        await db.collection('auditLog').add({
+            requestId,
+            module: modifModule,
+            action: 'approbation',
+            par: { 
+                nom: document.getElementById('userName').textContent || 'Admin', 
+                role: window.userRole 
+            },
+            date: new Date().toISOString(),
+            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId} (${getModuleLabel()})`
+        });
+
+        toast('✅ Demande approuvée - Facture et stock mis à jour', 'success');
+        loadModifRequests();
+        
+    } catch (e) {
+        toast('❌ Erreur: ' + e.message, 'error');
+        console.error(e);
+    }
+}
+
+async function rejectModif(requestId) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+        return toast('Permission refusée', 'error');
+    }
+    
+    const comment = document.getElementById(`comment_${requestId}`)?.value?.trim();
+    if (!comment) {
+        return toast('⚠️ Un commentaire est requis pour un refus', 'error');
+    }
+    
+    try {
+        const collectionName = getModifCollection();
+        const docRef = db.collection(collectionName).doc(requestId);
+        const doc = await docRef.get();
+        
+        if (!doc.exists) return toast('Demande introuvable', 'error');
+        const data = doc.data();
+        
+        if (data.statut !== 'en_attente') {
+            return toast('Cette demande a déjà été traitée', 'error');
+        }
+
+        await docRef.update({
+            statut: 'refuse',
+            traitantPar: { 
+                nom: document.getElementById('userName').textContent || 'Admin', 
+                role: window.userRole 
+            },
+            dateTraitement: new Date().toISOString(),
+            commentaireTraitement: comment
+        });
+
+        // Journal d'audit
+        await db.collection('auditLog').add({
+            requestId,
+            module: modifModule,
+            action: 'refus',
+            par: { 
+                nom: document.getElementById('userName').textContent || 'Admin', 
+                role: window.userRole 
+            },
+            date: new Date().toISOString(),
+            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} (${getModuleLabel()}) — Commentaire: ${comment}`
+        });
+
+        toast('❌ Demande refusée', 'success');
+        loadModifRequests();
+        
+    } catch (e) {
+        toast('❌ Erreur: ' + e.message, 'error');
+        console.error(e);
+    }
+}
+
+async function applyModification(request) {
+    const salesCol = getSalesCollection();
+    const stockCol = getStockCollection();
+    
+    // Récupérer la vente
+    const saleRef = db.collection(salesCol).doc(request.factureId);
+    const saleDoc = await saleRef.get();
+    
+    if (!saleDoc.exists) {
+        throw new Error(`Vente introuvable: ${request.factureId} dans ${salesCol}`);
+    }
+    
+    const saleData = saleDoc.data();
+    let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
+
+    // Si la demande a un format "items" (nouveau format)
+    if (request.items && request.items.length) {
+        for (const item of request.items) {
+            const productName = item.productName;
+            const index = products.findIndex(p => p.item === productName);
+            const currentLine = index >= 0 ? products[index] : null;
+
+            // Récupérer le produit en stock
+            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+            if (stockQuery.empty) {
+                console.warn(`Produit introuvable en stock: ${productName}`);
+                continue;
+            }
+            const stockDoc = stockQuery.docs[0];
+            const stockData = stockDoc.data();
+            let stockQty = Number(stockData.quantity || 0);
+
+            if (item.action === 'delete') {
+                if (currentLine) {
+                    stockQty += Number(currentLine.quantity || 0);
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    products.splice(index, 1);
+                }
+            } else if (item.action === 'decrease') {
+                const delta = Number(item.amount || 0);
+                if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
+                if (delta > Number(currentLine.quantity || 0)) {
+                    throw new Error(`Diminution demandée (${delta}) dépasse la quantité de ${productName} (${currentLine.quantity})`);
+                }
+                currentLine.quantity = Number(currentLine.quantity || 0) - delta;
+                stockQty += delta;
+                await db.collection(stockCol).doc(stockDoc.id).update({ 
+                    quantity: stockQty, 
+                    updatedAt: new Date().toISOString() 
+                });
+                if (currentLine.quantity <= 0) {
+                    products.splice(index, 1);
+                } else {
                     products[index] = currentLine;
                 }
-            }
-
-            // Recalculer les totaux
-            let totalGdes = 0,
-                totalUs = 0;
-            products.forEach(p => {
-                if (p.currency === 'Gdes') totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
-                else if (p.currency === 'Us') totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
-            });
-
-            // Mettre à jour la vente
-            await saleRef.update({
-                products: products,
-                totalGdes: totalGdes,
-                totalUs: totalUs
-            });
-        }
-
-        async function loadAuditLog() {
-            const container = document.getElementById('auditLog');
-            try {
-                const snap = await db.collection('auditLog').orderBy('date', 'desc').limit(50).get();
-                if (snap.empty) {
-                    container.innerHTML = '<div class="empty-state">Aucune action enregistrée.</div>';
-                    return;
-                }
-                let html = '';
-                snap.forEach(d => {
-                    const a = d.data();
-                    html += `<div style="font-size:13px;border-bottom:1px solid var(--gray-100);padding:6px 0;">
-                        <strong>${new Date(a.date).toLocaleString('fr-FR')}</strong> — ${a.details}
-                    </div>`;
+            } else if (item.action === 'increase') {
+                const delta = Number(item.amount || 0);
+                if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
+                if (delta > stockQty) throw new Error(`Stock insuffisant pour ${productName}`);
+                currentLine.quantity = Number(currentLine.quantity || 0) + delta;
+                stockQty -= delta;
+                await db.collection(stockCol).doc(stockDoc.id).update({ 
+                    quantity: stockQty, 
+                    updatedAt: new Date().toISOString() 
                 });
-                container.innerHTML = html;
-            } catch (e) {
-                container.innerHTML = '<div class="empty-state">Impossible de charger le journal.</div>';
+                products[index] = currentLine;
             }
         }
+    } else {
+        // Format ancien (pour compatibilité)
+        const productName = request.productName;
+        const index = products.findIndex(p => p.item === productName);
+        const currentLine = index >= 0 ? products[index] : null;
+
+        const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+        if (!stockQuery.empty) {
+            const stockDoc = stockQuery.docs[0];
+            const stockData = stockDoc.data();
+            let stockQty = Number(stockData.quantity || 0);
+
+            if (request.deleteWhole || request.type === 'suppression_produit') {
+                if (currentLine) {
+                    stockQty += Number(currentLine.quantity || 0);
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    products.splice(index, 1);
+                }
+            } else if (request.type === 'diminution_quantite') {
+                const oldQty = Number(currentLine?.quantity || 0);
+                const newQty = Number(request.newQuantity || 0);
+                const qtyRemoved = oldQty - newQty;
+                if (currentLine && qtyRemoved > 0) {
+                    stockQty += qtyRemoved;
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    currentLine.quantity = newQty;
+                    if (newQty <= 0) {
+                        products.splice(index, 1);
+                    } else {
+                        products[index] = currentLine;
+                    }
+                }
+            }
+        }
+    }
+
+    // Recalculer les totaux
+    let totalGdes = 0, totalUs = 0;
+    products.forEach(p => {
+        if (p.currency === 'Gdes') {
+            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+        } else if (p.currency === 'Us') {
+            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+        } else {
+            // Fallback si currency non défini
+            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+        }
+    });
+
+    // Mettre à jour la vente
+    await saleRef.update({
+        products: products,
+        totalGdes: totalGdes,
+        totalUs: totalUs,
+        updatedAt: new Date().toISOString()
+    });
+    
+    console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes}, Total Us: ${totalUs}`);
+}
+
+async function loadAuditLog() {
+    const container = document.getElementById('auditLog');
+    try {
+        const snap = await db.collection('auditLog')
+            .orderBy('date', 'desc')
+            .limit(50)
+            .get();
+            
+        if (snap.empty) {
+            container.innerHTML = '<div class="empty-state">Aucune action enregistrée.</div>';
+            return;
+        }
+        
+        let html = '';
+        snap.forEach(d => {
+            const a = d.data();
+            const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : a.module === 'roompool' ? '🛏️ Room' : '';
+            html += `<div style="font-size:13px;border-bottom:1px solid var(--gray-100);padding:8px 0;">
+                <strong>${new Date(a.date).toLocaleString('fr-FR')}</strong> 
+                ${moduleLabel ? `<span class="badge" style="background:var(--gold);color:var(--black);padding:2px 10px;border-radius:999px;font-size:11px;">${moduleLabel}</span>` : ''}
+                — ${a.details}
+            </div>`;
+        });
+        container.innerHTML = html;
+    } catch (e) {
+        container.innerHTML = '<div class="empty-state">Impossible de charger le journal.</div>';
+        console.error(e);
+    }
+}
+
+// ============================================================
+//  Écoute temps réel pour les modifications
+// ============================================================
+
+// Ajouter un écouteur spécifique pour les demandes de modification
+function attachModifRealtimeListener() {
+    const collections = ['modifRequests', 'modifRequestsRoom'];
+    
+    collections.forEach(col => {
+        db.collection(col).onSnapshot(
+            { includeMetadataChanges: false },
+            (snapshot) => {
+                // Ne rafraîchir que si la page modifications est active
+                if (currentPage === 'modifications') {
+                    // Vérifier si les changements concernent le module actif
+                    const hasChanges = snapshot.docChanges().some(change => {
+                        const data = change.doc.data();
+                        const docModule = col === 'modifRequests' ? 'restobar' : 'roompool';
+                        return docModule === modifModule;
+                    });
+                    
+                    if (hasChanges) {
+                        loadModifRequests();
+                        toast('📥 Nouvelle demande reçue', 'info');
+                    }
+                }
+            },
+            (err) => {
+                console.warn(`[Admin Sync] Écoute modifications interrompue (${col}):`, err.code || err.message);
+            }
+        );
+    });
+}
+
+// Appeler cette fonction après l'initialisation
+// L'appeler dans le DOMContentLoaded ou après l'auth
+
 
         // ============================================================
         //  USERS
@@ -2930,6 +3278,7 @@
             setTimeout(() => {
                 if (currentPage === 'modifications') loadModifRequests();
             }, 500);
+            setTimeout(attachModifRealtimeListener, 2000);
         });
 
         console.log('🏨 Duen Hotel PWA v2.1 · Modifications intégrées');
