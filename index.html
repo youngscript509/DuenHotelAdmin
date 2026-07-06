@@ -3286,17 +3286,18 @@ function attachModifRealtimeListener() {
       <script>
 
 
-    // Éléments
-    const dateInput = document.getElementById('reportDate');
-    const moduleSelect = document.getElementById('reportModule');
-    const loadBtn = document.getElementById('loadReportBtn');
-    const container = document.getElementById('reportContainer');
-
-    // Mettre la date du jour par défaut
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.value = today;
-
     // Fonction principale - Version améliorée avec regroupement par méthode
+// Éléments
+const dateInput = document.getElementById('reportDate');
+const moduleSelect = document.getElementById('reportModule');
+const loadBtn = document.getElementById('loadReportBtn');
+const container = document.getElementById('reportContainer');
+
+// Mettre la date du jour par défaut
+const today = new Date().toISOString().split('T')[0];
+dateInput.value = today;
+
+// Fonction principale - Version améliorée avec regroupement par méthode
 async function loadReport() {
     const date = dateInput.value;
     const collection = moduleSelect.value;
@@ -3337,16 +3338,10 @@ async function loadReport() {
             const products = data.products || [];
             const paymentMeth = data.paymentmeth || 'Autre';
             const paymentStatut = data.paymentStatut || 'NONPAYE';
-            const typeOp = data.typeOperation || 'effectif';
 
             // Initialiser méthode de paiement
             if (!totalsByPaymentMethod[paymentMeth]) {
                 totalsByPaymentMethod[paymentMeth] = { Gdes: 0, Us: 0 };
-            }
-
-            // Pour le module Room, initialiser les types
-            if (isRoomModule && totalsByType) {
-                // Les totaux par type seront calculés à partir des produits
             }
 
             products.forEach(product => {
@@ -3525,12 +3520,18 @@ async function loadReport() {
             NONPAYEE: '⏳ NON PAYÉ',
             CREDIT: '💳 CRÉDIT'
         };
+        let hasStatusData = false;
         for (const status in totalsByPaymentStatus) {
-            if (totalsByPaymentStatus[status].Gdes === 0 && totalsByPaymentStatus[status].Us === 0) continue;
-            const label = statusLabels[status] || status;
-            html += `<tr><td>${label}</td>
-                <td>${totalsByPaymentStatus[status].Gdes.toFixed(2)}</td>
-                <td>${totalsByPaymentStatus[status].Us.toFixed(2)}</td></tr>`;
+            if (totalsByPaymentStatus[status].Gdes > 0 || totalsByPaymentStatus[status].Us > 0) {
+                hasStatusData = true;
+                const label = statusLabels[status] || status;
+                html += `<tr><td>${label}</td>
+                    <td>${totalsByPaymentStatus[status].Gdes.toFixed(2)}</td>
+                    <td>${totalsByPaymentStatus[status].Us.toFixed(2)}</td></tr>`;
+            }
+        }
+        if (!hasStatusData) {
+            html += `<tr><td colspan="3" style="text-align:center;color:var(--gray-500);">Aucune donnée</td></tr>`;
         }
         html += `</tbody></table>`;
 
@@ -3547,66 +3548,12 @@ async function loadReport() {
     }
 }
 
-        // Construire le HTML
-        let html = `<h2>Rapport du ${date} — ${moduleSelect.options[moduleSelect.selectedIndex].text}</h2>`;
-
-        // Totaux généraux (par catégorie)
-        let grandTotalGdes = 0, grandTotalUs = 0;
-        for (const cat in totalsByCategory) {
-          html += `<h3>${cat.toUpperCase()}</h3>`;
-          html += `<table><thead><tr><th>Article</th><th>Qte Gdes</th><th>Rev Gdes</th><th>Qte Us</th><th>Rev Us</th></tr></thead><tbody>`;
-          const itemsG = totalsByCategory[cat].Gdes || {};
-          const itemsU = totalsByCategory[cat].Us || {};
-          const allItems = new Set([...Object.keys(itemsG), ...Object.keys(itemsU)]);
-          let catG = 0, catU = 0;
-
-          allItems.forEach(item => {
-            const g = itemsG[item] || { totalQuantity: 0, totalRevenue: 0 };
-            const u = itemsU[item] || { totalQuantity: 0, totalRevenue: 0 };
-            html += `<tr><td>${item}</td><td>${g.totalQuantity}</td><td>${g.totalRevenue.toFixed(2)}</td><td>${u.totalQuantity}</td><td>${u.totalRevenue.toFixed(2)}</td></tr>`;
-            catG += g.totalRevenue;
-            catU += u.totalRevenue;
-          });
-          html += `<tfoot><tr><td><strong>Total ${cat}</strong></td><td></td><td><strong>${catG.toFixed(2)}</strong></td><td></td><td><strong>${catU.toFixed(2)}</strong></td></tr></tfoot>`;
-          html += `</tbody></table>`;
-          grandTotalGdes += catG;
-          grandTotalUs += catU;
-        }
-
-        // Grand total
-        html += `<div class="totals-grid">
-          <div class="card"><div class="label">Total Gdes</div><div class="value">${grandTotalGdes.toFixed(2)}</div></div>
-          <div class="card"><div class="label">Total US</div><div class="value">${grandTotalUs.toFixed(2)}</div></div>
-        </div>`;
-
-        // Résumé par statut et méthode
-        html += `<div class="summary-section">
-          <div><h4>Par Statut de Paiement</h4><ul>`;
-        for (const statut in totalsByPaymentStatus) {
-          const s = totalsByPaymentStatus[statut];
-          html += `<li><span>${statut}</span><span>${s.Gdes.toFixed(2)} Gdes / ${s.Us.toFixed(2)} Us</span></li>`;
-        }
-        html += `</ul></div>
-          <div><h4>Par Méthode de Paiement</h4><ul>`;
-        for (const meth in totalsByPaymentMethod) {
-          const m = totalsByPaymentMethod[meth];
-          html += `<li><span>${meth}</span><span>${m.Gdes.toFixed(2)} Gdes / ${m.Us.toFixed(2)} Us</span></li>`;
-        }
-        html += `</ul></div></div>`;
-
-        container.innerHTML = html;
-      } catch (error) {
-        console.error(error);
-        container.innerHTML = `<div class="empty">Erreur : ${error.message}</div>`;
-      }
-    }
-
-    // Événements
-    loadBtn.addEventListener('click', loadReport);
-    dateInput.addEventListener('change', loadReport);
-    moduleSelect.addEventListener('change', loadReport);
-    // Charger au démarrage
-    loadReport();
+// Événements
+loadBtn.addEventListener('click', loadReport);
+dateInput.addEventListener('change', loadReport);
+moduleSelect.addEventListener('change', loadReport);
+// Charger au démarrage
+loadReport();
   </script>
 
 </body>
