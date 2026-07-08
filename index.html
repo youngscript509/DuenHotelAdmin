@@ -1753,19 +1753,22 @@ PAGE : MODIFICATIONS (approbation workflow)
         // pour le module restobar. Si les demandes de l'app Resto/Bar
         // n'apparaissent jamais ici, c'est cette différence de nom qu'il
         // faut aligner (dans un sens ou dans l'autre).
-        const REALTIME_COLLECTIONS = [
-            { collection: 'DrinkStock', store: 'inventory', extra: { collection: 'DrinkStock' }, page: 'inventory' },
-            { collection: 'roomsStock', store: 'inventory', extra: { collection: 'roomsStock' }, page: 'inventory' },
-            { collection: 'globalSales', store: 'sales', page: 'sales' },
-            { collection: 'globalSalesRoom', store: 'salesRoom', page: 'sales' },
-            { collection: 'caisse', store: 'finance', page: 'finance' },
-            { collection: 'expenses', store: 'expenses', page: 'expenses' },
-            { collection: 'users', store: 'users', page: 'users' },
-            { collection: 'employees', store: 'employees', page: 'hr' },
-            { collection: 'modifRequests', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
-            { collection: 'modifRequestsRoom', store: 'modifRequests', extra: { module: 'room' }, page: 'modifications' },
-            { collection: 'auditLog', store: 'auditLog', page: null },
-        ];
+// Dans index.html, vers la ligne ~500
+const REALTIME_COLLECTIONS = [
+    { collection: 'DrinkStock', store: 'inventory', extra: { collection: 'DrinkStock' }, page: 'inventory' },
+    { collection: 'roomsStock', store: 'inventory', extra: { collection: 'roomsStock' }, page: 'inventory' },
+    { collection: 'globalSales', store: 'sales', page: 'sales' },
+    { collection: 'globalSalesRoom', store: 'salesRoom', page: 'sales' },
+    { collection: 'caisse', store: 'finance', page: 'finance' },
+    { collection: 'expenses', store: 'expenses', page: 'expenses' },
+    { collection: 'users', store: 'users', page: 'users' },
+    { collection: 'employees', store: 'employees', page: 'hr' },
+    // ⚠️ CORRECTION : Ajouter les deux collections
+    { collection: 'modifRequests', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
+    { collection: 'modifRequestsResto', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
+    { collection: 'modifRequestsRoom', store: 'modifRequests', extra: { module: 'roompool' }, page: 'modifications' },
+    { collection: 'auditLog', store: 'auditLog', page: null },
+];
 
         const _dhAdminUnsubs = [];
         let _dhFlashTimeout = null;
@@ -3101,6 +3104,14 @@ function attachModifRealtimeListener() {
     });
 }
 
+        // Dans index.html, remplacer cette fonction
+function getModifCollection() {
+    if (modifModule === 'restobar') {
+        // 🔥 CORRECTION : Lire depuis modifRequestsResto (collection utilisée par l'app RestoBar)
+        return 'modifRequestsResto';
+    }
+    return 'modifRequestsRoom';
+}
 // Appeler cette fonction après l'initialisation
 // L'appeler dans le DOMContentLoaded ou après l'auth
 
