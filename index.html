@@ -2796,7 +2796,7 @@ function toggleCommentModif(id) {
 }
 
 async function approveModif(requestId) {
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur','superviseur', 'SuperviseurGeneral',].includes(window.userRole)) {
         return toast('Permission refusée', 'error');
     }
     
@@ -3151,6 +3151,10 @@ function getModifCollection() {
                             <select id="addURole"><option value="user">Utilisateur</option><option value="manager">Manager</option><option value="Admin">Admin</option>
                                 <option value="DG">DG</option>
                                 <option value="vendeur">Vendeur</option>
+                                <option value="Superviseur">Superviseur General</option>
+                                 <option value="superviseur">Superviseur</option>
+                                 <option value="Receptioniste">Receptioniste</option>
+                                 <option value="Comptable">Comptable</option>
                                 </select>
                         </div>
                         <button type="submit" class="btn btn-gold"><i class="fas fa-save"></i> Créer</button>
