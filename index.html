@@ -1024,6 +1024,41 @@
             padding: 12px;
             font-size: 16px;
         }
+        
+        /* Style pour les onglets des modifications séparés */
+        .modif-module-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modif-module-tabs .btn {
+            border: 2px solid var(--gray-300);
+            background: transparent;
+            color: var(--gray-700);
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+        .modif-module-tabs .btn.active {
+            border-color: var(--gold);
+            background: var(--gold);
+            color: var(--black);
+        }
+        .modif-module-tabs .btn:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--black);
+        }
+        
+        .modif-module-panel {
+            display: none;
+        }
+        .modif-module-panel.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -1331,52 +1366,88 @@
                 </section>
 
                 <!-- ==========================================================
-                PAGE : MODIFICATIONS (approbation workflow) - CORRIGÉ
+                PAGE : MODIFICATIONS - AVEC ONGLETS SÉPARÉS
                 ========================================================== -->
-               <!-- ==========================================================
-PAGE : MODIFICATIONS (approbation workflow) - CORRIGÉE
-========================================================== -->
-<section class="page-section" id="page-modifications">
-    <div class="card-panel">
-        <div class="card-title"><i class="fas fa-exchange-alt"></i> Demandes de modification</div>
-        
-        <!-- FILTRE PAR DATE AJOUTÉ -->
-        <div class="flex-wrap gap-12 mb-16" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#f8f9fa;padding:12px 16px;border-radius:8px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-                <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">📅 Date</label>
-                <input type="date" id="modifFilterDate" style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;" />
-            </div>
-            <button class="btn btn-gold btn-sm" onclick="applyModifDateFilter()" style="padding:6px 16px;">
-                <i class="fas fa-filter"></i> Filtrer
-            </button>
-            <button class="btn btn-outline btn-sm" onclick="clearModifDateFilter()" style="padding:6px 16px;">
-                <i class="fas fa-times"></i> Effacer
-            </button>
-            <span style="font-size:0.8rem;color:var(--gray-500);margin-left:auto;" id="modifFilterInfo">Affiche toutes les demandes</span>
-        </div>
-        
-        <div class="flex-wrap gap-12 mb-16">
-            <div class="modif-tabs flex-wrap gap-8">
-                <button class="btn btn-sm active" data-module="restobar" onclick="switchModifModule('restobar')">🍽️ Resto & Bar</button>
-                <button class="btn btn-sm" data-module="roompool" onclick="switchModifModule('roompool')">🛏️ Chambres & Piscine</button>
-            </div>
-            <div class="modif-tabs flex-wrap gap-8">
-                <button class="btn btn-sm active" data-filter="en_attente" onclick="setModifFilter('en_attente')">⏳ En attente</button>
-                <button class="btn btn-sm" data-filter="approuve" onclick="setModifFilter('approuve')">✅ Approuvées</button>
-                <button class="btn btn-sm" data-filter="refuse" onclick="setModifFilter('refuse')">❌ Refusées</button>
-                <button class="btn btn-sm" data-filter="toutes" onclick="setModifFilter('toutes')">📚 Toutes</button>
-            </div>
-            <button class="btn btn-outline btn-sm" onclick="refreshModifRequests()"><i class="fas fa-sync"></i> Rafraîchir</button>
-        </div>
-        <div id="modifList"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></div>
-    </div>
-    <div class="card-panel">
-        <details>
-            <summary style="font-weight:600;cursor:pointer;font-size:1.1rem;"><i class="fas fa-history"></i> Journal d'audit</summary>
-            <div id="auditLog" style="margin-top:10px;"></div>
-        </details>
-    </div>
-</section>
+                <section class="page-section" id="page-modifications">
+                    <div class="card-panel">
+                        <div class="card-title"><i class="fas fa-exchange-alt"></i> Demandes de modification</div>
+                        
+                        <!-- Onglets pour choisir le module -->
+                        <div class="modif-module-tabs">
+                            <button class="btn active" data-module="restobar" onclick="switchModifModule('restobar')">
+                                🍽️ Resto & Bar
+                            </button>
+                            <button class="btn" data-module="roompool" onclick="switchModifModule('roompool')">
+                                🛏️ Chambres & Piscine
+                            </button>
+                        </div>
+                        
+                        <!-- Panneau RestoBar -->
+                        <div class="modif-module-panel active" id="modifPanel-restobar">
+                            <!-- FILTRE PAR DATE -->
+                            <div class="flex-wrap gap-12 mb-16" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#f8f9fa;padding:12px 16px;border-radius:8px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">📅 Date</label>
+                                    <input type="date" id="modifFilterDateResto" style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;" />
+                                </div>
+                                <button class="btn btn-gold btn-sm" onclick="applyModifDateFilter('restobar')" style="padding:6px 16px;">
+                                    <i class="fas fa-filter"></i> Filtrer
+                                </button>
+                                <button class="btn btn-outline btn-sm" onclick="clearModifDateFilter('restobar')" style="padding:6px 16px;">
+                                    <i class="fas fa-times"></i> Effacer
+                                </button>
+                                <span style="font-size:0.8rem;color:var(--gray-500);margin-left:auto;" id="modifFilterInfoResto">Affiche toutes les demandes</span>
+                            </div>
+                            
+                            <div class="flex-wrap gap-12 mb-16">
+                                <div class="modif-tabs flex-wrap gap-8">
+                                    <button class="btn btn-sm active" data-filter="en_attente" onclick="setModifFilter('restobar', 'en_attente')">⏳ En attente</button>
+                                    <button class="btn btn-sm" data-filter="approuve" onclick="setModifFilter('restobar', 'approuve')">✅ Approuvées</button>
+                                    <button class="btn btn-sm" data-filter="refuse" onclick="setModifFilter('restobar', 'refuse')">❌ Refusées</button>
+                                    <button class="btn btn-sm" data-filter="toutes" onclick="setModifFilter('restobar', 'toutes')">📚 Toutes</button>
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="refreshModifRequests('restobar')"><i class="fas fa-sync"></i> Rafraîchir</button>
+                            </div>
+                            <div id="modifListResto"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></div>
+                        </div>
+                        
+                        <!-- Panneau RoomPool -->
+                        <div class="modif-module-panel" id="modifPanel-roompool">
+                            <!-- FILTRE PAR DATE -->
+                            <div class="flex-wrap gap-12 mb-16" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#f8f9fa;padding:12px 16px;border-radius:8px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">📅 Date</label>
+                                    <input type="date" id="modifFilterDateRoom" style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;" />
+                                </div>
+                                <button class="btn btn-gold btn-sm" onclick="applyModifDateFilter('roompool')" style="padding:6px 16px;">
+                                    <i class="fas fa-filter"></i> Filtrer
+                                </button>
+                                <button class="btn btn-outline btn-sm" onclick="clearModifDateFilter('roompool')" style="padding:6px 16px;">
+                                    <i class="fas fa-times"></i> Effacer
+                                </button>
+                                <span style="font-size:0.8rem;color:var(--gray-500);margin-left:auto;" id="modifFilterInfoRoom">Affiche toutes les demandes</span>
+                            </div>
+                            
+                            <div class="flex-wrap gap-12 mb-16">
+                                <div class="modif-tabs flex-wrap gap-8">
+                                    <button class="btn btn-sm active" data-filter="en_attente" onclick="setModifFilter('roompool', 'en_attente')">⏳ En attente</button>
+                                    <button class="btn btn-sm" data-filter="approuve" onclick="setModifFilter('roompool', 'approuve')">✅ Approuvées</button>
+                                    <button class="btn btn-sm" data-filter="refuse" onclick="setModifFilter('roompool', 'refuse')">❌ Refusées</button>
+                                    <button class="btn btn-sm" data-filter="toutes" onclick="setModifFilter('roompool', 'toutes')">📚 Toutes</button>
+                                </div>
+                                <button class="btn btn-outline btn-sm" onclick="refreshModifRequests('roompool')"><i class="fas fa-sync"></i> Rafraîchir</button>
+                            </div>
+                            <div id="modifListRoom"><div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Chargement...</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-panel">
+                        <details>
+                            <summary style="font-weight:600;cursor:pointer;font-size:1.1rem;"><i class="fas fa-history"></i> Journal d'audit</summary>
+                            <div id="auditLog" style="margin-top:10px;"></div>
+                        </details>
+                    </div>
+                </section>
 
                 <!-- ==========================================================
                 PAGE : UTILISATEURS
@@ -1515,18 +1586,19 @@ PAGE : MODIFICATIONS (approbation workflow) - CORRIGÉE
     ============================================================ -->
     <script>
         // ============================================================
-// UTILITAIRES
-// ============================================================
-function escapeHtml(s) {
-    if (!s) return '';
-    return String(s).replace(/[&<>"']/g, c => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-    }[c]));
-}
+        //  UTILITAIRES
+        // ============================================================
+        function escapeHtml(s) {
+            if (!s) return '';
+            return String(s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[c]));
+        }
+
         // ============================================================
         //  DEXIE (IndexedDB) – Local-first
         // ============================================================
@@ -1558,7 +1630,6 @@ function escapeHtml(s) {
             { collection: 'users', store: 'users', page: 'users' },
             { collection: 'employees', store: 'employees', page: 'hr' },
             { collection: 'modifRequests', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
-            { collection: 'modifRequestsRoom', store: 'modifRequests', extra: { module: 'roompool' }, page: 'modifications' },
             { collection: 'auditLog', store: 'auditLog', page: null },
         ];
 
@@ -1738,12 +1809,6 @@ function escapeHtml(s) {
                 if (page === 'finance') loadFinance();
                 if (page === 'expenses') loadExpenses();
                 if (page === 'modifications') {
-                    document.querySelectorAll('.modif-tabs [data-module]').forEach(b => {
-                        b.classList.toggle('active', b.dataset.module === modifModule);
-                    });
-                    document.querySelectorAll('.modif-tabs [data-filter]').forEach(b => {
-                        b.classList.toggle('active', b.dataset.filter === modifFilter);
-                    });
                     loadModifRequests();
                 }
                 if (page === 'users') loadUsers();
@@ -1787,11 +1852,14 @@ function escapeHtml(s) {
                 document.getElementById('finFilterDate').value = today;
                 document.getElementById('expDate').value = today;
                 document.getElementById('expFilterDate').value = today;
+                document.getElementById('reportDate').value = today;
                 updateSyncStatus(true);
                 window.addEventListener('online', () => updateSyncStatus(true));
                 window.addEventListener('offline', () => updateSyncStatus(false));
                 dhAttachAdminRealtimeSync();
                 loadUserFilter();
+                // Initialiser les modifications
+                setTimeout(() => loadModifRequests(), 500);
             } else {
                 document.getElementById('loginOverlay').classList.remove('hidden');
                 document.getElementById('app').style.display = 'none';
@@ -2370,810 +2438,781 @@ function escapeHtml(s) {
             } catch (e) { toast(e.message, 'error'); }
         }
 
-  // ============================================================
-//  MODIFICATIONS (approbation workflow) - COMPLÈTE
-//  Collections adaptées aux pages de réception
-// ============================================================
-let modifModule = 'restobar';
-let modifFilter = 'en_attente';
-let modifDateFilter = '';
+        // ============================================================
+        //  MODIFICATIONS - SÉPARÉES PAR MODULE
+        // ============================================================
+        
+        // États par module
+        const modifState = {
+            restobar: {
+                filter: 'en_attente',
+                dateFilter: '',
+                containerId: 'modifListResto',
+                dateInputId: 'modifFilterDateResto',
+                infoId: 'modifFilterInfoResto',
+                collection: 'modifRequests',  // Collection utilisée par les pages de réception
+                salesCollection: 'globalSales',
+                stockCollection: 'DrinkStock',
+                label: 'Resto & Bar'
+            },
+            roompool: {
+                filter: 'en_attente',
+                dateFilter: '',
+                containerId: 'modifListRoom',
+                dateInputId: 'modifFilterDateRoom',
+                infoId: 'modifFilterInfoRoom',
+                collection: 'modifRequestsRoom',  // Collection utilisée par les pages de réception RoomPool
+                salesCollection: 'globalSalesRoom',
+                stockCollection: 'roomsStock',
+                label: 'Chambres & Piscine'
+            }
+        };
 
-// ============================================================
-// CONFIGURATION DES COLLECTIONS - ADAPTÉ AUX PAGES DE RÉCEPTION
-// ============================================================
-function getModifCollection() {
-    // Les pages de réception utilisent TOUTES la collection 'modifRequests'
-    // avec un champ 'module' pour distinguer restobar vs roompool
-    return 'modifRequests';
-}
+        let currentModifModule = 'restobar';
 
-function getSalesCollection() {
-    return modifModule === 'restobar' ? 'globalSales' : 'globalSalesRoom';
-}
-
-function getStockCollection() {
-    return modifModule === 'restobar' ? 'DrinkStock' : 'roomsStock';
-}
-
-function getModuleLabel() {
-    return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
-}
-
-function getModuleFilter() {
-    return modifModule === 'restobar' ? 'restobar' : 'roompool';
-}
-
-// ============================================================
-// SWITCH MODULE / FILTER
-// ============================================================
-function switchModifModule(module) {
-    modifModule = module;
-    document.querySelectorAll('.modif-tabs [data-module]').forEach(b => {
-        b.classList.toggle('active', b.dataset.module === module);
-    });
-    const dateInput = document.getElementById('modifFilterDate');
-    if (dateInput) dateInput.value = '';
-    modifDateFilter = '';
-    const infoEl = document.getElementById('modifFilterInfo');
-    if (infoEl) infoEl.textContent = 'Affiche toutes les demandes';
-    loadModifRequests();
-}
-
-function setModifFilter(filter) {
-    modifFilter = filter;
-    document.querySelectorAll('.modif-tabs [data-filter]').forEach(b => {
-        b.classList.toggle('active', b.dataset.filter === filter);
-    });
-    loadModifRequests();
-}
-
-function refreshModifRequests() {
-    loadModifRequests();
-}
-
-function applyModifDateFilter() {
-    const dateInput = document.getElementById('modifFilterDate');
-    if (!dateInput) return;
-    const date = dateInput.value;
-    modifDateFilter = date;
-    const infoEl = document.getElementById('modifFilterInfo');
-    if (infoEl) {
-        infoEl.textContent = date ? `📅 Filtré par: ${date}` : 'Affiche toutes les demandes';
-    }
-    loadModifRequests();
-}
-
-function clearModifDateFilter() {
-    const dateInput = document.getElementById('modifFilterDate');
-    if (dateInput) dateInput.value = '';
-    modifDateFilter = '';
-    const infoEl = document.getElementById('modifFilterInfo');
-    if (infoEl) infoEl.textContent = 'Affiche toutes les demandes';
-    loadModifRequests();
-}
-
-// ============================================================
-// CHARGEMENT DES DEMANDES - LECTURE DEPUIS 'modifRequests' AVEC FILTRE MODULE
-// ============================================================
-async function loadModifRequests() {
-    const container = document.getElementById('modifList');
-    if (!container) return;
-
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
-        container.innerHTML =
-            '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
-        return;
-    }
-
-    try {
-        const collectionName = getModifCollection();
-        const moduleFilter = getModuleFilter();
-        console.log(`📥 Chargement des demandes depuis: ${collectionName}`);
-        console.log(`📦 Filtre module: ${moduleFilter} (${getModuleLabel()})`);
-        console.log(`📅 Filtre date: ${modifDateFilter || 'Aucun'}`);
-        console.log(`🏷️ Filtre statut: ${modifFilter}`);
-
-        // Récupérer TOUTES les demandes de la collection
-        const snap = await db.collection(collectionName).get();
-        let requests = [];
-        snap.forEach(d => {
-            const data = d.data();
-            data.id = d.id;
-            requests.push(data);
-        });
-
-        console.log(`📊 Total des demandes dans Firestore: ${requests.length}`);
-
-        // Filtrer par module (restobar ou roompool)
-        requests = requests.filter(r => {
-            // Vérifier le champ 'module' ou 'type' ou 'source'
-            const rModule = r.module || r.type || r.source || '';
-            return rModule === moduleFilter || 
-                   (moduleFilter === 'restobar' && rModule === 'bar') ||
-                   (moduleFilter === 'roompool' && rModule === 'room');
-        });
-        console.log(`📦 Après filtre module (${moduleFilter}): ${requests.length} demandes`);
-
-        // Filtrer par date si spécifiée
-        if (modifDateFilter) {
-            requests = requests.filter(r => {
-                if (!r.dateDemande) return false;
-                try {
-                    const d = new Date(r.dateDemande);
-                    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-                    return dateStr === modifDateFilter;
-                } catch (e) {
-                    return false;
-                }
+        function switchModifModule(module) {
+            currentModifModule = module;
+            // Mettre à jour les onglets
+            document.querySelectorAll('.modif-module-tabs .btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.module === module);
             });
-            console.log(`📅 Après filtre date (${modifDateFilter}): ${requests.length} demandes`);
+            // Afficher le bon panneau
+            document.querySelectorAll('.modif-module-panel').forEach(p => {
+                p.classList.toggle('active', p.id === 'modifPanel-' + module);
+            });
+            // Charger les demandes du module
+            loadModifRequests(module);
         }
 
-        // Filtrer par statut
-        if (modifFilter !== 'toutes') {
-            requests = requests.filter(r => r.statut === modifFilter);
-            console.log(`🏷️ Après filtre statut (${modifFilter}): ${requests.length} demandes`);
-        }
-
-        requests.sort((a, b) => {
-            const dateA = a.dateDemande ? new Date(a.dateDemande).getTime() : 0;
-            const dateB = b.dateDemande ? new Date(b.dateDemande).getTime() : 0;
-            return dateB - dateA;
-        });
-
-        if (!requests.length) {
-            let message = `Aucune demande`;
-            if (modifDateFilter) message += ` pour la date du ${modifDateFilter}`;
-            if (modifFilter !== 'toutes') message += ` avec le statut "${modifFilter}"`;
-            message += ` dans le module ${getModuleLabel()}.`;
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>${message}</div>`;
-        } else {
-            container.innerHTML = requests.map(r => {
-                const isPending = r.statut === 'en_attente';
-                const badgeClass = r.statut === 'approuve' ? 'badge-approuve' :
-                    r.statut === 'refuse' ? 'badge-refuse' : 'badge-attente';
-                const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
-                    r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
-
-                let itemsHtml = '';
-                let stockUpdateInfo = '';
-
-                // Format items[] (nouveau format)
-                if (r.items && r.items.length) {
-                    itemsHtml = r.items.map(item => {
-                        const actionMap = {
-                            'increase': '➕ Augmentation',
-                            'decrease': '➖ Diminution',
-                            'delete': '🗑️ Suppression'
-                        };
-                        const actionLabel = actionMap[item.action] || item.action;
-                        const amountInfo = item.amount !== undefined ? `(${item.amount})` : '';
-                        return `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
-                            <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
-                            <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
-                            <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${escapeHtml(item.category || '—')}</span>
-                        </div>`;
-                    }).join('');
-
-                    if (r.statut === 'approuve') {
-                        stockUpdateInfo = r.items.map(item => {
-                            const actionMap = {
-                                'increase': '⬆️ Augmentation',
-                                'decrease': '⬇️ Diminution',
-                                'delete': '🗑️ Suppression'
-                            };
-                            const actionLabel = actionMap[item.action] || item.action;
-                            return `<div style="font-size:0.9rem;padding:2px 0;">• ${escapeHtml(item.productName)}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
-                        }).join('');
-                        stockUpdateInfo =
-                        `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                            <strong>✅ Facture mise à jour</strong>
-                            ${stockUpdateInfo}
-                        </div>`;
-                    }
-                } 
-                // Format productName (legacy - utilisé par les pages de réception)
-                else if (r.productName) {
-                    const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
-                        r.type === 'augmentation' ? '➕ Augmentation' :
-                        r.type === 'diminution' || r.type === 'diminution_quantite' ? '➖ Diminution' :
-                        '✏️ Modification';
-                    itemsHtml = `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;flex-wrap:wrap;gap:4px;">
-                        <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(r.productName)}</span>
-                        <span style="color:var(--muted);font-size:0.9rem;">${typeLabel}</span>
-                        ${!r.deleteWhole && r.newQuantity !== undefined ? `<span style="font-size:0.85rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${r.currentQuantity || 0} → ${r.newQuantity}</span>` : ''}
-                        ${r.deleteWhole ? `<span style="font-size:0.85rem;background:#f8d7da;padding:2px 10px;border-radius:999px;color:#721c24;">Suppression totale</span>` : ''}
-                    </div>`;
-
-                    if (r.statut === 'approuve') {
-                        stockUpdateInfo =
-                        `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                            <strong>✅ Facture mise à jour</strong>
-                            ${r.deleteWhole ? '🗑️ Suppression complète du produit' : r.type === 'augmentation' ? `⬆️ Augmentation: ${r.currentQuantity || 0} → ${r.newQuantity}` : `➖ Diminution: ${r.currentQuantity || 0} → ${r.newQuantity}`}
-                        </div>`;
-                    }
-                } 
-                // Format operations[] (format des pages de réception)
-                else if (r.operations && r.operations.length) {
-                    itemsHtml = r.operations.map(op => {
-                        const actionMap = {
-                            'suppression': '🗑️ Suppression',
-                            'augmentation': '➕ Augmentation',
-                            'diminution': '➖ Diminution'
-                        };
-                        const actionLabel = actionMap[op.type] || op.type || '✏️ Modification';
-                        const qtyInfo = op.quantiteActuelle !== undefined && op.quantiteDemandee !== undefined ?
-                            `${op.quantiteActuelle} → ${op.quantiteDemandee}` :
-                            op.amount ? `(${op.amount})` : '';
-                        return `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
-                            <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(op.item || op.productName)}</span>
-                            <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${qtyInfo}</span>
-                        </div>`;
-                    }).join('');
-
-                    if (r.statut === 'approuve') {
-                        stockUpdateInfo =
-                        `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                            <strong>✅ Facture mise à jour</strong>
-                            ${r.operations.length} opération(s) appliquée(s)
-                        </div>`;
-                    }
-                } else {
-                    itemsHtml =
-                    `<div class="item-line" style="padding:4px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
+        function setModifFilter(module, filter) {
+            if (modifState[module]) {
+                modifState[module].filter = filter;
+                // Mettre à jour les boutons
+                const panel = document.getElementById('modifPanel-' + module);
+                if (panel) {
+                    panel.querySelectorAll('.modif-tabs .btn').forEach(b => {
+                        b.classList.toggle('active', b.dataset.filter === filter);
+                    });
                 }
-
-                const demandeurInfo = r.demandeur ?
-                    `<strong style="font-size:1rem;">${escapeHtml(r.demandeur.nom || '—')}</strong> (${escapeHtml(r.demandeur.role || 'Vendeur')})` :
-                    '—';
-
-                const dateDemande = r.dateDemande ? new Date(r.dateDemande).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                }) : '—';
-
-                const dateTraitement = r.dateTraitement ? new Date(r.dateTraitement).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                }) : '—';
-
-                const isToday = r.dateDemande && (() => {
-                    try {
-                        const d = new Date(r.dateDemande);
-                        const today = new Date();
-                        return d.getFullYear() === today.getFullYear() &&
-                            d.getMonth() === today.getMonth() &&
-                            d.getDate() === today.getDate();
-                    } catch (e) { return false; }
-                })();
-
-                const isMyRequest = currentUser && r.demandeur && r.demandeur.nom === currentUser.name;
-
-                const statusBadge = r.statut === 'approuve' ? '✅ Approuvée' :
-                    r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
-
-                return `
-                    <div class="modif-item" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:16px 18px;margin-top:12px;background:var(--white);box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-                        <div class="top" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
-                            <div style="flex:1;min-width:200px;">
-                                <div class="facture" style="font-weight:700;font-size:1.05rem;">
-                                    🧾 ${escapeHtml(r.factureId || '—')} 
-                                    ${isToday ? '<span style="font-size:0.75rem;background:#e8f5e9;padding:2px 10px;border-radius:999px;color:#2e7d32;margin-left:8px;">📅 Aujourd\'hui</span>' : ''}
-                                    <span style="font-size:0.75rem;background:${r.statut === 'approuve' ? '#d4edda' : r.statut === 'refuse' ? '#f8d7da' : '#fff3cd'};padding:2px 10px;border-radius:999px;margin-left:8px;color:${r.statut === 'approuve' ? '#155724' : r.statut === 'refuse' ? '#721c24' : '#856404'};">
-                                        ${statusBadge}
-                                    </span>
-                                    ${r.module ? `<span style="font-size:0.7rem;background:#e3f2fd;color:#0d47a1;padding:2px 8px;border-radius:999px;margin-left:4px;">${escapeHtml(r.module)}</span>` : ''}
-                                </div>
-                                <div class="details-box" style="font-size:0.95rem;color:var(--gray-700);margin-top:6px;background:#f8f9fa;padding:10px 14px;border-radius:8px;border:1px solid var(--gray-100);">
-                                    ${itemsHtml}
-                                    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--gray-100);font-size:0.9rem;color:var(--muted);">
-                                        📝 Motif : ${escapeHtml(r.motif || r.reason || '—')}
-                                    </div>
-                                    ${r.invoiceSummary ? `
-                                        <div style="margin-top:4px;font-size:0.85rem;color:var(--gray-500);">
-                                            Client: ${escapeHtml(r.invoiceSummary.customerName || '—')} 
-                                            ${r.invoiceSummary.amountGdes ? '| Total: '+r.invoiceSummary.amountGdes+' Gdes' : ''}
-                                            ${r.invoiceSummary.amountUs ? '/'+r.invoiceSummary.amountUs+' US' : ''}
-                                        </div>
-                                    ` : ''}
-                                    <div style="margin-top:4px;font-size:0.7rem;color:var(--gray-400);">
-                                        ID: ${r.id}
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                                ${isMyRequest ? '<span class="badge" style="background:#e3f2fd;color:#0d47a1;font-size:0.75rem;padding:2px 10px;border-radius:999px;">👤 Ma demande</span>' : ''}
-                            </div>
-                        </div>
-                        <div class="meta" style="font-size:0.85rem;color:var(--gray-500);margin-top:10px;line-height:1.6;">
-                            👤 Demandé par ${demandeurInfo} le ${dateDemande}
-                            ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
-                            ${r.module ? `<br>📦 Module: ${escapeHtml(r.module)}` : ''}
-                        </div>
-                        ${stockUpdateInfo}
-                        ${r.statut === 'en_attente' ? `
-                            <div class="actions" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-                                <button class="btn btn-success btn-sm" onclick="approveModif('${r.id}')" style="padding:8px 20px;background:#2ecc71;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                    <i class="fas fa-check"></i> Approuver
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${r.id}')" style="padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                    <i class="fas fa-times"></i> Refuser
-                                </button>
-                            </div>
-                            <div class="comment-box" id="comment_box_${r.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-200);">
-                                <div class="form-group" style="margin-top:8px;">
-                                    <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">Commentaire (obligatoire pour un refus)</label>
-                                    <textarea id="comment_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);min-height:60px;font-size:0.95rem;"></textarea>
-                                </div>
-                                <button class="btn btn-danger btn-sm" onclick="rejectModif('${r.id}')" style="margin-top:8px;padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                    Confirmer le refus
-                                </button>
-                            </div>
-                        ` : `
-                            <div class="feedback" style="margin-top:10px;background:var(--gray-50);border-left:3px solid var(--gold);padding:10px 14px;border-radius:var(--radius-sm);font-size:0.9rem;line-height:1.6;">
-                                Traitée par <strong>${escapeHtml(r.traitantPar?.nom || '—')}</strong> (${escapeHtml(r.traitantPar?.role || '—')}) le ${dateTraitement}
-                                ${r.commentaireTraitement ? `<br>💬 ${escapeHtml(r.commentaireTraitement)}` : ''}
-                            </div>
-                        `}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        await loadAuditLog();
-
-    } catch (e) {
-        console.error('Erreur chargement demandes:', e);
-        container.innerHTML =
-            `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur lors du chargement des demandes: ${e.message}</div>`;
-    }
-}
-
-// ============================================================
-// AUDIT LOG
-// ============================================================
-async function loadAuditLog() {
-    const container = document.getElementById('auditLog');
-    if (!container) return;
-    
-    try {
-        const snap = await db.collection('auditLog')
-            .orderBy('date', 'desc')
-            .limit(50)
-            .get();
-
-        if (snap.empty) {
-            container.innerHTML = '<div class="empty-state">Aucune action enregistrée.</div>';
-            return;
-        }
-
-        let html = '';
-        snap.forEach(d => {
-            const a = d.data();
-            const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : 
-                               a.module === 'roompool' ? '🛏️ Room' : '';
-            const dateStr = a.date ? new Date(a.date).toLocaleString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : '—';
-            
-            html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
-                <strong style="font-size:0.85rem;">${dateStr}</strong> 
-                ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
-                — ${escapeHtml(a.details || 'Action enregistrée')}
-            </div>`;
-        });
-        container.innerHTML = html;
-    } catch (e) {
-        console.error('Erreur chargement audit:', e);
-        container.innerHTML = '<div class="empty-state">Impossible de charger le journal d\'audit.</div>';
-    }
-}
-
-// ============================================================
-// TOGGLE COMMENTAIRE
-// ============================================================
-function toggleCommentModif(id) {
-    const box = document.getElementById(`comment_box_${id}`);
-    if (box) {
-        box.style.display = box.style.display === 'block' ? 'none' : 'block';
-        if (box.style.display === 'block') {
-            const textarea = document.getElementById(`comment_${id}`);
-            if (textarea) textarea.focus();
-        }
-    }
-}
-
-// ============================================================
-// APPROBATION
-// ============================================================
-async function approveModif(requestId) {
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
-        return toast('Permission refusée', 'error');
-    }
-
-    try {
-        const collectionName = getModifCollection();
-        const docRef = db.collection(collectionName).doc(requestId);
-        const doc = await docRef.get();
-
-        if (!doc.exists) return toast('Demande introuvable', 'error');
-        const data = doc.data();
-
-        if (data.statut !== 'en_attente') {
-            return toast('Cette demande a déjà été traitée', 'error');
-        }
-
-        await applyModification(data);
-
-        await docRef.update({
-            statut: 'approuve',
-            traitantPar: {
-                nom: document.getElementById('userName').textContent || 'Admin',
-                role: window.userRole
-            },
-            dateTraitement: new Date().toISOString(),
-            commentaireTraitement: null
-        });
-
-        await db.collection('auditLog').add({
-            requestId,
-            module: modifModule,
-            action: 'approbation',
-            par: {
-                nom: document.getElementById('userName').textContent || 'Admin',
-                role: window.userRole
-            },
-            date: new Date().toISOString(),
-            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId} (${getModuleLabel()})`
-        });
-
-        toast('✅ Demande approuvée - Facture mise à jour', 'success');
-        loadModifRequests();
-
-    } catch (e) {
-        toast('❌ Erreur: ' + e.message, 'error');
-        console.error(e);
-    }
-}
-
-// ============================================================
-// REFUS
-// ============================================================
-async function rejectModif(requestId) {
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
-        return toast('Permission refusée', 'error');
-    }
-
-    const comment = document.getElementById(`comment_${requestId}`)?.value?.trim();
-    if (!comment) {
-        return toast('⚠️ Un commentaire est requis pour un refus', 'error');
-    }
-
-    try {
-        const collectionName = getModifCollection();
-        const docRef = db.collection(collectionName).doc(requestId);
-        const doc = await docRef.get();
-
-        if (!doc.exists) return toast('Demande introuvable', 'error');
-        const data = doc.data();
-
-        if (data.statut !== 'en_attente') {
-            return toast('Cette demande a déjà été traitée', 'error');
-        }
-
-        await docRef.update({
-            statut: 'refuse',
-            traitantPar: {
-                nom: document.getElementById('userName').textContent || 'Admin',
-                role: window.userRole
-            },
-            dateTraitement: new Date().toISOString(),
-            commentaireTraitement: comment
-        });
-
-        await db.collection('auditLog').add({
-            requestId,
-            module: modifModule,
-            action: 'refus',
-            par: {
-                nom: document.getElementById('userName').textContent || 'Admin',
-                role: window.userRole
-            },
-            date: new Date().toISOString(),
-            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} (${getModuleLabel()}) — Commentaire: ${comment}`
-        });
-
-        toast('❌ Demande refusée', 'success');
-        loadModifRequests();
-
-    } catch (e) {
-        toast('❌ Erreur: ' + e.message, 'error');
-        console.error(e);
-    }
-}
-
-// ============================================================
-// APPLICATION DE LA MODIFICATION
-// ============================================================
-async function applyModification(request) {
-    const salesCol = getSalesCollection();
-    const stockCol = getStockCollection();
-
-    console.log(`📝 Application de la modification sur ${salesCol} / ${stockCol}`);
-
-    const saleRef = db.collection(salesCol).doc(request.factureId);
-    const saleDoc = await saleRef.get();
-
-    if (!saleDoc.exists) {
-        throw new Error(`Vente introuvable: ${request.factureId} dans ${salesCol}`);
-    }
-
-    const saleData = saleDoc.data();
-    let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
-
-    // Traiter les opérations - supporte tous les formats
-    const operations = request.operations || [];
-    const items = request.items || [];
-
-    if (operations.length > 0) {
-        // Format des pages de réception
-        for (const op of operations) {
-            const productName = op.item || op.productName;
-            if (!productName) continue;
-
-            const index = products.findIndex(p =>
-                String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
-            );
-            const currentLine = index >= 0 ? products[index] : null;
-
-            if (op.type === 'suppression' || op.supprimer || op.action === 'delete') {
-                if (currentLine) {
-                    const qty = Number(currentLine.quantity || 0);
-                    await updateStock(productName, qty, true, stockCol);
-                    products.splice(index, 1);
-                    console.log(`🗑️ Produit ${productName} supprimé de la facture`);
-                }
-            } else {
-                const oldQty = Number(currentLine?.quantity || 0);
-                const newQty = Math.max(0, op.quantiteDemandee || op.amount || op.newQuantity || 0);
-                const delta = newQty - oldQty;
-
-                if (currentLine && delta !== 0) {
-                    if (delta < 0) {
-                        await updateStock(productName, Math.abs(delta), true, stockCol);
-                    } else if (delta > 0) {
-                        await updateStock(productName, delta, false, stockCol);
-                    }
-                    currentLine.quantity = newQty;
-                    if (newQty <= 0) {
-                        products.splice(index, 1);
-                    } else {
-                        products[index] = currentLine;
-                    }
-                    console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
-                } else if (!currentLine && newQty > 0) {
-                    // Ajout d'un nouveau produit
-                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                    if (!stockQuery.empty) {
-                        const stockData = stockQuery.docs[0].data();
-                        products.push({
-                            item: productName,
-                            quantity: newQty,
-                            priceGdes: stockData.priceGdes || 0,
-                            priceUs: stockData.priceUs || 0,
-                            currency: 'Gdes',
-                            category: stockData.category || ''
-                        });
-                        await updateStock(productName, newQty, false, stockCol);
-                        console.log(`➕ ${productName} ajouté: ${newQty}`);
-                    }
-                }
+                loadModifRequests(module);
             }
         }
-    } else if (items.length > 0) {
-        // Format items (nouveau format)
-        for (const item of items) {
-            const productName = item.productName;
-            if (!productName) continue;
 
-            const index = products.findIndex(p =>
-                String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
-            );
-            const currentLine = index >= 0 ? products[index] : null;
-
-            if (item.action === 'delete') {
-                if (currentLine) {
-                    const qty = Number(currentLine.quantity || 0);
-                    await updateStock(productName, qty, true, stockCol);
-                    products.splice(index, 1);
-                    console.log(`🗑️ Produit ${productName} supprimé de la facture`);
-                }
-            } else {
-                const oldQty = Number(currentLine?.quantity || 0);
-                const newQty = Math.max(0, item.amount || 0);
-                const delta = newQty - oldQty;
-
-                if (currentLine && delta !== 0) {
-                    if (delta < 0) {
-                        await updateStock(productName, Math.abs(delta), true, stockCol);
-                    } else if (delta > 0) {
-                        await updateStock(productName, delta, false, stockCol);
-                    }
-                    currentLine.quantity = newQty;
-                    if (newQty <= 0) {
-                        products.splice(index, 1);
-                    } else {
-                        products[index] = currentLine;
-                    }
-                    console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
-                } else if (!currentLine && newQty > 0) {
-                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                    if (!stockQuery.empty) {
-                        const stockData = stockQuery.docs[0].data();
-                        products.push({
-                            item: productName,
-                            quantity: newQty,
-                            priceGdes: stockData.priceGdes || 0,
-                            priceUs: stockData.priceUs || 0,
-                            currency: 'Gdes',
-                            category: stockData.category || ''
-                        });
-                        await updateStock(productName, newQty, false, stockCol);
-                        console.log(`➕ ${productName} ajouté: ${newQty}`);
-                    }
-                }
+        function applyModifDateFilter(module) {
+            if (!modifState[module]) return;
+            const dateInput = document.getElementById(modifState[module].dateInputId);
+            if (!dateInput) return;
+            const date = dateInput.value;
+            modifState[module].dateFilter = date;
+            const infoEl = document.getElementById(modifState[module].infoId);
+            if (infoEl) {
+                infoEl.textContent = date ? `📅 Filtré par: ${date}` : 'Affiche toutes les demandes';
             }
+            loadModifRequests(module);
         }
-    } else if (request.productName) {
-        // Format legacy (une seule opération)
-        const productName = request.productName;
-        const index = products.findIndex(p =>
-            String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
-        );
-        const currentLine = index >= 0 ? products[index] : null;
 
-        if (request.deleteWhole || request.type === 'suppression_produit') {
-            if (currentLine) {
-                const qty = Number(currentLine.quantity || 0);
-                await updateStock(productName, qty, true, stockCol);
-                products.splice(index, 1);
-                console.log(`🗑️ ${productName} supprimé`);
+        function clearModifDateFilter(module) {
+            if (!modifState[module]) return;
+            const dateInput = document.getElementById(modifState[module].dateInputId);
+            if (dateInput) dateInput.value = '';
+            modifState[module].dateFilter = '';
+            const infoEl = document.getElementById(modifState[module].infoId);
+            if (infoEl) infoEl.textContent = 'Affiche toutes les demandes';
+            loadModifRequests(module);
+        }
+
+        function refreshModifRequests(module) {
+            loadModifRequests(module);
+        }
+
+        // ============================================================
+        // CHARGEMENT DES DEMANDES - PAR MODULE
+        // ============================================================
+        async function loadModifRequests(module) {
+            if (!module) module = currentModifModule;
+            const state = modifState[module];
+            if (!state) return;
+
+            const container = document.getElementById(state.containerId);
+            if (!container) return;
+
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+                container.innerHTML =
+                    '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
+                return;
             }
-        } else if (request.type === 'diminution' || request.type === 'diminution_quantite') {
-            const oldQty = Number(currentLine?.quantity || 0);
-            const newQty = Number(request.newQuantity || 0);
-            const qtyRemoved = oldQty - newQty;
-            if (currentLine && qtyRemoved > 0) {
-                await updateStock(productName, qtyRemoved, true, stockCol);
-                currentLine.quantity = newQty;
-                if (newQty <= 0) {
-                    products.splice(index, 1);
-                } else {
-                    products[index] = currentLine;
-                }
-                console.log(`➖ ${productName}: ${oldQty} → ${newQty}`);
-            }
-        } else if (request.type === 'augmentation') {
-            const oldQty = Number(currentLine?.quantity || 0);
-            const newQty = Number(request.newQuantity || 0);
-            const qtyAdded = newQty - oldQty;
-            if (qtyAdded > 0) {
-                await updateStock(productName, qtyAdded, false, stockCol);
-                if (currentLine) {
-                    currentLine.quantity = newQty;
-                    products[index] = currentLine;
-                } else {
-                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                    if (!stockQuery.empty) {
-                        const stockData = stockQuery.docs[0].data();
-                        products.push({
-                            item: productName,
-                            quantity: newQty,
-                            priceGdes: stockData.priceGdes || 0,
-                            priceUs: stockData.priceUs || 0,
-                            currency: 'Gdes',
-                            category: stockData.category || ''
-                        });
-                    }
-                }
-                console.log(`➕ ${productName}: ${oldQty} → ${newQty}`);
-            }
-        }
-    }
 
-    // Recalculer les totaux
-    let totalGdes = 0, totalUs = 0;
-    products.forEach(p => {
-        if (p.currency === 'Gdes') {
-            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
-        } else if (p.currency === 'Us') {
-            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
-        } else {
-            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
-            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
-        }
-    });
+            try {
+                const collectionName = state.collection;
+                console.log(`📥 Chargement des demandes ${state.label} depuis: ${collectionName}`);
+                console.log(`📅 Filtre date: ${state.dateFilter || 'Aucun'}`);
+                console.log(`🏷️ Filtre statut: ${state.filter}`);
 
-    await saleRef.update({
-        products: products,
-        totalGdes: totalGdes,
-        totalUs: totalUs,
-        updatedAt: new Date().toISOString()
-    });
-
-    console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes.toFixed(2)}, Total Us: ${totalUs.toFixed(2)}`);
-}
-
-// ============================================================
-// MISE À JOUR DU STOCK
-// ============================================================
-async function updateStock(productName, quantity, isReturn, stockCol) {
-    try {
-        const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-        if (stockQuery.empty) {
-            console.warn(`⚠️ Produit ${productName} introuvable en stock`);
-            return;
-        }
-
-        const stockDoc = stockQuery.docs[0];
-        const stockData = stockDoc.data();
-        let currentQty = Number(stockData.quantity || 0);
-
-        if (isReturn) {
-            currentQty += quantity;
-        } else {
-            currentQty = Math.max(0, currentQty - quantity);
-        }
-
-        await db.collection(stockCol).doc(stockDoc.id).update({
-            quantity: currentQty,
-            updatedAt: new Date().toISOString()
-        });
-
-        console.log(`📦 Stock ${productName}: ${currentQty}`);
-    } catch (e) {
-        console.warn(`⚠️ Erreur mise à jour stock ${productName}:`, e);
-    }
-}
-
-// ============================================================
-// ÉCOUTE TEMPS RÉEL
-// ============================================================
-function attachModifRealtimeListener() {
-    // Écouter la collection 'modifRequests' (utilisée par les pages de réception)
-    db.collection('modifRequests').onSnapshot(
-        { includeMetadataChanges: false },
-        (snapshot) => {
-            if (currentPage === 'modifications') {
-                const hasChanges = snapshot.docChanges().some(change => {
-                    const data = change.doc.data();
-                    const docModule = data.module || data.type || data.source || '';
-                    return docModule === getModuleFilter() || 
-                           (getModuleFilter() === 'restobar' && docModule === 'bar') ||
-                           (getModuleFilter() === 'roompool' && docModule === 'room');
+                const snap = await db.collection(collectionName).get();
+                let requests = [];
+                snap.forEach(d => {
+                    const data = d.data();
+                    data.id = d.id;
+                    requests.push(data);
                 });
 
-                if (hasChanges) {
-                    loadModifRequests();
-                    toast('📥 Nouvelle demande reçue', 'info');
+                console.log(`📊 Total des demandes dans ${collectionName}: ${requests.length}`);
+
+                // Filtrer par date
+                if (state.dateFilter) {
+                    requests = requests.filter(r => {
+                        if (!r.dateDemande) return false;
+                        try {
+                            const d = new Date(r.dateDemande);
+                            const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                            return dateStr === state.dateFilter;
+                        } catch (e) {
+                            return false;
+                        }
+                    });
+                    console.log(`📅 Après filtre date (${state.dateFilter}): ${requests.length} demandes`);
+                }
+
+                // Filtrer par statut
+                if (state.filter !== 'toutes') {
+                    requests = requests.filter(r => r.statut === state.filter);
+                    console.log(`🏷️ Après filtre statut (${state.filter}): ${requests.length} demandes`);
+                }
+
+                requests.sort((a, b) => {
+                    const dateA = a.dateDemande ? new Date(a.dateDemande).getTime() : 0;
+                    const dateB = b.dateDemande ? new Date(b.dateDemande).getTime() : 0;
+                    return dateB - dateA;
+                });
+
+                if (!requests.length) {
+                    let message = `Aucune demande`;
+                    if (state.dateFilter) message += ` pour la date du ${state.dateFilter}`;
+                    if (state.filter !== 'toutes') message += ` avec le statut "${state.filter}"`;
+                    message += ` dans le module ${state.label}.`;
+                    container.innerHTML = `<div class="empty-state"><i class="fas fa-inbox"></i><br>${message}</div>`;
+                } else {
+                    container.innerHTML = requests.map(r => {
+                        const isPending = r.statut === 'en_attente';
+                        const badgeClass = r.statut === 'approuve' ? 'badge-approuve' :
+                            r.statut === 'refuse' ? 'badge-refuse' : 'badge-attente';
+                        const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
+                            r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
+
+                        let itemsHtml = '';
+                        let stockUpdateInfo = '';
+
+                        // Format items[] (nouveau format)
+                        if (r.items && r.items.length) {
+                            itemsHtml = r.items.map(item => {
+                                const actionMap = {
+                                    'increase': '➕ Augmentation',
+                                    'decrease': '➖ Diminution',
+                                    'delete': '🗑️ Suppression'
+                                };
+                                const actionLabel = actionMap[item.action] || item.action;
+                                const amountInfo = item.amount !== undefined ? `(${item.amount})` : '';
+                                return `<div class="item-line">
+                                    <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
+                                    <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
+                                    <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${escapeHtml(item.category || '—')}</span>
+                                </div>`;
+                            }).join('');
+
+                            if (r.statut === 'approuve') {
+                                stockUpdateInfo = r.items.map(item => {
+                                    const actionMap = {
+                                        'increase': '⬆️ Augmentation',
+                                        'decrease': '⬇️ Diminution',
+                                        'delete': '🗑️ Suppression'
+                                    };
+                                    const actionLabel = actionMap[item.action] || item.action;
+                                    return `<div style="font-size:0.9rem;padding:2px 0;">• ${escapeHtml(item.productName)}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
+                                }).join('');
+                                stockUpdateInfo =
+                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
+                                    <strong>✅ Facture mise à jour</strong>
+                                    ${stockUpdateInfo}
+                                </div>`;
+                            }
+                        } 
+                        // Format productName (legacy)
+                        else if (r.productName) {
+                            const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
+                                r.type === 'augmentation' ? '➕ Augmentation' :
+                                r.type === 'diminution' || r.type === 'diminution_quantite' ? '➖ Diminution' :
+                                '✏️ Modification';
+                            itemsHtml = `<div class="item-line">
+                                <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(r.productName)}</span>
+                                <span style="color:var(--muted);font-size:0.9rem;">${typeLabel}</span>
+                                ${!r.deleteWhole && r.newQuantity !== undefined ? `<span style="font-size:0.85rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${r.currentQuantity || 0} → ${r.newQuantity}</span>` : ''}
+                                ${r.deleteWhole ? `<span style="font-size:0.85rem;background:#f8d7da;padding:2px 10px;border-radius:999px;color:#721c24;">Suppression totale</span>` : ''}
+                            </div>`;
+
+                            if (r.statut === 'approuve') {
+                                stockUpdateInfo =
+                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
+                                    <strong>✅ Facture mise à jour</strong>
+                                    ${r.deleteWhole ? '🗑️ Suppression complète du produit' : r.type === 'augmentation' ? `⬆️ Augmentation: ${r.currentQuantity || 0} → ${r.newQuantity}` : `➖ Diminution: ${r.currentQuantity || 0} → ${r.newQuantity}`}
+                                </div>`;
+                            }
+                        } 
+                        // Format operations[] (pages de réception)
+                        else if (r.operations && r.operations.length) {
+                            itemsHtml = r.operations.map(op => {
+                                const actionMap = {
+                                    'suppression': '🗑️ Suppression',
+                                    'augmentation': '➕ Augmentation',
+                                    'diminution': '➖ Diminution'
+                                };
+                                const actionLabel = actionMap[op.type] || op.type || '✏️ Modification';
+                                const qtyInfo = op.quantiteActuelle !== undefined && op.quantiteDemandee !== undefined ?
+                                    `${op.quantiteActuelle} → ${op.quantiteDemandee}` :
+                                    op.amount ? `(${op.amount})` : '';
+                                return `<div class="item-line">
+                                    <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(op.item || op.productName)}</span>
+                                    <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${qtyInfo}</span>
+                                </div>`;
+                            }).join('');
+
+                            if (r.statut === 'approuve') {
+                                stockUpdateInfo =
+                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
+                                    <strong>✅ Facture mise à jour</strong>
+                                    ${r.operations.length} opération(s) appliquée(s)
+                                </div>`;
+                            }
+                        } else {
+                            itemsHtml =
+                            `<div class="item-line" style="padding:4px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
+                        }
+
+                        const demandeurInfo = r.demandeur ?
+                            `<strong style="font-size:1rem;">${escapeHtml(r.demandeur.nom || '—')}</strong> (${escapeHtml(r.demandeur.role || 'Vendeur')})` :
+                            '—';
+
+                        const dateDemande = r.dateDemande ? new Date(r.dateDemande).toLocaleString('fr-FR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }) : '—';
+
+                        const dateTraitement = r.dateTraitement ? new Date(r.dateTraitement).toLocaleString('fr-FR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }) : '—';
+
+                        const isToday = r.dateDemande && (() => {
+                            try {
+                                const d = new Date(r.dateDemande);
+                                const today = new Date();
+                                return d.getFullYear() === today.getFullYear() &&
+                                    d.getMonth() === today.getMonth() &&
+                                    d.getDate() === today.getDate();
+                            } catch (e) { return false; }
+                        })();
+
+                        const isMyRequest = currentUser && r.demandeur && r.demandeur.nom === currentUser.name;
+
+                        const statusBadge = r.statut === 'approuve' ? '✅ Approuvée' :
+                            r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
+
+                        return `
+                            <div class="modif-item">
+                                <div class="top">
+                                    <div style="flex:1;min-width:200px;">
+                                        <div class="facture">
+                                            🧾 ${escapeHtml(r.factureId || '—')} 
+                                            ${isToday ? '<span style="font-size:0.75rem;background:#e8f5e9;padding:2px 10px;border-radius:999px;color:#2e7d32;margin-left:8px;">📅 Aujourd\'hui</span>' : ''}
+                                            <span style="font-size:0.75rem;background:${r.statut === 'approuve' ? '#d4edda' : r.statut === 'refuse' ? '#f8d7da' : '#fff3cd'};padding:2px 10px;border-radius:999px;margin-left:8px;color:${r.statut === 'approuve' ? '#155724' : r.statut === 'refuse' ? '#721c24' : '#856404'};">
+                                                ${statusBadge}
+                                            </span>
+                                        </div>
+                                        <div class="details-box">
+                                            ${itemsHtml}
+                                            <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--gray-100);font-size:0.9rem;color:var(--muted);">
+                                                📝 Motif : ${escapeHtml(r.motif || r.reason || '—')}
+                                            </div>
+                                            ${r.invoiceSummary ? `
+                                                <div style="margin-top:4px;font-size:0.85rem;color:var(--gray-500);">
+                                                    Client: ${escapeHtml(r.invoiceSummary.customerName || '—')} 
+                                                    ${r.invoiceSummary.amountGdes ? '| Total: '+r.invoiceSummary.amountGdes+' Gdes' : ''}
+                                                    ${r.invoiceSummary.amountUs ? '/'+r.invoiceSummary.amountUs+' US' : ''}
+                                                </div>
+                                            ` : ''}
+                                            <div style="margin-top:4px;font-size:0.7rem;color:var(--gray-400);">
+                                                ID: ${r.id}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                                        ${isMyRequest ? '<span class="badge" style="background:#e3f2fd;color:#0d47a1;font-size:0.75rem;padding:2px 10px;border-radius:999px;">👤 Ma demande</span>' : ''}
+                                    </div>
+                                </div>
+                                <div class="meta">
+                                    👤 Demandé par ${demandeurInfo} le ${dateDemande}
+                                    ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
+                                </div>
+                                ${stockUpdateInfo}
+                                ${r.statut === 'en_attente' ? `
+                                    <div class="actions">
+                                        <button class="btn btn-success btn-sm" onclick="approveModif('${module}','${r.id}')" style="padding:8px 20px;background:#2ecc71;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                            <i class="fas fa-check"></i> Approuver
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${module}','${r.id}')" style="padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                            <i class="fas fa-times"></i> Refuser
+                                        </button>
+                                    </div>
+                                    <div class="comment-box" id="comment_box_${module}_${r.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-200);">
+                                        <div class="form-group" style="margin-top:8px;">
+                                            <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">Commentaire (obligatoire pour un refus)</label>
+                                            <textarea id="comment_${module}_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);min-height:60px;font-size:0.95rem;"></textarea>
+                                        </div>
+                                        <button class="btn btn-danger btn-sm" onclick="rejectModif('${module}','${r.id}')" style="margin-top:8px;padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                            Confirmer le refus
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <div class="feedback">
+                                        Traitée par <strong>${escapeHtml(r.traitantPar?.nom || '—')}</strong> (${escapeHtml(r.traitantPar?.role || '—')}) le ${dateTraitement}
+                                        ${r.commentaireTraitement ? `<br>💬 ${escapeHtml(r.commentaireTraitement)}` : ''}
+                                    </div>
+                                `}
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Charger l'audit (global)
+                await loadAuditLog();
+
+            } catch (e) {
+                console.error('Erreur chargement demandes:', e);
+                container.innerHTML =
+                    `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur lors du chargement des demandes: ${e.message}</div>`;
+            }
+        }
+
+        // ============================================================
+        // TOGGLE COMMENTAIRE
+        // ============================================================
+        function toggleCommentModif(module, id) {
+            const box = document.getElementById(`comment_box_${module}_${id}`);
+            if (box) {
+                box.style.display = box.style.display === 'block' ? 'none' : 'block';
+                if (box.style.display === 'block') {
+                    const textarea = document.getElementById(`comment_${module}_${id}`);
+                    if (textarea) textarea.focus();
                 }
             }
-        },
-        (err) => {
-            console.warn('[Sync] Écoute modifications interrompue:', err.code || err.message);
         }
-    );
-}
+
+        // ============================================================
+        // APPROBATION - PAR MODULE
+        // ============================================================
+        async function approveModif(module, requestId) {
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+                return toast('Permission refusée', 'error');
+            }
+
+            try {
+                const state = modifState[module];
+                if (!state) return toast('Module inconnu', 'error');
+
+                const collectionName = state.collection;
+                const docRef = db.collection(collectionName).doc(requestId);
+                const doc = await docRef.get();
+
+                if (!doc.exists) return toast('Demande introuvable', 'error');
+                const data = doc.data();
+
+                if (data.statut !== 'en_attente') {
+                    return toast('Cette demande a déjà été traitée', 'error');
+                }
+
+                await applyModification(module, data);
+
+                await docRef.update({
+                    statut: 'approuve',
+                    traitantPar: {
+                        nom: document.getElementById('userName').textContent || 'Admin',
+                        role: window.userRole
+                    },
+                    dateTraitement: new Date().toISOString(),
+                    commentaireTraitement: null
+                });
+
+                await db.collection('auditLog').add({
+                    requestId,
+                    module: module,
+                    action: 'approbation',
+                    par: {
+                        nom: document.getElementById('userName').textContent || 'Admin',
+                        role: window.userRole
+                    },
+                    date: new Date().toISOString(),
+                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId} (${state.label})`
+                });
+
+                toast('✅ Demande approuvée - Facture mise à jour', 'success');
+                loadModifRequests(module);
+
+            } catch (e) {
+                toast('❌ Erreur: ' + e.message, 'error');
+                console.error(e);
+            }
+        }
+
+        // ============================================================
+        // REFUS - PAR MODULE
+        // ============================================================
+        async function rejectModif(module, requestId) {
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+                return toast('Permission refusée', 'error');
+            }
+
+            const comment = document.getElementById(`comment_${module}_${requestId}`)?.value?.trim();
+            if (!comment) {
+                return toast('⚠️ Un commentaire est requis pour un refus', 'error');
+            }
+
+            try {
+                const state = modifState[module];
+                if (!state) return toast('Module inconnu', 'error');
+
+                const collectionName = state.collection;
+                const docRef = db.collection(collectionName).doc(requestId);
+                const doc = await docRef.get();
+
+                if (!doc.exists) return toast('Demande introuvable', 'error');
+                const data = doc.data();
+
+                if (data.statut !== 'en_attente') {
+                    return toast('Cette demande a déjà été traitée', 'error');
+                }
+
+                await docRef.update({
+                    statut: 'refuse',
+                    traitantPar: {
+                        nom: document.getElementById('userName').textContent || 'Admin',
+                        role: window.userRole
+                    },
+                    dateTraitement: new Date().toISOString(),
+                    commentaireTraitement: comment
+                });
+
+                await db.collection('auditLog').add({
+                    requestId,
+                    module: module,
+                    action: 'refus',
+                    par: {
+                        nom: document.getElementById('userName').textContent || 'Admin',
+                        role: window.userRole
+                    },
+                    date: new Date().toISOString(),
+                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} (${state.label}) — Commentaire: ${comment}`
+                });
+
+                toast('❌ Demande refusée', 'success');
+                loadModifRequests(module);
+
+            } catch (e) {
+                toast('❌ Erreur: ' + e.message, 'error');
+                console.error(e);
+            }
+        }
+
+        // ============================================================
+        // APPLICATION DE LA MODIFICATION - PAR MODULE
+        // ============================================================
+        async function applyModification(module, request) {
+            const state = modifState[module];
+            if (!state) throw new Error('Module inconnu');
+
+            const salesCol = state.salesCollection;
+            const stockCol = state.stockCollection;
+
+            console.log(`📝 Application de la modification sur ${salesCol} / ${stockCol}`);
+
+            const saleRef = db.collection(salesCol).doc(request.factureId);
+            const saleDoc = await saleRef.get();
+
+            if (!saleDoc.exists) {
+                throw new Error(`Vente introuvable: ${request.factureId} dans ${salesCol}`);
+            }
+
+            const saleData = saleDoc.data();
+            let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
+
+            // Traiter les opérations
+            const operations = request.operations || [];
+            const items = request.items || [];
+
+            if (operations.length > 0) {
+                for (const op of operations) {
+                    const productName = op.item || op.productName;
+                    if (!productName) continue;
+
+                    const index = products.findIndex(p =>
+                        String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+                    );
+                    const currentLine = index >= 0 ? products[index] : null;
+
+                    if (op.type === 'suppression' || op.supprimer || op.action === 'delete') {
+                        if (currentLine) {
+                            const qty = Number(currentLine.quantity || 0);
+                            await updateStock(productName, qty, true, stockCol);
+                            products.splice(index, 1);
+                            console.log(`🗑️ Produit ${productName} supprimé de la facture`);
+                        }
+                    } else {
+                        const oldQty = Number(currentLine?.quantity || 0);
+                        const newQty = Math.max(0, op.quantiteDemandee || op.amount || op.newQuantity || 0);
+                        const delta = newQty - oldQty;
+
+                        if (currentLine && delta !== 0) {
+                            if (delta < 0) {
+                                await updateStock(productName, Math.abs(delta), true, stockCol);
+                            } else if (delta > 0) {
+                                await updateStock(productName, delta, false, stockCol);
+                            }
+                            currentLine.quantity = newQty;
+                            if (newQty <= 0) {
+                                products.splice(index, 1);
+                            } else {
+                                products[index] = currentLine;
+                            }
+                            console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
+                        } else if (!currentLine && newQty > 0) {
+                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                            if (!stockQuery.empty) {
+                                const stockData = stockQuery.docs[0].data();
+                                products.push({
+                                    item: productName,
+                                    quantity: newQty,
+                                    priceGdes: stockData.priceGdes || 0,
+                                    priceUs: stockData.priceUs || 0,
+                                    currency: 'Gdes',
+                                    category: stockData.category || ''
+                                });
+                                await updateStock(productName, newQty, false, stockCol);
+                                console.log(`➕ ${productName} ajouté: ${newQty}`);
+                            }
+                        }
+                    }
+                }
+            } else if (items.length > 0) {
+                for (const item of items) {
+                    const productName = item.productName;
+                    if (!productName) continue;
+
+                    const index = products.findIndex(p =>
+                        String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+                    );
+                    const currentLine = index >= 0 ? products[index] : null;
+
+                    if (item.action === 'delete') {
+                        if (currentLine) {
+                            const qty = Number(currentLine.quantity || 0);
+                            await updateStock(productName, qty, true, stockCol);
+                            products.splice(index, 1);
+                            console.log(`🗑️ Produit ${productName} supprimé de la facture`);
+                        }
+                    } else {
+                        const oldQty = Number(currentLine?.quantity || 0);
+                        const newQty = Math.max(0, item.amount || 0);
+                        const delta = newQty - oldQty;
+
+                        if (currentLine && delta !== 0) {
+                            if (delta < 0) {
+                                await updateStock(productName, Math.abs(delta), true, stockCol);
+                            } else if (delta > 0) {
+                                await updateStock(productName, delta, false, stockCol);
+                            }
+                            currentLine.quantity = newQty;
+                            if (newQty <= 0) {
+                                products.splice(index, 1);
+                            } else {
+                                products[index] = currentLine;
+                            }
+                            console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
+                        } else if (!currentLine && newQty > 0) {
+                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                            if (!stockQuery.empty) {
+                                const stockData = stockQuery.docs[0].data();
+                                products.push({
+                                    item: productName,
+                                    quantity: newQty,
+                                    priceGdes: stockData.priceGdes || 0,
+                                    priceUs: stockData.priceUs || 0,
+                                    currency: 'Gdes',
+                                    category: stockData.category || ''
+                                });
+                                await updateStock(productName, newQty, false, stockCol);
+                                console.log(`➕ ${productName} ajouté: ${newQty}`);
+                            }
+                        }
+                    }
+                }
+            } else if (request.productName) {
+                const productName = request.productName;
+                const index = products.findIndex(p =>
+                    String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+                );
+                const currentLine = index >= 0 ? products[index] : null;
+
+                if (request.deleteWhole || request.type === 'suppression_produit') {
+                    if (currentLine) {
+                        const qty = Number(currentLine.quantity || 0);
+                        await updateStock(productName, qty, true, stockCol);
+                        products.splice(index, 1);
+                        console.log(`🗑️ ${productName} supprimé`);
+                    }
+                } else if (request.type === 'diminution' || request.type === 'diminution_quantite') {
+                    const oldQty = Number(currentLine?.quantity || 0);
+                    const newQty = Number(request.newQuantity || 0);
+                    const qtyRemoved = oldQty - newQty;
+                    if (currentLine && qtyRemoved > 0) {
+                        await updateStock(productName, qtyRemoved, true, stockCol);
+                        currentLine.quantity = newQty;
+                        if (newQty <= 0) {
+                            products.splice(index, 1);
+                        } else {
+                            products[index] = currentLine;
+                        }
+                        console.log(`➖ ${productName}: ${oldQty} → ${newQty}`);
+                    }
+                } else if (request.type === 'augmentation') {
+                    const oldQty = Number(currentLine?.quantity || 0);
+                    const newQty = Number(request.newQuantity || 0);
+                    const qtyAdded = newQty - oldQty;
+                    if (qtyAdded > 0) {
+                        await updateStock(productName, qtyAdded, false, stockCol);
+                        if (currentLine) {
+                            currentLine.quantity = newQty;
+                            products[index] = currentLine;
+                        } else {
+                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                            if (!stockQuery.empty) {
+                                const stockData = stockQuery.docs[0].data();
+                                products.push({
+                                    item: productName,
+                                    quantity: newQty,
+                                    priceGdes: stockData.priceGdes || 0,
+                                    priceUs: stockData.priceUs || 0,
+                                    currency: 'Gdes',
+                                    category: stockData.category || ''
+                                });
+                            }
+                        }
+                        console.log(`➕ ${productName}: ${oldQty} → ${newQty}`);
+                    }
+                }
+            }
+
+            // Recalculer les totaux
+            let totalGdes = 0, totalUs = 0;
+            products.forEach(p => {
+                if (p.currency === 'Gdes') {
+                    totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+                } else if (p.currency === 'Us') {
+                    totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+                } else {
+                    totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+                    totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+                }
+            });
+
+            await saleRef.update({
+                products: products,
+                totalGdes: totalGdes,
+                totalUs: totalUs,
+                updatedAt: new Date().toISOString()
+            });
+
+            console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes.toFixed(2)}, Total Us: ${totalUs.toFixed(2)}`);
+        }
+
+        // ============================================================
+        // MISE À JOUR DU STOCK
+        // ============================================================
+        async function updateStock(productName, quantity, isReturn, stockCol) {
+            try {
+                const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                if (stockQuery.empty) {
+                    console.warn(`⚠️ Produit ${productName} introuvable en stock`);
+                    return;
+                }
+
+                const stockDoc = stockQuery.docs[0];
+                const stockData = stockDoc.data();
+                let currentQty = Number(stockData.quantity || 0);
+
+                if (isReturn) {
+                    currentQty += quantity;
+                } else {
+                    currentQty = Math.max(0, currentQty - quantity);
+                }
+
+                await db.collection(stockCol).doc(stockDoc.id).update({
+                    quantity: currentQty,
+                    updatedAt: new Date().toISOString()
+                });
+
+                console.log(`📦 Stock ${productName}: ${currentQty}`);
+            } catch (e) {
+                console.warn(`⚠️ Erreur mise à jour stock ${productName}:`, e);
+            }
+        }
+
+        // ============================================================
+        // AUDIT LOG
+        // ============================================================
+        async function loadAuditLog() {
+            const container = document.getElementById('auditLog');
+            if (!container) return;
+            
+            try {
+                const snap = await db.collection('auditLog')
+                    .orderBy('date', 'desc')
+                    .limit(50)
+                    .get();
+
+                if (snap.empty) {
+                    container.innerHTML = '<div class="empty-state">Aucune action enregistrée.</div>';
+                    return;
+                }
+
+                let html = '';
+                snap.forEach(d => {
+                    const a = d.data();
+                    const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : 
+                                       a.module === 'roompool' ? '🛏️ Room' : '';
+                    const dateStr = a.date ? new Date(a.date).toLocaleString('fr-FR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : '—';
+                    
+                    html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
+                        <strong style="font-size:0.85rem;">${dateStr}</strong> 
+                        ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
+                        — ${escapeHtml(a.details || 'Action enregistrée')}
+                    </div>`;
+                });
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('Erreur chargement audit:', e);
+                container.innerHTML = '<div class="empty-state">Impossible de charger le journal d\'audit.</div>';
+            }
+        }
 
         // ============================================================
         //  USERS
@@ -3654,12 +3693,14 @@ function attachModifRealtimeListener() {
             document.getElementById('reportModule')?.addEventListener('change', loadReport);
 
             setTimeout(() => {
-                if (currentPage === 'modifications') loadModifRequests();
+                if (currentPage === 'modifications') {
+                    loadModifRequests('restobar');
+                    loadModifRequests('roompool');
+                }
             }, 500);
-            setTimeout(attachModifRealtimeListener, 2000);
         });
 
-        console.log('🏨 Duen Hotel PWA v2.3 · Modifications intégrées');
+        console.log('🏨 Duen Hotel PWA v2.1 · Modifications intégrées (RestoBar + RoomPool séparés)');
     </script>
 
 </body>
