@@ -1851,8 +1851,7 @@ const REALTIME_COLLECTIONS = [
         let chartMethod = null;
         let chartTrend = null;
         let pendingSaleId = null; // pour discount
-        let modifModule = 'restobar';
-        let modifFilter = 'en_attente';
+     
 
         // ============================================================
         //  TOAST
@@ -2596,14 +2595,13 @@ if (page === 'modifications') {
             } catch (e) { toast(e.message, 'error'); }
         }
 
-
-
 // ============================================================
 //  MODIFICATIONS (approbation workflow) - Version compatible
 // ============================================================
 
 let modifData = [];
-
+let modifModule = 'restobar';
+let modifFilter = 'en_attente';
 
 // Mapping des collections
 function getModifCollection() {
