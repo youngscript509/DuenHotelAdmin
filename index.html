@@ -2370,18 +2370,21 @@ function escapeHtml(s) {
             } catch (e) { toast(e.message, 'error'); }
         }
 
-   // ============================================================
+  // ============================================================
 //  MODIFICATIONS (approbation workflow) - COMPLÈTE
+//  Collections adaptées aux pages de réception
 // ============================================================
 let modifModule = 'restobar';
 let modifFilter = 'en_attente';
 let modifDateFilter = '';
 
 // ============================================================
-// CONFIGURATION DES COLLECTIONS
+// CONFIGURATION DES COLLECTIONS - ADAPTÉ AUX PAGES DE RÉCEPTION
 // ============================================================
 function getModifCollection() {
-    return modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
+    // Les pages de réception utilisent TOUTES la collection 'modifRequests'
+    // avec un champ 'module' pour distinguer restobar vs roompool
+    return 'modifRequests';
 }
 
 function getSalesCollection() {
@@ -2394,6 +2397,10 @@ function getStockCollection() {
 
 function getModuleLabel() {
     return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
+}
+
+function getModuleFilter() {
+    return modifModule === 'restobar' ? 'restobar' : 'roompool';
 }
 
 // ============================================================
@@ -2446,7 +2453,7 @@ function clearModifDateFilter() {
 }
 
 // ============================================================
-// CHARGEMENT DES DEMANDES
+// CHARGEMENT DES DEMANDES - LECTURE DEPUIS 'modifRequests' AVEC FILTRE MODULE
 // ============================================================
 async function loadModifRequests() {
     const container = document.getElementById('modifList');
@@ -2460,10 +2467,13 @@ async function loadModifRequests() {
 
     try {
         const collectionName = getModifCollection();
+        const moduleFilter = getModuleFilter();
         console.log(`📥 Chargement des demandes depuis: ${collectionName}`);
+        console.log(`📦 Filtre module: ${moduleFilter} (${getModuleLabel()})`);
         console.log(`📅 Filtre date: ${modifDateFilter || 'Aucun'}`);
         console.log(`🏷️ Filtre statut: ${modifFilter}`);
 
+        // Récupérer TOUTES les demandes de la collection
         const snap = await db.collection(collectionName).get();
         let requests = [];
         snap.forEach(d => {
@@ -2474,7 +2484,17 @@ async function loadModifRequests() {
 
         console.log(`📊 Total des demandes dans Firestore: ${requests.length}`);
 
-        // Filtre par date
+        // Filtrer par module (restobar ou roompool)
+        requests = requests.filter(r => {
+            // Vérifier le champ 'module' ou 'type' ou 'source'
+            const rModule = r.module || r.type || r.source || '';
+            return rModule === moduleFilter || 
+                   (moduleFilter === 'restobar' && rModule === 'bar') ||
+                   (moduleFilter === 'roompool' && rModule === 'room');
+        });
+        console.log(`📦 Après filtre module (${moduleFilter}): ${requests.length} demandes`);
+
+        // Filtrer par date si spécifiée
         if (modifDateFilter) {
             requests = requests.filter(r => {
                 if (!r.dateDemande) return false;
@@ -2489,7 +2509,7 @@ async function loadModifRequests() {
             console.log(`📅 Après filtre date (${modifDateFilter}): ${requests.length} demandes`);
         }
 
-        // Filtre par statut
+        // Filtrer par statut
         if (modifFilter !== 'toutes') {
             requests = requests.filter(r => r.statut === modifFilter);
             console.log(`🏷️ Après filtre statut (${modifFilter}): ${requests.length} demandes`);
@@ -2518,7 +2538,7 @@ async function loadModifRequests() {
                 let itemsHtml = '';
                 let stockUpdateInfo = '';
 
-                // Format items[]
+                // Format items[] (nouveau format)
                 if (r.items && r.items.length) {
                     itemsHtml = r.items.map(item => {
                         const actionMap = {
@@ -2531,7 +2551,7 @@ async function loadModifRequests() {
                         return `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
                             <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
                             <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
-                            <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${item.category || '—'}</span>
+                            <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${escapeHtml(item.category || '—')}</span>
                         </div>`;
                     }).join('');
 
@@ -2543,7 +2563,7 @@ async function loadModifRequests() {
                                 'delete': '🗑️ Suppression'
                             };
                             const actionLabel = actionMap[item.action] || item.action;
-                            return `<div style="font-size:0.9rem;padding:2px 0;">• ${item.productName}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
+                            return `<div style="font-size:0.9rem;padding:2px 0;">• ${escapeHtml(item.productName)}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
                         }).join('');
                         stockUpdateInfo =
                         `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
@@ -2552,7 +2572,7 @@ async function loadModifRequests() {
                         </div>`;
                     }
                 } 
-                // Format productName (legacy)
+                // Format productName (legacy - utilisé par les pages de réception)
                 else if (r.productName) {
                     const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
                         r.type === 'augmentation' ? '➕ Augmentation' :
@@ -2573,7 +2593,7 @@ async function loadModifRequests() {
                         </div>`;
                     }
                 } 
-                // Format operations[] (pages de réception)
+                // Format operations[] (format des pages de réception)
                 else if (r.operations && r.operations.length) {
                     itemsHtml = r.operations.map(op => {
                         const actionMap = {
@@ -2648,6 +2668,7 @@ async function loadModifRequests() {
                                     <span style="font-size:0.75rem;background:${r.statut === 'approuve' ? '#d4edda' : r.statut === 'refuse' ? '#f8d7da' : '#fff3cd'};padding:2px 10px;border-radius:999px;margin-left:8px;color:${r.statut === 'approuve' ? '#155724' : r.statut === 'refuse' ? '#721c24' : '#856404'};">
                                         ${statusBadge}
                                     </span>
+                                    ${r.module ? `<span style="font-size:0.7rem;background:#e3f2fd;color:#0d47a1;padding:2px 8px;border-radius:999px;margin-left:4px;">${escapeHtml(r.module)}</span>` : ''}
                                 </div>
                                 <div class="details-box" style="font-size:0.95rem;color:var(--gray-700);margin-top:6px;background:#f8f9fa;padding:10px 14px;border-radius:8px;border:1px solid var(--gray-100);">
                                     ${itemsHtml}
@@ -2673,7 +2694,7 @@ async function loadModifRequests() {
                         <div class="meta" style="font-size:0.85rem;color:var(--gray-500);margin-top:10px;line-height:1.6;">
                             👤 Demandé par ${demandeurInfo} le ${dateDemande}
                             ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
-                            ${r.module ? `<br>📦 Module: ${r.module}` : ''}
+                            ${r.module ? `<br>📦 Module: ${escapeHtml(r.module)}` : ''}
                         </div>
                         ${stockUpdateInfo}
                         ${r.statut === 'en_attente' ? `
@@ -2748,7 +2769,7 @@ async function loadAuditLog() {
             html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
                 <strong style="font-size:0.85rem;">${dateStr}</strong> 
                 ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
-                — ${a.details || 'Action enregistrée'}
+                — ${escapeHtml(a.details || 'Action enregistrée')}
             </div>`;
         });
         container.innerHTML = html;
@@ -2900,10 +2921,12 @@ async function applyModification(request) {
     const saleData = saleDoc.data();
     let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
 
-    // Traiter les opérations
+    // Traiter les opérations - supporte tous les formats
     const operations = request.operations || [];
+    const items = request.items || [];
 
     if (operations.length > 0) {
+        // Format des pages de réception
         for (const op of operations) {
             const productName = op.item || op.productName;
             if (!productName) continue;
@@ -2939,6 +2962,61 @@ async function applyModification(request) {
                     }
                     console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
                 } else if (!currentLine && newQty > 0) {
+                    // Ajout d'un nouveau produit
+                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                    if (!stockQuery.empty) {
+                        const stockData = stockQuery.docs[0].data();
+                        products.push({
+                            item: productName,
+                            quantity: newQty,
+                            priceGdes: stockData.priceGdes || 0,
+                            priceUs: stockData.priceUs || 0,
+                            currency: 'Gdes',
+                            category: stockData.category || ''
+                        });
+                        await updateStock(productName, newQty, false, stockCol);
+                        console.log(`➕ ${productName} ajouté: ${newQty}`);
+                    }
+                }
+            }
+        }
+    } else if (items.length > 0) {
+        // Format items (nouveau format)
+        for (const item of items) {
+            const productName = item.productName;
+            if (!productName) continue;
+
+            const index = products.findIndex(p =>
+                String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+            );
+            const currentLine = index >= 0 ? products[index] : null;
+
+            if (item.action === 'delete') {
+                if (currentLine) {
+                    const qty = Number(currentLine.quantity || 0);
+                    await updateStock(productName, qty, true, stockCol);
+                    products.splice(index, 1);
+                    console.log(`🗑️ Produit ${productName} supprimé de la facture`);
+                }
+            } else {
+                const oldQty = Number(currentLine?.quantity || 0);
+                const newQty = Math.max(0, item.amount || 0);
+                const delta = newQty - oldQty;
+
+                if (currentLine && delta !== 0) {
+                    if (delta < 0) {
+                        await updateStock(productName, Math.abs(delta), true, stockCol);
+                    } else if (delta > 0) {
+                        await updateStock(productName, delta, false, stockCol);
+                    }
+                    currentLine.quantity = newQty;
+                    if (newQty <= 0) {
+                        products.splice(index, 1);
+                    } else {
+                        products[index] = currentLine;
+                    }
+                    console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
+                } else if (!currentLine && newQty > 0) {
                     const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
                     if (!stockQuery.empty) {
                         const stockData = stockQuery.docs[0].data();
@@ -2957,6 +3035,7 @@ async function applyModification(request) {
             }
         }
     } else if (request.productName) {
+        // Format legacy (une seule opération)
         const productName = request.productName;
         const index = products.findIndex(p =>
             String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
@@ -3071,30 +3150,29 @@ async function updateStock(productName, quantity, isReturn, stockCol) {
 // ÉCOUTE TEMPS RÉEL
 // ============================================================
 function attachModifRealtimeListener() {
-    const collections = ['modifRequests', 'modifRequestsRoom'];
+    // Écouter la collection 'modifRequests' (utilisée par les pages de réception)
+    db.collection('modifRequests').onSnapshot(
+        { includeMetadataChanges: false },
+        (snapshot) => {
+            if (currentPage === 'modifications') {
+                const hasChanges = snapshot.docChanges().some(change => {
+                    const data = change.doc.data();
+                    const docModule = data.module || data.type || data.source || '';
+                    return docModule === getModuleFilter() || 
+                           (getModuleFilter() === 'restobar' && docModule === 'bar') ||
+                           (getModuleFilter() === 'roompool' && docModule === 'room');
+                });
 
-    collections.forEach(col => {
-        db.collection(col).onSnapshot(
-            { includeMetadataChanges: false },
-            (snapshot) => {
-                if (currentPage === 'modifications') {
-                    const hasChanges = snapshot.docChanges().some(change => {
-                        const data = change.doc.data();
-                        const docModule = col === 'modifRequests' ? 'restobar' : 'roompool';
-                        return docModule === modifModule;
-                    });
-
-                    if (hasChanges) {
-                        loadModifRequests();
-                        toast('📥 Nouvelle demande reçue', 'info');
-                    }
+                if (hasChanges) {
+                    loadModifRequests();
+                    toast('📥 Nouvelle demande reçue', 'info');
                 }
-            },
-            (err) => {
-                console.warn(`[Sync] Écoute modifications interrompue (${col}):`, err.code || err.message);
             }
-        );
-    });
+        },
+        (err) => {
+            console.warn('[Sync] Écoute modifications interrompue:', err.code || err.message);
+        }
+    );
 }
 
         // ============================================================
