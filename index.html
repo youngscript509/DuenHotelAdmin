@@ -2357,16 +2357,16 @@ PAGE : MODIFICATIONS (approbation workflow) - CORRIGÉE
             } catch (e) { toast(e.message, 'error'); }
         }
 
-        // ============================================================
-        //  MODIFICATIONS (approbation workflow) - COMPATIBLE AVEC LES PAGES DE RÉCEPTION
-        // ============================================================
-        // ============================================================
-//  MODIFICATIONS (approbation workflow) - COMPLET AVEC FILTRE DATE
+   // ============================================================
+//  MODIFICATIONS (approbation workflow) - COMPLÈTE
 // ============================================================
 let modifModule = 'restobar';
 let modifFilter = 'en_attente';
 let modifDateFilter = '';
 
+// ============================================================
+// CONFIGURATION DES COLLECTIONS
+// ============================================================
 function getModifCollection() {
     return modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
 }
@@ -2383,15 +2383,19 @@ function getModuleLabel() {
     return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
 }
 
+// ============================================================
+// SWITCH MODULE / FILTER
+// ============================================================
 function switchModifModule(module) {
     modifModule = module;
     document.querySelectorAll('.modif-tabs [data-module]').forEach(b => {
         b.classList.toggle('active', b.dataset.module === module);
     });
-    // Réinitialiser le filtre date lors du changement de module
-    document.getElementById('modifFilterDate').value = '';
+    const dateInput = document.getElementById('modifFilterDate');
+    if (dateInput) dateInput.value = '';
     modifDateFilter = '';
-    document.getElementById('modifFilterInfo').textContent = 'Affiche toutes les demandes';
+    const infoEl = document.getElementById('modifFilterInfo');
+    if (infoEl) infoEl.textContent = 'Affiche toutes les demandes';
     loadModifRequests();
 }
 
@@ -2408,28 +2412,32 @@ function refreshModifRequests() {
 }
 
 function applyModifDateFilter() {
-    const date = document.getElementById('modifFilterDate').value;
+    const dateInput = document.getElementById('modifFilterDate');
+    if (!dateInput) return;
+    const date = dateInput.value;
     modifDateFilter = date;
-    if (date) {
-        document.getElementById('modifFilterInfo').textContent = `📅 Filtré par: ${date}`;
-    } else {
-        document.getElementById('modifFilterInfo').textContent = 'Affiche toutes les demandes';
+    const infoEl = document.getElementById('modifFilterInfo');
+    if (infoEl) {
+        infoEl.textContent = date ? `📅 Filtré par: ${date}` : 'Affiche toutes les demandes';
     }
     loadModifRequests();
 }
 
 function clearModifDateFilter() {
-    document.getElementById('modifFilterDate').value = '';
+    const dateInput = document.getElementById('modifFilterDate');
+    if (dateInput) dateInput.value = '';
     modifDateFilter = '';
-    document.getElementById('modifFilterInfo').textContent = 'Affiche toutes les demandes';
+    const infoEl = document.getElementById('modifFilterInfo');
+    if (infoEl) infoEl.textContent = 'Affiche toutes les demandes';
     loadModifRequests();
 }
 
 // ============================================================
-// CHARGEMENT DES DEMANDES - AVEC FILTRE DATE
+// CHARGEMENT DES DEMANDES
 // ============================================================
 async function loadModifRequests() {
     const container = document.getElementById('modifList');
+    if (!container) return;
 
     if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
         container.innerHTML =
@@ -2443,7 +2451,6 @@ async function loadModifRequests() {
         console.log(`📅 Filtre date: ${modifDateFilter || 'Aucun'}`);
         console.log(`🏷️ Filtre statut: ${modifFilter}`);
 
-        // Récupérer TOUTES les demandes de la collection
         const snap = await db.collection(collectionName).get();
         let requests = [];
         snap.forEach(d => {
@@ -2454,7 +2461,7 @@ async function loadModifRequests() {
 
         console.log(`📊 Total des demandes dans Firestore: ${requests.length}`);
 
-        // Filtrer par date si spécifiée
+        // Filtre par date
         if (modifDateFilter) {
             requests = requests.filter(r => {
                 if (!r.dateDemande) return false;
@@ -2469,13 +2476,12 @@ async function loadModifRequests() {
             console.log(`📅 Après filtre date (${modifDateFilter}): ${requests.length} demandes`);
         }
 
-        // Filtrer par statut
+        // Filtre par statut
         if (modifFilter !== 'toutes') {
             requests = requests.filter(r => r.statut === modifFilter);
             console.log(`🏷️ Après filtre statut (${modifFilter}): ${requests.length} demandes`);
         }
 
-        // Trier par date (plus récent d'abord)
         requests.sort((a, b) => {
             const dateA = a.dateDemande ? new Date(a.dateDemande).getTime() : 0;
             const dateB = b.dateDemande ? new Date(b.dateDemande).getTime() : 0;
@@ -2499,7 +2505,7 @@ async function loadModifRequests() {
                 let itemsHtml = '';
                 let stockUpdateInfo = '';
 
-                // Gérer les différents formats de demande
+                // Format items[]
                 if (r.items && r.items.length) {
                     itemsHtml = r.items.map(item => {
                         const actionMap = {
@@ -2509,7 +2515,7 @@ async function loadModifRequests() {
                         };
                         const actionLabel = actionMap[item.action] || item.action;
                         const amountInfo = item.amount !== undefined ? `(${item.amount})` : '';
-                        return `<div class="item-line">
+                        return `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
                             <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
                             <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
                             <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${item.category || '—'}</span>
@@ -2532,12 +2538,14 @@ async function loadModifRequests() {
                             ${stockUpdateInfo}
                         </div>`;
                     }
-                } else if (r.productName) {
+                } 
+                // Format productName (legacy)
+                else if (r.productName) {
                     const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
                         r.type === 'augmentation' ? '➕ Augmentation' :
                         r.type === 'diminution' || r.type === 'diminution_quantite' ? '➖ Diminution' :
                         '✏️ Modification';
-                    itemsHtml = `<div class="item-line">
+                    itemsHtml = `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;flex-wrap:wrap;gap:4px;">
                         <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(r.productName)}</span>
                         <span style="color:var(--muted);font-size:0.9rem;">${typeLabel}</span>
                         ${!r.deleteWhole && r.newQuantity !== undefined ? `<span style="font-size:0.85rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${r.currentQuantity || 0} → ${r.newQuantity}</span>` : ''}
@@ -2551,8 +2559,9 @@ async function loadModifRequests() {
                             ${r.deleteWhole ? '🗑️ Suppression complète du produit' : r.type === 'augmentation' ? `⬆️ Augmentation: ${r.currentQuantity || 0} → ${r.newQuantity}` : `➖ Diminution: ${r.currentQuantity || 0} → ${r.newQuantity}`}
                         </div>`;
                     }
-                } else if (r.operations && r.operations.length) {
-                    // Format des pages de réception
+                } 
+                // Format operations[] (pages de réception)
+                else if (r.operations && r.operations.length) {
                     itemsHtml = r.operations.map(op => {
                         const actionMap = {
                             'suppression': '🗑️ Suppression',
@@ -2563,7 +2572,7 @@ async function loadModifRequests() {
                         const qtyInfo = op.quantiteActuelle !== undefined && op.quantiteDemandee !== undefined ?
                             `${op.quantiteActuelle} → ${op.quantiteDemandee}` :
                             op.amount ? `(${op.amount})` : '';
-                        return `<div class="item-line">
+                        return `<div class="item-line" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
                             <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(op.item || op.productName)}</span>
                             <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${qtyInfo}</span>
                         </div>`;
@@ -2578,7 +2587,7 @@ async function loadModifRequests() {
                     }
                 } else {
                     itemsHtml =
-                    `<div class="item-line" style="padding:6px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
+                    `<div class="item-line" style="padding:4px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
                 }
 
                 const demandeurInfo = r.demandeur ?
@@ -2613,7 +2622,6 @@ async function loadModifRequests() {
 
                 const isMyRequest = currentUser && r.demandeur && r.demandeur.nom === currentUser.name;
 
-                // Afficher le statut de la demande de façon plus visible
                 const statusBadge = r.statut === 'approuve' ? '✅ Approuvée' :
                     r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
 
@@ -2640,7 +2648,7 @@ async function loadModifRequests() {
                                             ${r.invoiceSummary.amountUs ? '/'+r.invoiceSummary.amountUs+' US' : ''}
                                         </div>
                                     ` : ''}
-                                    <div style="margin-top:4px;font-size:0.8rem;color:var(--gray-400);">
+                                    <div style="margin-top:4px;font-size:0.7rem;color:var(--gray-400);">
                                         ID: ${r.id}
                                     </div>
                                 </div>
@@ -2684,13 +2692,396 @@ async function loadModifRequests() {
             }).join('');
         }
 
-        loadAuditLog();
+        await loadAuditLog();
 
     } catch (e) {
         console.error('Erreur chargement demandes:', e);
         container.innerHTML =
             `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur lors du chargement des demandes: ${e.message}</div>`;
     }
+}
+
+// ============================================================
+// AUDIT LOG
+// ============================================================
+async function loadAuditLog() {
+    const container = document.getElementById('auditLog');
+    if (!container) return;
+    
+    try {
+        const snap = await db.collection('auditLog')
+            .orderBy('date', 'desc')
+            .limit(50)
+            .get();
+
+        if (snap.empty) {
+            container.innerHTML = '<div class="empty-state">Aucune action enregistrée.</div>';
+            return;
+        }
+
+        let html = '';
+        snap.forEach(d => {
+            const a = d.data();
+            const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : 
+                               a.module === 'roompool' ? '🛏️ Room' : '';
+            const dateStr = a.date ? new Date(a.date).toLocaleString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : '—';
+            
+            html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
+                <strong style="font-size:0.85rem;">${dateStr}</strong> 
+                ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
+                — ${a.details || 'Action enregistrée'}
+            </div>`;
+        });
+        container.innerHTML = html;
+    } catch (e) {
+        console.error('Erreur chargement audit:', e);
+        container.innerHTML = '<div class="empty-state">Impossible de charger le journal d\'audit.</div>';
+    }
+}
+
+// ============================================================
+// TOGGLE COMMENTAIRE
+// ============================================================
+function toggleCommentModif(id) {
+    const box = document.getElementById(`comment_box_${id}`);
+    if (box) {
+        box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        if (box.style.display === 'block') {
+            const textarea = document.getElementById(`comment_${id}`);
+            if (textarea) textarea.focus();
+        }
+    }
+}
+
+// ============================================================
+// APPROBATION
+// ============================================================
+async function approveModif(requestId) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+        return toast('Permission refusée', 'error');
+    }
+
+    try {
+        const collectionName = getModifCollection();
+        const docRef = db.collection(collectionName).doc(requestId);
+        const doc = await docRef.get();
+
+        if (!doc.exists) return toast('Demande introuvable', 'error');
+        const data = doc.data();
+
+        if (data.statut !== 'en_attente') {
+            return toast('Cette demande a déjà été traitée', 'error');
+        }
+
+        await applyModification(data);
+
+        await docRef.update({
+            statut: 'approuve',
+            traitantPar: {
+                nom: document.getElementById('userName').textContent || 'Admin',
+                role: window.userRole
+            },
+            dateTraitement: new Date().toISOString(),
+            commentaireTraitement: null
+        });
+
+        await db.collection('auditLog').add({
+            requestId,
+            module: modifModule,
+            action: 'approbation',
+            par: {
+                nom: document.getElementById('userName').textContent || 'Admin',
+                role: window.userRole
+            },
+            date: new Date().toISOString(),
+            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId} (${getModuleLabel()})`
+        });
+
+        toast('✅ Demande approuvée - Facture mise à jour', 'success');
+        loadModifRequests();
+
+    } catch (e) {
+        toast('❌ Erreur: ' + e.message, 'error');
+        console.error(e);
+    }
+}
+
+// ============================================================
+// REFUS
+// ============================================================
+async function rejectModif(requestId) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+        return toast('Permission refusée', 'error');
+    }
+
+    const comment = document.getElementById(`comment_${requestId}`)?.value?.trim();
+    if (!comment) {
+        return toast('⚠️ Un commentaire est requis pour un refus', 'error');
+    }
+
+    try {
+        const collectionName = getModifCollection();
+        const docRef = db.collection(collectionName).doc(requestId);
+        const doc = await docRef.get();
+
+        if (!doc.exists) return toast('Demande introuvable', 'error');
+        const data = doc.data();
+
+        if (data.statut !== 'en_attente') {
+            return toast('Cette demande a déjà été traitée', 'error');
+        }
+
+        await docRef.update({
+            statut: 'refuse',
+            traitantPar: {
+                nom: document.getElementById('userName').textContent || 'Admin',
+                role: window.userRole
+            },
+            dateTraitement: new Date().toISOString(),
+            commentaireTraitement: comment
+        });
+
+        await db.collection('auditLog').add({
+            requestId,
+            module: modifModule,
+            action: 'refus',
+            par: {
+                nom: document.getElementById('userName').textContent || 'Admin',
+                role: window.userRole
+            },
+            date: new Date().toISOString(),
+            details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} (${getModuleLabel()}) — Commentaire: ${comment}`
+        });
+
+        toast('❌ Demande refusée', 'success');
+        loadModifRequests();
+
+    } catch (e) {
+        toast('❌ Erreur: ' + e.message, 'error');
+        console.error(e);
+    }
+}
+
+// ============================================================
+// APPLICATION DE LA MODIFICATION
+// ============================================================
+async function applyModification(request) {
+    const salesCol = getSalesCollection();
+    const stockCol = getStockCollection();
+
+    console.log(`📝 Application de la modification sur ${salesCol} / ${stockCol}`);
+
+    const saleRef = db.collection(salesCol).doc(request.factureId);
+    const saleDoc = await saleRef.get();
+
+    if (!saleDoc.exists) {
+        throw new Error(`Vente introuvable: ${request.factureId} dans ${salesCol}`);
+    }
+
+    const saleData = saleDoc.data();
+    let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
+
+    // Traiter les opérations
+    const operations = request.operations || [];
+
+    if (operations.length > 0) {
+        for (const op of operations) {
+            const productName = op.item || op.productName;
+            if (!productName) continue;
+
+            const index = products.findIndex(p =>
+                String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+            );
+            const currentLine = index >= 0 ? products[index] : null;
+
+            if (op.type === 'suppression' || op.supprimer || op.action === 'delete') {
+                if (currentLine) {
+                    const qty = Number(currentLine.quantity || 0);
+                    await updateStock(productName, qty, true, stockCol);
+                    products.splice(index, 1);
+                    console.log(`🗑️ Produit ${productName} supprimé de la facture`);
+                }
+            } else {
+                const oldQty = Number(currentLine?.quantity || 0);
+                const newQty = Math.max(0, op.quantiteDemandee || op.amount || op.newQuantity || 0);
+                const delta = newQty - oldQty;
+
+                if (currentLine && delta !== 0) {
+                    if (delta < 0) {
+                        await updateStock(productName, Math.abs(delta), true, stockCol);
+                    } else if (delta > 0) {
+                        await updateStock(productName, delta, false, stockCol);
+                    }
+                    currentLine.quantity = newQty;
+                    if (newQty <= 0) {
+                        products.splice(index, 1);
+                    } else {
+                        products[index] = currentLine;
+                    }
+                    console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
+                } else if (!currentLine && newQty > 0) {
+                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                    if (!stockQuery.empty) {
+                        const stockData = stockQuery.docs[0].data();
+                        products.push({
+                            item: productName,
+                            quantity: newQty,
+                            priceGdes: stockData.priceGdes || 0,
+                            priceUs: stockData.priceUs || 0,
+                            currency: 'Gdes',
+                            category: stockData.category || ''
+                        });
+                        await updateStock(productName, newQty, false, stockCol);
+                        console.log(`➕ ${productName} ajouté: ${newQty}`);
+                    }
+                }
+            }
+        }
+    } else if (request.productName) {
+        const productName = request.productName;
+        const index = products.findIndex(p =>
+            String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+        );
+        const currentLine = index >= 0 ? products[index] : null;
+
+        if (request.deleteWhole || request.type === 'suppression_produit') {
+            if (currentLine) {
+                const qty = Number(currentLine.quantity || 0);
+                await updateStock(productName, qty, true, stockCol);
+                products.splice(index, 1);
+                console.log(`🗑️ ${productName} supprimé`);
+            }
+        } else if (request.type === 'diminution' || request.type === 'diminution_quantite') {
+            const oldQty = Number(currentLine?.quantity || 0);
+            const newQty = Number(request.newQuantity || 0);
+            const qtyRemoved = oldQty - newQty;
+            if (currentLine && qtyRemoved > 0) {
+                await updateStock(productName, qtyRemoved, true, stockCol);
+                currentLine.quantity = newQty;
+                if (newQty <= 0) {
+                    products.splice(index, 1);
+                } else {
+                    products[index] = currentLine;
+                }
+                console.log(`➖ ${productName}: ${oldQty} → ${newQty}`);
+            }
+        } else if (request.type === 'augmentation') {
+            const oldQty = Number(currentLine?.quantity || 0);
+            const newQty = Number(request.newQuantity || 0);
+            const qtyAdded = newQty - oldQty;
+            if (qtyAdded > 0) {
+                await updateStock(productName, qtyAdded, false, stockCol);
+                if (currentLine) {
+                    currentLine.quantity = newQty;
+                    products[index] = currentLine;
+                } else {
+                    const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+                    if (!stockQuery.empty) {
+                        const stockData = stockQuery.docs[0].data();
+                        products.push({
+                            item: productName,
+                            quantity: newQty,
+                            priceGdes: stockData.priceGdes || 0,
+                            priceUs: stockData.priceUs || 0,
+                            currency: 'Gdes',
+                            category: stockData.category || ''
+                        });
+                    }
+                }
+                console.log(`➕ ${productName}: ${oldQty} → ${newQty}`);
+            }
+        }
+    }
+
+    // Recalculer les totaux
+    let totalGdes = 0, totalUs = 0;
+    products.forEach(p => {
+        if (p.currency === 'Gdes') {
+            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+        } else if (p.currency === 'Us') {
+            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+        } else {
+            totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
+            totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
+        }
+    });
+
+    await saleRef.update({
+        products: products,
+        totalGdes: totalGdes,
+        totalUs: totalUs,
+        updatedAt: new Date().toISOString()
+    });
+
+    console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes.toFixed(2)}, Total Us: ${totalUs.toFixed(2)}`);
+}
+
+// ============================================================
+// MISE À JOUR DU STOCK
+// ============================================================
+async function updateStock(productName, quantity, isReturn, stockCol) {
+    try {
+        const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
+        if (stockQuery.empty) {
+            console.warn(`⚠️ Produit ${productName} introuvable en stock`);
+            return;
+        }
+
+        const stockDoc = stockQuery.docs[0];
+        const stockData = stockDoc.data();
+        let currentQty = Number(stockData.quantity || 0);
+
+        if (isReturn) {
+            currentQty += quantity;
+        } else {
+            currentQty = Math.max(0, currentQty - quantity);
+        }
+
+        await db.collection(stockCol).doc(stockDoc.id).update({
+            quantity: currentQty,
+            updatedAt: new Date().toISOString()
+        });
+
+        console.log(`📦 Stock ${productName}: ${currentQty}`);
+    } catch (e) {
+        console.warn(`⚠️ Erreur mise à jour stock ${productName}:`, e);
+    }
+}
+
+// ============================================================
+// ÉCOUTE TEMPS RÉEL
+// ============================================================
+function attachModifRealtimeListener() {
+    const collections = ['modifRequests', 'modifRequestsRoom'];
+
+    collections.forEach(col => {
+        db.collection(col).onSnapshot(
+            { includeMetadataChanges: false },
+            (snapshot) => {
+                if (currentPage === 'modifications') {
+                    const hasChanges = snapshot.docChanges().some(change => {
+                        const data = change.doc.data();
+                        const docModule = col === 'modifRequests' ? 'restobar' : 'roompool';
+                        return docModule === modifModule;
+                    });
+
+                    if (hasChanges) {
+                        loadModifRequests();
+                        toast('📥 Nouvelle demande reçue', 'info');
+                    }
+                }
+            },
+            (err) => {
+                console.warn(`[Sync] Écoute modifications interrompue (${col}):`, err.code || err.message);
+            }
+        );
+    });
 }
 
         // ============================================================
