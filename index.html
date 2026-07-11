@@ -991,7 +991,9 @@
             font-size: 16px;
         }
     </style>
+    
     <style>
+
     /* ============================================================
        Réutilisation des styles du dashboard
     ============================================================ */
@@ -1550,7 +1552,7 @@
                     </div>
                 </section>
 
-              <!-- ==========================================================
+        <!-- ==========================================================
 PAGE : MODIFICATIONS (approbation workflow)
 ========================================================== -->
 <section class="page-section" id="page-modifications">
@@ -1573,7 +1575,7 @@ PAGE : MODIFICATIONS (approbation workflow)
     </div>
     <div class="card-panel">
         <details>
-            <summary style="font-weight:600;cursor:pointer;"><i class="fas fa-history"></i> Journal d'audit</summary>
+            <summary style="font-weight:600;cursor:pointer;font-size:1.1rem;"><i class="fas fa-history"></i> Journal d'audit</summary>
             <div id="auditLog" style="margin-top:10px;"></div>
         </details>
     </div>
@@ -2594,12 +2596,31 @@ if (page === 'modifications') {
             } catch (e) { toast(e.message, 'error'); }
         }
 
-// ============================================================
-//  MODIFICATIONS (approbation workflow) - Version complète
-// ============================================================
 
+
+// ============================================================
+//  MODIFICATIONS (approbation workflow) - Version compatible
+// ============================================================
 
 let modifData = [];
+
+
+// Mapping des collections
+function getModifCollection() {
+    return modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
+}
+
+function getSalesCollection() {
+    return modifModule === 'restobar' ? 'globalSales' : 'globalSalesRoom';
+}
+
+function getStockCollection() {
+    return modifModule === 'restobar' ? 'DrinkStock' : 'roomsStock';
+}
+
+function getModuleLabel() {
+    return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
+}
 
 function switchModifModule(module) {
     modifModule = module;
@@ -2621,33 +2642,22 @@ function refreshModifRequests() {
     loadModifRequests();
 }
 
-function getModifCollection() {
-    return modifModule === 'restobar' ? 'modifRequests' : 'modifRequestsRoom';
-}
-
-function getSalesCollection() {
-    return modifModule === 'restobar' ? 'globalSales' : 'globalSalesRoom';
-}
-
-function getStockCollection() {
-    return modifModule === 'restobar' ? 'DrinkStock' : 'roomsStock';
-}
-
-function getModuleLabel() {
-    return modifModule === 'restobar' ? 'Resto & Bar' : 'Chambres & Piscine';
-}
-
+// ============================================================
+// CHARGEMENT DES DEMANDES
+// ============================================================
 async function loadModifRequests() {
     const container = document.getElementById('modifList');
     
     // Vérifier les droits
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
         container.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
         return;
     }
     
     try {
         const collectionName = getModifCollection();
+        console.log(`📥 Chargement des demandes depuis: ${collectionName}`);
+        
         const snap = await db.collection(collectionName).get();
         let requests = [];
         snap.forEach(d => requests.push({ ...d.data(), id: d.id }));
@@ -2671,50 +2681,67 @@ async function loadModifRequests() {
                 const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
                     r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
 
-                // Détails des items
+                // Détails des items - Version agrandie et lisible
                 let itemsHtml = '';
                 let stockUpdateInfo = '';
                 
                 if (r.items && r.items.length) {
                     itemsHtml = r.items.map(item => {
-                        const actionLabel = item.action === 'increase' ? '➕ Augmentation' :
-                            item.action === 'decrease' ? '➖ Diminution' :
-                            item.action === 'delete' ? '🗑️ Suppression' : item.action;
-                        const amountInfo = item.amount ? `(${item.amount})` : '';
-                        return `<div style="font-size:13px;padding:2px 0;">• ${item.productName} — ${actionLabel} ${amountInfo}</div>`;
+                        const actionMap = {
+                            'increase': '➕ Augmentation',
+                            'decrease': '➖ Diminution',
+                            'delete': '🗑️ Suppression'
+                        };
+                        const actionLabel = actionMap[item.action] || item.action;
+                        const amountInfo = item.amount !== undefined ? `(${item.amount})` : '';
+                        return `<div class="item-line" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;flex-wrap:wrap;gap:4px;">
+                            <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
+                            <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
+                            <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${item.category || '—'}</span>
+                        </div>`;
                     }).join('');
                     
                     // Informations de mise à jour du stock
                     if (r.statut === 'approuve') {
                         stockUpdateInfo = r.items.map(item => {
-                            const actionLabel = item.action === 'increase' ? '⬆️ Augmentation' :
-                                item.action === 'decrease' ? '⬇️ Diminution' :
-                                item.action === 'delete' ? '🗑️ Suppression' : item.action;
-                            return `<div style="font-size:12px;">• ${item.productName}: ${actionLabel} ${item.amount ? '('+item.amount+')' : ''}</div>`;
+                            const actionMap = {
+                                'increase': '⬆️ Augmentation',
+                                'decrease': '⬇️ Diminution',
+                                'delete': '🗑️ Suppression'
+                            };
+                            const actionLabel = actionMap[item.action] || item.action;
+                            return `<div style="font-size:0.9rem;padding:2px 0;">• ${item.productName}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
                         }).join('');
-                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:8px 12px;border-radius:6px;margin-top:6px;font-size:13px;border-left:3px solid #2e7d32;">
+                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
                             <strong>✅ Stock et facture mis à jour</strong>
                             ${stockUpdateInfo}
                         </div>`;
                     }
-                } else {
-                    // Fallback pour anciennes demandes
-                    const typeLabel = r.type === 'suppression_produit' ? '🗑️ Suppression produit' :
-                        r.type === 'diminution_quantite' ? '➖ Diminution quantité' :
-                        r.type === 'augmentation' ? '➕ Augmentation' : r.type || 'Modification';
-                    itemsHtml = `<div style="font-size:13px;">• ${r.productName || '—'} — ${typeLabel}</div>`;
+                } else if (r.productName) {
+                    // Format legacy
+                    const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
+                        r.type === 'augmentation' ? '➕ Augmentation' :
+                        r.type === 'diminution' ? '➖ Diminution' : '✏️ Modification';
+                    itemsHtml = `<div class="item-line" style="display:flex;justify-content:space-between;padding:6px 0;flex-wrap:wrap;gap:4px;">
+                        <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(r.productName)}</span>
+                        <span style="color:var(--muted);font-size:0.9rem;">${typeLabel}</span>
+                        ${!r.deleteWhole && r.newQuantity ? `<span style="font-size:0.85rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${r.currentQuantity} → ${r.newQuantity}</span>` : ''}
+                        ${r.deleteWhole ? `<span style="font-size:0.85rem;background:#f8d7da;padding:2px 10px;border-radius:999px;color:#721c24;">Suppression totale</span>` : ''}
+                    </div>`;
                     
                     if (r.statut === 'approuve') {
-                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:8px 12px;border-radius:6px;margin-top:6px;font-size:13px;border-left:3px solid #2e7d32;">
+                        stockUpdateInfo = `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
                             <strong>✅ Stock et facture mis à jour</strong>
                             ${r.deleteWhole ? '🗑️ Suppression complète du produit' : `Qté: ${r.currentQuantity} → ${r.newQuantity}`}
                         </div>`;
                     }
+                } else {
+                    itemsHtml = `<div class="item-line" style="padding:6px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
                 }
 
                 // Informations du demandeur
                 const demandeurInfo = r.demandeur ? 
-                    `<strong>${r.demandeur.nom || '—'}</strong> (${r.demandeur.role || 'Vendeur'})` : '—';
+                    `<strong style="font-size:1rem;">${escapeHtml(r.demandeur.nom || '—')}</strong> (${escapeHtml(r.demandeur.role || 'Vendeur')})` : '—';
                 
                 // Date de demande formatée
                 const dateDemande = r.dateDemande ? new Date(r.dateDemande).toLocaleString('fr-FR', {
@@ -2727,47 +2754,66 @@ async function loadModifRequests() {
                     hour: '2-digit', minute: '2-digit'
                 }) : '—';
 
+                // Vérifier si la demande est du jour
+                const isToday = r.dateDemande && (() => {
+                    const d = new Date(r.dateDemande);
+                    const today = new Date();
+                    return d.getFullYear() === today.getFullYear() &&
+                           d.getMonth() === today.getMonth() &&
+                           d.getDate() === today.getDate();
+                })();
+
                 return `
-                    <div class="modif-item" data-id="${r.id}">
-                        <div class="top">
-                            <div style="flex:1;">
-                                <div class="facture">🧾 ${r.factureId || '—'}</div>
-                                <div style="font-size:13px;color:var(--gray-700);margin-top:4px;">
+                    <div class="modif-item" data-id="${r.id}" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:16px 18px;margin-top:12px;background:var(--white);box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+                        <div class="top" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+                            <div style="flex:1;min-width:200px;">
+                                <div class="facture" style="font-weight:700;font-size:1.05rem;">🧾 ${escapeHtml(r.factureId || '—')} ${isToday ? '<span style="font-size:0.75rem;background:#e8f5e9;padding:2px 10px;border-radius:999px;color:#2e7d32;margin-left:8px;">📅 Aujourd\'hui</span>' : ''}</div>
+                                <div style="font-size:0.95rem;color:var(--gray-700);margin-top:6px;background:#f8f9fa;padding:10px 14px;border-radius:8px;border:1px solid var(--gray-100);">
                                     ${itemsHtml}
-                                </div>
-                                ${r.invoiceSummary ? `
-                                    <div style="font-size:12px;color:var(--gray-500);margin-top:4px;">
-                                        Client: ${r.invoiceSummary.customerName || '—'} 
-                                        ${r.invoiceSummary.customerId ? '| ID: ' + r.invoiceSummary.customerId : ''}
-                                        ${r.invoiceSummary.amountGdes ? '| Total: ' + r.invoiceSummary.amountGdes + ' Gdes' : ''}
-                                        ${r.invoiceSummary.amountUs ? '/' + r.invoiceSummary.amountUs + ' US' : ''}
+                                    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--gray-100);font-size:0.9rem;color:var(--muted);">
+                                        📝 Motif : ${escapeHtml(r.motif || r.reason || '—')}
                                     </div>
-                                ` : ''}
+                                    ${r.invoiceSummary ? `
+                                        <div style="margin-top:4px;font-size:0.85rem;color:var(--gray-500);">
+                                            Client: ${escapeHtml(r.invoiceSummary.customerName || '—')} 
+                                            ${r.invoiceSummary.amountGdes ? '| Total: '+r.invoiceSummary.amountGdes+' Gdes' : ''}
+                                            ${r.invoiceSummary.amountUs ? '/'+r.invoiceSummary.amountUs+' US' : ''}
+                                        </div>
+                                    ` : ''}
+                                </div>
                             </div>
-                            <span class="badge ${badgeClass}">${badgeLabel}</span>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                                <span class="badge ${badgeClass}" style="font-size:0.8rem;font-weight:600;padding:4px 12px;border-radius:999px;">${badgeLabel}</span>
+                                ${r.demandeur && currentUser && r.demandeur.nom === currentUser.name ? '<span class="badge" style="background:#e3f2fd;color:#0d47a1;font-size:0.75rem;padding:2px 10px;border-radius:999px;">👤 Ma demande</span>' : ''}
+                            </div>
                         </div>
-                        <div class="meta">
-                            👤 Demandé par ${demandeurInfo} le ${dateDemande}<br>
-                            📝 Motif : ${r.motif || r.reason || '—'}
+                        <div class="meta" style="font-size:0.85rem;color:var(--gray-500);margin-top:10px;line-height:1.6;">
+                            👤 Demandé par ${demandeurInfo} le ${dateDemande}
                             ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
                         </div>
                         ${stockUpdateInfo}
                         ${isPending ? `
-                            <div class="actions">
-                                <button class="btn btn-success btn-sm" onclick="approveModif('${r.id}')"><i class="fas fa-check"></i> Approuver</button>
-                                <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${r.id}')"><i class="fas fa-times"></i> Refuser</button>
+                            <div class="actions" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                                <button class="btn btn-success btn-sm" onclick="approveModif('${r.id}')" style="padding:8px 20px;background:#2ecc71;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                    <i class="fas fa-check"></i> Approuver
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${r.id}')" style="padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                    <i class="fas fa-times"></i> Refuser
+                                </button>
                             </div>
-                            <div class="comment-box" id="comment_box_${r.id}">
+                            <div class="comment-box" id="comment_box_${r.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-200);">
                                 <div class="form-group" style="margin-top:8px;">
-                                    <label>Commentaire (obligatoire pour un refus)</label>
-                                    <textarea id="comment_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:8px 12px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);"></textarea>
+                                    <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">Commentaire (obligatoire pour un refus)</label>
+                                    <textarea id="comment_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);min-height:60px;font-size:0.95rem;"></textarea>
                                 </div>
-                                <button class="btn btn-danger btn-sm" onclick="rejectModif('${r.id}')">Confirmer le refus</button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectModif('${r.id}')" style="margin-top:8px;padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                                    Confirmer le refus
+                                </button>
                             </div>
                         ` : `
-                            <div class="feedback">
-                                Traitée par <strong>${r.traitantPar?.nom || '—'}</strong> (${r.traitantPar?.role || '—'}) le ${dateTraitement}
-                                ${r.commentaireTraitement ? `<br>💬 ${r.commentaireTraitement}` : ''}
+                            <div class="feedback" style="margin-top:10px;background:var(--gray-50);border-left:3px solid var(--gold);padding:10px 14px;border-radius:var(--radius-sm);font-size:0.9rem;line-height:1.6;">
+                                Traitée par <strong>${escapeHtml(r.traitantPar?.nom || '—')}</strong> (${escapeHtml(r.traitantPar?.role || '—')}) le ${dateTraitement}
+                                ${r.commentaireTraitement ? `<br>💬 ${escapeHtml(r.commentaireTraitement)}` : ''}
                             </div>
                         `}
                     </div>
@@ -2795,8 +2841,11 @@ function toggleCommentModif(id) {
     }
 }
 
+// ============================================================
+// APPROBATION / REFUS (sans modal - l'utilisateur est déjà connecté)
+// ============================================================
 async function approveModif(requestId) {
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur','superviseur', 'SuperviseurGeneral',].includes(window.userRole)) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
         return toast('Permission refusée', 'error');
     }
     
@@ -2849,7 +2898,7 @@ async function approveModif(requestId) {
 }
 
 async function rejectModif(requestId) {
-    if (!window.userRole || !['Admin', 'DG', 'Manager', 'superviseur'].includes(window.userRole)) {
+    if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
         return toast('Permission refusée', 'error');
     }
     
@@ -2902,9 +2951,14 @@ async function rejectModif(requestId) {
     }
 }
 
+// ============================================================
+// APPLICATION DE LA MODIFICATION
+// ============================================================
 async function applyModification(request) {
     const salesCol = getSalesCollection();
     const stockCol = getStockCollection();
+    
+    console.log(`📝 Application de la modification sur ${salesCol} / ${stockCol}`);
     
     // Récupérer la vente
     const saleRef = db.collection(salesCol).doc(request.factureId);
@@ -2921,13 +2975,15 @@ async function applyModification(request) {
     if (request.items && request.items.length) {
         for (const item of request.items) {
             const productName = item.productName;
-            const index = products.findIndex(p => p.item === productName);
+            const index = products.findIndex(p => 
+                String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+            );
             const currentLine = index >= 0 ? products[index] : null;
 
             // Récupérer le produit en stock
             const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
             if (stockQuery.empty) {
-                console.warn(`Produit introuvable en stock: ${productName}`);
+                console.warn(`⚠️ Produit introuvable en stock: ${productName}`);
                 continue;
             }
             const stockDoc = stockQuery.docs[0];
@@ -2935,6 +2991,7 @@ async function applyModification(request) {
             let stockQty = Number(stockData.quantity || 0);
 
             if (item.action === 'delete') {
+                // Suppression complète
                 if (currentLine) {
                     stockQty += Number(currentLine.quantity || 0);
                     await db.collection(stockCol).doc(stockDoc.id).update({ 
@@ -2942,41 +2999,71 @@ async function applyModification(request) {
                         updatedAt: new Date().toISOString() 
                     });
                     products.splice(index, 1);
+                    console.log(`🗑️ Produit ${productName} supprimé de la facture, stock: +${currentLine.quantity}`);
                 }
             } else if (item.action === 'decrease') {
+                // Diminution
                 const delta = Number(item.amount || 0);
                 if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
                 if (delta > Number(currentLine.quantity || 0)) {
                     throw new Error(`Diminution demandée (${delta}) dépasse la quantité de ${productName} (${currentLine.quantity})`);
                 }
-                currentLine.quantity = Number(currentLine.quantity || 0) - delta;
+                const oldQty = Number(currentLine.quantity || 0);
+                const newQty = oldQty - delta;
+                currentLine.quantity = newQty;
                 stockQty += delta;
                 await db.collection(stockCol).doc(stockDoc.id).update({ 
                     quantity: stockQty, 
                     updatedAt: new Date().toISOString() 
                 });
-                if (currentLine.quantity <= 0) {
+                if (newQty <= 0) {
                     products.splice(index, 1);
                 } else {
                     products[index] = currentLine;
                 }
+                console.log(`➖ ${productName}: ${oldQty} → ${newQty}, stock: +${delta}`);
             } else if (item.action === 'increase') {
+                // Augmentation
                 const delta = Number(item.amount || 0);
-                if (!currentLine) throw new Error(`Produit ${productName} absent de la facture`);
-                if (delta > stockQty) throw new Error(`Stock insuffisant pour ${productName}`);
-                currentLine.quantity = Number(currentLine.quantity || 0) + delta;
-                stockQty -= delta;
-                await db.collection(stockCol).doc(stockDoc.id).update({ 
-                    quantity: stockQty, 
-                    updatedAt: new Date().toISOString() 
-                });
-                products[index] = currentLine;
+                if (!currentLine) {
+                    // Ajout d'un nouveau produit
+                    const priceGdes = stockData.priceGdes || 0;
+                    const priceUs = stockData.priceUs || 0;
+                    products.push({
+                        item: productName,
+                        quantity: delta,
+                        priceGdes: priceGdes,
+                        priceUs: priceUs,
+                        currency: 'Gdes',
+                        category: stockData.category || ''
+                    });
+                    stockQty -= delta;
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    console.log(`➕ ${productName} ajouté: ${delta}, stock: -${delta}`);
+                } else {
+                    const oldQty = Number(currentLine.quantity || 0);
+                    const newQty = oldQty + delta;
+                    if (delta > stockQty) throw new Error(`Stock insuffisant pour ${productName}`);
+                    currentLine.quantity = newQty;
+                    stockQty -= delta;
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    products[index] = currentLine;
+                    console.log(`➕ ${productName}: ${oldQty} → ${newQty}, stock: -${delta}`);
+                }
             }
         }
-    } else {
-        // Format ancien (pour compatibilité)
+    } else if (request.productName) {
+        // Format legacy
         const productName = request.productName;
-        const index = products.findIndex(p => p.item === productName);
+        const index = products.findIndex(p => 
+            String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+        );
         const currentLine = index >= 0 ? products[index] : null;
 
         const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
@@ -2993,8 +3080,9 @@ async function applyModification(request) {
                         updatedAt: new Date().toISOString() 
                     });
                     products.splice(index, 1);
+                    console.log(`🗑️ ${productName} supprimé, stock: +${currentLine.quantity}`);
                 }
-            } else if (request.type === 'diminution_quantite') {
+            } else if (request.type === 'diminution' || request.type === 'diminution_quantite') {
                 const oldQty = Number(currentLine?.quantity || 0);
                 const newQty = Number(request.newQuantity || 0);
                 const qtyRemoved = oldQty - newQty;
@@ -3010,6 +3098,33 @@ async function applyModification(request) {
                     } else {
                         products[index] = currentLine;
                     }
+                    console.log(`➖ ${productName}: ${oldQty} → ${newQty}, stock: +${qtyRemoved}`);
+                }
+            } else if (request.type === 'augmentation') {
+                const oldQty = Number(currentLine?.quantity || 0);
+                const newQty = Number(request.newQuantity || 0);
+                const qtyAdded = newQty - oldQty;
+                if (qtyAdded > 0) {
+                    if (qtyAdded > stockQty) throw new Error(`Stock insuffisant pour ${productName}`);
+                    stockQty -= qtyAdded;
+                    await db.collection(stockCol).doc(stockDoc.id).update({ 
+                        quantity: stockQty, 
+                        updatedAt: new Date().toISOString() 
+                    });
+                    if (currentLine) {
+                        currentLine.quantity = newQty;
+                        products[index] = currentLine;
+                    } else {
+                        products.push({
+                            item: productName,
+                            quantity: newQty,
+                            priceGdes: stockData.priceGdes || 0,
+                            priceUs: stockData.priceUs || 0,
+                            currency: 'Gdes',
+                            category: stockData.category || ''
+                        });
+                    }
+                    console.log(`➕ ${productName}: ${oldQty} → ${newQty}, stock: -${qtyAdded}`);
                 }
             }
         }
@@ -3023,7 +3138,7 @@ async function applyModification(request) {
         } else if (p.currency === 'Us') {
             totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
         } else {
-            // Fallback si currency non défini
+            // Fallback
             totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
             totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
         }
@@ -3037,9 +3152,12 @@ async function applyModification(request) {
         updatedAt: new Date().toISOString()
     });
     
-    console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes}, Total Us: ${totalUs}`);
+    console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes.toFixed(2)}, Total Us: ${totalUs.toFixed(2)}`);
 }
 
+// ============================================================
+// AUDIT LOG
+// ============================================================
 async function loadAuditLog() {
     const container = document.getElementById('auditLog');
     try {
@@ -3057,9 +3175,9 @@ async function loadAuditLog() {
         snap.forEach(d => {
             const a = d.data();
             const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : a.module === 'roompool' ? '🛏️ Room' : '';
-            html += `<div style="font-size:13px;border-bottom:1px solid var(--gray-100);padding:8px 0;">
-                <strong>${new Date(a.date).toLocaleString('fr-FR')}</strong> 
-                ${moduleLabel ? `<span class="badge" style="background:var(--gold);color:var(--black);padding:2px 10px;border-radius:999px;font-size:11px;">${moduleLabel}</span>` : ''}
+            html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
+                <strong style="font-size:0.85rem;">${new Date(a.date).toLocaleString('fr-FR')}</strong> 
+                ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
                 — ${a.details}
             </div>`;
         });
@@ -3071,10 +3189,8 @@ async function loadAuditLog() {
 }
 
 // ============================================================
-//  Écoute temps réel pour les modifications
+// ÉCOUTE TEMPS RÉEL
 // ============================================================
-
-// Ajouter un écouteur spécifique pour les demandes de modification
 function attachModifRealtimeListener() {
     const collections = ['modifRequests', 'modifRequestsRoom'];
     
@@ -3082,9 +3198,7 @@ function attachModifRealtimeListener() {
         db.collection(col).onSnapshot(
             { includeMetadataChanges: false },
             (snapshot) => {
-                // Ne rafraîchir que si la page modifications est active
                 if (currentPage === 'modifications') {
-                    // Vérifier si les changements concernent le module actif
                     const hasChanges = snapshot.docChanges().some(change => {
                         const data = change.doc.data();
                         const docModule = col === 'modifRequests' ? 'restobar' : 'roompool';
@@ -3098,22 +3212,11 @@ function attachModifRealtimeListener() {
                 }
             },
             (err) => {
-                console.warn(`[Admin Sync] Écoute modifications interrompue (${col}):`, err.code || err.message);
+                console.warn(`[Sync] Écoute modifications interrompue (${col}):`, err.code || err.message);
             }
         );
     });
 }
-
-        // Dans index.html, remplacer cette fonction
-function getModifCollection() {
-    if (modifModule === 'restobar') {
-        // 🔥 CORRECTION : Lire depuis modifRequestsResto (collection utilisée par l'app RestoBar)
-        return 'modifRequestsResto';
-    }
-    return 'modifRequestsRoom';
-}
-// Appeler cette fonction après l'initialisation
-// L'appeler dans le DOMContentLoaded ou après l'auth
 
 
         // ============================================================
@@ -3297,8 +3400,7 @@ function getModifCollection() {
 
         console.log('🏨 Duen Hotel PWA v2.1 · Modifications intégrées');
     </script>
-
-      <script>
+<script>
 // Fonction principale - Version améliorée avec taux de change et regroupement par méthode
 // Éléments
 const dateInput = document.getElementById('reportDate');
