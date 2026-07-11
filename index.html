@@ -688,64 +688,43 @@
         }
 
         /* ============================================================
-               MODIFICATION REQUESTS SPECIFIC
+               MODIFICATION REQUESTS SPECIFIC - STYLES DES PAGES DE RÉCEPTION
             ============================================================ */
-        .modif-item {
+        .req-item {
             border: 1px solid var(--gray-200);
-            border-radius: var(--radius-sm);
-            padding: 16px 18px;
+            border-radius: 12px;
+            padding: 14px 16px;
             margin-top: 12px;
             background: var(--white);
             transition: all var(--transition);
         }
-        .modif-item:hover {
+        .req-item:hover {
             border-color: var(--gold);
             box-shadow: 0 2px 12px rgba(212, 175, 55, 0.08);
         }
-        .modif-item .top {
+        .req-item .top {
             display: flex;
             justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
             align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 8px;
         }
-        .modif-item .facture {
+        .req-item .facture {
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
-        .modif-item .meta {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            margin-top: 10px;
-            line-height: 1.6;
+        .req-item .produit {
+            color: var(--muted);
+            font-size: .87rem;
+            margin-top: 2px;
         }
-        .modif-item .actions {
-            margin-top: 12px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .modif-item .comment-box {
-            display: none;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid var(--gray-200);
-        }
-        .modif-item .feedback {
-            background: var(--gray-50);
-            border-left: 3px solid var(--gold);
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
-            margin-top: 10px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        .modif-item .badge {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 4px 12px;
+        .req-item .badge {
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 4px 9px;
             border-radius: 999px;
             white-space: nowrap;
+            height: fit-content;
         }
         .badge-attente {
             background: #fff3cd;
@@ -759,6 +738,97 @@
             background: #f8d7da;
             color: #721c24;
         }
+        .req-item .meta {
+            font-size: .8rem;
+            color: var(--gray-500);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .req-item .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .req-item .comment-box {
+            margin-top: 8px;
+            display: none;
+        }
+        .req-item .comment-box textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: .95rem;
+            font-family: var(--font);
+        }
+        .req-item .feedback {
+            margin-top: 8px;
+            font-size: .82rem;
+            background: var(--gray-50);
+            border-left: 3px solid var(--gold);
+            padding: 8px 10px;
+            border-radius: 6px;
+        }
+        .req-item .stock-update-info {
+            background: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 6px;
+            font-size: .82rem;
+        }
+        .req-item .op-line {
+            margin-top: 4px;
+            font-size: .85rem;
+            color: var(--gray-700);
+        }
+        .req-details {
+            font-size: .85rem;
+            color: var(--gray-600);
+            margin-top: 4px;
+            line-height: 1.45;
+        }
+        .req-details strong {
+            color: var(--black);
+        }
+
+        /* Onglets pour les modules */
+        .modif-module-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modif-module-tabs .btn {
+            border: 2px solid var(--gray-300);
+            background: transparent;
+            color: var(--gray-700);
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition);
+        }
+        .modif-module-tabs .btn.active {
+            border-color: var(--gold);
+            background: var(--gold);
+            color: var(--black);
+        }
+        .modif-module-tabs .btn:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--black);
+        }
+        
+        .modif-module-panel {
+            display: none;
+        }
+        .modif-module-panel.active {
+            display: block;
+        }
+
         .modif-tabs .btn {
             border: 1px solid var(--gray-300);
             background: transparent;
@@ -774,28 +844,6 @@
         .modif-tabs .btn:hover {
             border-color: var(--gold);
             color: var(--black);
-        }
-        
-        /* Détails agrandis pour les modifications */
-        .modif-item .item-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid #f0f0f0;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-        .modif-item .item-line:last-child {
-            border-bottom: none;
-        }
-        .modif-item .details-box {
-            font-size: 0.95rem;
-            color: var(--gray-700);
-            margin-top: 6px;
-            background: #f8f9fa;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--gray-100);
         }
 
         /* ============================================================
@@ -895,7 +943,7 @@
             .form-row {
                 grid-template-columns: 1fr;
             }
-            .modif-item .top {
+            .req-item .top {
                 flex-direction: column;
             }
         }
@@ -1023,41 +1071,6 @@
             justify-content: center;
             padding: 12px;
             font-size: 16px;
-        }
-        
-        /* Style pour les onglets des modifications séparés */
-        .modif-module-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        .modif-module-tabs .btn {
-            border: 2px solid var(--gray-300);
-            background: transparent;
-            color: var(--gray-700);
-            font-size: 14px;
-            padding: 8px 20px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all var(--transition);
-        }
-        .modif-module-tabs .btn.active {
-            border-color: var(--gold);
-            background: var(--gold);
-            color: var(--black);
-        }
-        .modif-module-tabs .btn:hover:not(.active) {
-            border-color: var(--gold);
-            color: var(--black);
-        }
-        
-        .modif-module-panel {
-            display: none;
-        }
-        .modif-module-panel.active {
-            display: block;
         }
     </style>
 </head>
@@ -1366,7 +1379,7 @@
                 </section>
 
                 <!-- ==========================================================
-                PAGE : MODIFICATIONS - AVEC ONGLETS SÉPARÉS
+                PAGE : MODIFICATIONS - INTÉGRATION DES PAGES DE RÉCEPTION
                 ========================================================== -->
                 <section class="page-section" id="page-modifications">
                     <div class="card-panel">
@@ -1586,7 +1599,7 @@
     ============================================================ -->
     <script>
         // ============================================================
-        //  UTILITAIRES
+        //  UTILITAIRES - Identiques aux pages de réception
         // ============================================================
         function escapeHtml(s) {
             if (!s) return '';
@@ -1597,6 +1610,62 @@
                 '"': '&quot;',
                 "'": '&#39;'
             }[c]));
+        }
+
+        function uid() { return 'act_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
+
+        function nowISO() { return new Date().toISOString(); }
+
+        function fmtDate(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            return d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit',
+                minute: '2-digit' });
+        }
+
+        function todayStr() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+
+        function isToday(isoDate) {
+            if (!isoDate) return false;
+            let d;
+            try {
+                if (typeof isoDate === 'number') { d = new Date(isoDate); } else if (typeof isoDate === 'string') {
+                    d = new Date(isoDate);
+                    if (isNaN(d.getTime())) {
+                        const match = isoDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
+                        if (match) { d = new Date(parseInt(match[1]), parseInt(match[2]) - 1, parseInt(match[3])); }
+                    }
+                } else if (isoDate instanceof Date) { d = isoDate; } else { return false; }
+            } catch (e) { return false; }
+            if (isNaN(d.getTime())) return false;
+            const today = new Date();
+            return d.getFullYear() === today.getFullYear() &&
+                d.getMonth() === today.getMonth() &&
+                d.getDate() === today.getDate();
+        }
+
+        function statutBadge(statut) {
+            if (statut === 'approuve') return '<span class="badge badge-approuve">✅ Approuvée</span>';
+            if (statut === 'refuse') return '<span class="badge badge-refuse">❌ Refusée</span>';
+            return '<span class="badge badge-attente">⏳ En attente</span>';
+        }
+
+        function labelType(t) {
+            if (t === 'augmentation') return '➕ Augmentation';
+            if (t === 'diminution') return '➖ Diminution';
+            if (t === 'suppression_produit') return '🗑️ Suppression produit';
+            if (t === 'suppression') return '🗑️ Suppression';
+            return t;
+        }
+
+        function describeOperation(op) {
+            if (!op) return '';
+            if (op.type === 'suppression' || op.type === 'suppression_produit') return '🗑️ suppression';
+            const change = `${op.quantiteActuelle} → ${op.quantiteDemandee}`;
+            return op.type === 'augmentation' ? `➕ ${change}` : `➖ ${change}`;
         }
 
         // ============================================================
@@ -1630,6 +1699,7 @@
             { collection: 'users', store: 'users', page: 'users' },
             { collection: 'employees', store: 'employees', page: 'hr' },
             { collection: 'modifRequests', store: 'modifRequests', extra: { module: 'restobar' }, page: 'modifications' },
+            { collection: 'modifRequestsRoom', store: 'modifRequests', extra: { module: 'roompool' }, page: 'modifications' },
             { collection: 'auditLog', store: 'auditLog', page: null },
         ];
 
@@ -1657,7 +1727,7 @@
                 modifications: [loadModifRequests],
                 users: [loadUsers],
                 hr: [loadEmployees],
-            }[page] || [];
+            } [page] || [];
         }
 
         function dhAttachAdminRealtimeSync() {
@@ -1683,7 +1753,8 @@
                         }
                         if (changed > 0) {
                             dhFlashSyncStatus();
-                            if (currentPage === cfg.page || (currentPage === 'dashboard' && ['sales', 'finance'].includes(cfg.page))) {
+                            if (currentPage === cfg.page || (currentPage === 'dashboard' && ['sales', 'finance']
+                                    .includes(cfg.page))) {
                                 dhReloadersForPage(currentPage).forEach(fn => {
                                     try { fn(); } catch (e) { /* noop */ }
                                 });
@@ -1691,7 +1762,8 @@
                         }
                     },
                     (err) => {
-                        console.warn(`[Admin Sync] Écoute interrompue (${cfg.collection}):`, err.code || err.message);
+                        console.warn(`[Admin Sync] Écoute interrompue (${cfg.collection}):`, err.code || err
+                        .message);
                     }
                 );
                 _dhAdminUnsubs.push(unsub);
@@ -1809,7 +1881,8 @@
                 if (page === 'finance') loadFinance();
                 if (page === 'expenses') loadExpenses();
                 if (page === 'modifications') {
-                    loadModifRequests();
+                    loadModifRequests('restobar');
+                    loadModifRequests('roompool');
                 }
                 if (page === 'users') loadUsers();
                 if (page === 'hr') loadEmployees();
@@ -1858,8 +1931,11 @@
                 window.addEventListener('offline', () => updateSyncStatus(false));
                 dhAttachAdminRealtimeSync();
                 loadUserFilter();
-                // Initialiser les modifications
-                setTimeout(() => loadModifRequests(), 500);
+                // Charger les modifications après l'auth
+                setTimeout(() => {
+                    loadModifRequests('restobar');
+                    loadModifRequests('roompool');
+                }, 500);
             } else {
                 document.getElementById('loginOverlay').classList.remove('hidden');
                 document.getElementById('app').style.display = 'none';
@@ -1960,7 +2036,8 @@
                     const amt = dt.amount || 0;
                     const method = dt.method || 'gourde';
                     const isUSD = ['usd', 'carteUsd'].includes(method);
-                    const sign = ['recette', 'remboursement', 'retour', 'paiementCredit'].includes(dt.type) ? 1 : -1;
+                    const sign = ['recette', 'remboursement', 'retour', 'paiementCredit'].includes(dt.type) ? 1 :
+                        -1;
                     if (isUSD) caisseU += sign * amt;
                     else caisseG += sign * amt;
                 });
@@ -2439,10 +2516,10 @@
         }
 
         // ============================================================
-        //  MODIFICATIONS - SÉPARÉES PAR MODULE
+        //  MODIFICATIONS - INTÉGRATION DES PAGES DE RÉCEPTION
         // ============================================================
         
-        // États par module
+        // États par module - identiques aux pages de réception
         const modifState = {
             restobar: {
                 filter: 'en_attente',
@@ -2450,7 +2527,7 @@
                 containerId: 'modifListResto',
                 dateInputId: 'modifFilterDateResto',
                 infoId: 'modifFilterInfoResto',
-                collection: 'modifRequests',  // Collection utilisée par les pages de réception
+                collection: 'modifRequests',      // Collection utilisée par restobar-reception
                 salesCollection: 'globalSales',
                 stockCollection: 'DrinkStock',
                 label: 'Resto & Bar'
@@ -2461,7 +2538,7 @@
                 containerId: 'modifListRoom',
                 dateInputId: 'modifFilterDateRoom',
                 infoId: 'modifFilterInfoRoom',
-                collection: 'modifRequestsRoom',  // Collection utilisée par les pages de réception RoomPool
+                collection: 'modifRequestsRoom',  // Collection utilisée par roompool-reception
                 salesCollection: 'globalSalesRoom',
                 stockCollection: 'roomsStock',
                 label: 'Chambres & Piscine'
@@ -2472,22 +2549,18 @@
 
         function switchModifModule(module) {
             currentModifModule = module;
-            // Mettre à jour les onglets
             document.querySelectorAll('.modif-module-tabs .btn').forEach(b => {
                 b.classList.toggle('active', b.dataset.module === module);
             });
-            // Afficher le bon panneau
             document.querySelectorAll('.modif-module-panel').forEach(p => {
                 p.classList.toggle('active', p.id === 'modifPanel-' + module);
             });
-            // Charger les demandes du module
             loadModifRequests(module);
         }
 
         function setModifFilter(module, filter) {
             if (modifState[module]) {
                 modifState[module].filter = filter;
-                // Mettre à jour les boutons
                 const panel = document.getElementById('modifPanel-' + module);
                 if (panel) {
                     panel.querySelectorAll('.modif-tabs .btn').forEach(b => {
@@ -2526,7 +2599,7 @@
         }
 
         // ============================================================
-        // CHARGEMENT DES DEMANDES - PAR MODULE
+        // CHARGEMENT DES DEMANDES - IDENTIQUE AUX PAGES DE RÉCEPTION
         // ============================================================
         async function loadModifRequests(module) {
             if (!module) module = currentModifModule;
@@ -2536,7 +2609,8 @@
             const container = document.getElementById(state.containerId);
             if (!container) return;
 
-            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral']
+                .includes(window.userRole)) {
                 container.innerHTML =
                     '<div class="empty-state"><i class="fas fa-lock"></i><br>Vous n\'avez pas les droits pour voir ou traiter les demandes.</div>';
                 return;
@@ -2564,7 +2638,8 @@
                         if (!r.dateDemande) return false;
                         try {
                             const d = new Date(r.dateDemande);
-                            const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                            const dateStr =
+                                `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
                             return dateStr === state.dateFilter;
                         } catch (e) {
                             return false;
@@ -2599,188 +2674,80 @@
                         const badgeLabel = r.statut === 'approuve' ? '✅ Approuvée' :
                             r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
 
-                        let itemsHtml = '';
-                        let stockUpdateInfo = '';
+                        // Détails des opérations
+                        let detailHtml = '';
+                        const operations = r.operations || [];
 
-                        // Format items[] (nouveau format)
-                        if (r.items && r.items.length) {
-                            itemsHtml = r.items.map(item => {
+                        if (operations.length > 0) {
+                            detailHtml = operations.map((op) => `
+                                <div class="op-line">• ${escapeHtml(op.item)} — ${describeOperation(op)}</div>
+                            `).join('');
+                        } else if (r.productName) {
+                            const typeLabel = r.type === 'suppression_produit' ? '🗑️ Suppression produit' :
+                                r.type === 'augmentation' ? '➕ Augmentation' : '➖ Diminution quantité';
+                            detailHtml = `
+                                <div class="op-line">• ${escapeHtml(r.productName)} — ${typeLabel}</div>
+                                ${r.deleteWhole ? 
+                                    `<div class="op-line" style="font-size:.78rem;color:var(--bad);">🗑️ Suppression complète du produit</div>` :
+                                    r.type !== 'suppression' && r.type !== 'suppression_produit' ?
+                                    `<div class="op-line" style="font-size:.78rem;color:var(--muted);">Qté: ${r.currentQuantity} → ${r.newQuantity}</div>` :
+                                    ''
+                                }
+                            `;
+                        } else if (r.items && r.items.length) {
+                            detailHtml = r.items.map(item => {
                                 const actionMap = {
                                     'increase': '➕ Augmentation',
                                     'decrease': '➖ Diminution',
                                     'delete': '🗑️ Suppression'
                                 };
                                 const actionLabel = actionMap[item.action] || item.action;
-                                const amountInfo = item.amount !== undefined ? `(${item.amount})` : '';
-                                return `<div class="item-line">
-                                    <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(item.productName)}</span>
-                                    <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${amountInfo}</span>
-                                    <span style="font-size:0.75rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${escapeHtml(item.category || '—')}</span>
-                                </div>`;
+                                return `<div class="op-line">• ${escapeHtml(item.productName)} — ${actionLabel} ${item.amount ? '('+item.amount+')' : ''}</div>`;
                             }).join('');
-
-                            if (r.statut === 'approuve') {
-                                stockUpdateInfo = r.items.map(item => {
-                                    const actionMap = {
-                                        'increase': '⬆️ Augmentation',
-                                        'decrease': '⬇️ Diminution',
-                                        'delete': '🗑️ Suppression'
-                                    };
-                                    const actionLabel = actionMap[item.action] || item.action;
-                                    return `<div style="font-size:0.9rem;padding:2px 0;">• ${escapeHtml(item.productName)}: ${actionLabel} ${item.amount !== undefined ? '('+item.amount+')' : ''}</div>`;
-                                }).join('');
-                                stockUpdateInfo =
-                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                                    <strong>✅ Facture mise à jour</strong>
-                                    ${stockUpdateInfo}
-                                </div>`;
-                            }
-                        } 
-                        // Format productName (legacy)
-                        else if (r.productName) {
-                            const typeLabel = r.deleteWhole ? '🗑️ Suppression' :
-                                r.type === 'augmentation' ? '➕ Augmentation' :
-                                r.type === 'diminution' || r.type === 'diminution_quantite' ? '➖ Diminution' :
-                                '✏️ Modification';
-                            itemsHtml = `<div class="item-line">
-                                <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(r.productName)}</span>
-                                <span style="color:var(--muted);font-size:0.9rem;">${typeLabel}</span>
-                                ${!r.deleteWhole && r.newQuantity !== undefined ? `<span style="font-size:0.85rem;background:#f0f0f0;padding:2px 10px;border-radius:999px;">${r.currentQuantity || 0} → ${r.newQuantity}</span>` : ''}
-                                ${r.deleteWhole ? `<span style="font-size:0.85rem;background:#f8d7da;padding:2px 10px;border-radius:999px;color:#721c24;">Suppression totale</span>` : ''}
-                            </div>`;
-
-                            if (r.statut === 'approuve') {
-                                stockUpdateInfo =
-                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                                    <strong>✅ Facture mise à jour</strong>
-                                    ${r.deleteWhole ? '🗑️ Suppression complète du produit' : r.type === 'augmentation' ? `⬆️ Augmentation: ${r.currentQuantity || 0} → ${r.newQuantity}` : `➖ Diminution: ${r.currentQuantity || 0} → ${r.newQuantity}`}
-                                </div>`;
-                            }
-                        } 
-                        // Format operations[] (pages de réception)
-                        else if (r.operations && r.operations.length) {
-                            itemsHtml = r.operations.map(op => {
-                                const actionMap = {
-                                    'suppression': '🗑️ Suppression',
-                                    'augmentation': '➕ Augmentation',
-                                    'diminution': '➖ Diminution'
-                                };
-                                const actionLabel = actionMap[op.type] || op.type || '✏️ Modification';
-                                const qtyInfo = op.quantiteActuelle !== undefined && op.quantiteDemandee !== undefined ?
-                                    `${op.quantiteActuelle} → ${op.quantiteDemandee}` :
-                                    op.amount ? `(${op.amount})` : '';
-                                return `<div class="item-line">
-                                    <span style="font-weight:600;font-size:0.95rem;">${escapeHtml(op.item || op.productName)}</span>
-                                    <span style="color:var(--muted);font-size:0.9rem;">${actionLabel} ${qtyInfo}</span>
-                                </div>`;
-                            }).join('');
-
-                            if (r.statut === 'approuve') {
-                                stockUpdateInfo =
-                                `<div style="background:#e8f5e9;padding:12px 16px;border-radius:8px;margin-top:8px;font-size:0.9rem;border-left:4px solid #2e7d32;line-height:1.6;">
-                                    <strong>✅ Facture mise à jour</strong>
-                                    ${r.operations.length} opération(s) appliquée(s)
-                                </div>`;
-                            }
-                        } else {
-                            itemsHtml =
-                            `<div class="item-line" style="padding:4px 0;color:var(--muted);">Modification sur la facture ${escapeHtml(r.factureId)}</div>`;
                         }
 
-                        const demandeurInfo = r.demandeur ?
-                            `<strong style="font-size:1rem;">${escapeHtml(r.demandeur.nom || '—')}</strong> (${escapeHtml(r.demandeur.role || 'Vendeur')})` :
-                            '—';
-
-                        const dateDemande = r.dateDemande ? new Date(r.dateDemande).toLocaleString('fr-FR', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) : '—';
-
-                        const dateTraitement = r.dateTraitement ? new Date(r.dateTraitement).toLocaleString('fr-FR', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) : '—';
-
-                        const isToday = r.dateDemande && (() => {
-                            try {
-                                const d = new Date(r.dateDemande);
-                                const today = new Date();
-                                return d.getFullYear() === today.getFullYear() &&
-                                    d.getMonth() === today.getMonth() &&
-                                    d.getDate() === today.getDate();
-                            } catch (e) { return false; }
-                        })();
-
                         const isMyRequest = currentUser && r.demandeur && r.demandeur.nom === currentUser.name;
-
-                        const statusBadge = r.statut === 'approuve' ? '✅ Approuvée' :
-                            r.statut === 'refuse' ? '❌ Refusée' : '⏳ En attente';
+                        const isTodayDate = r.dateDemande && isToday(r.dateDemande);
 
                         return `
-                            <div class="modif-item">
+                            <div class="req-item">
                                 <div class="top">
-                                    <div style="flex:1;min-width:200px;">
-                                        <div class="facture">
-                                            🧾 ${escapeHtml(r.factureId || '—')} 
-                                            ${isToday ? '<span style="font-size:0.75rem;background:#e8f5e9;padding:2px 10px;border-radius:999px;color:#2e7d32;margin-left:8px;">📅 Aujourd\'hui</span>' : ''}
-                                            <span style="font-size:0.75rem;background:${r.statut === 'approuve' ? '#d4edda' : r.statut === 'refuse' ? '#f8d7da' : '#fff3cd'};padding:2px 10px;border-radius:999px;margin-left:8px;color:${r.statut === 'approuve' ? '#155724' : r.statut === 'refuse' ? '#721c24' : '#856404'};">
-                                                ${statusBadge}
-                                            </span>
-                                        </div>
-                                        <div class="details-box">
-                                            ${itemsHtml}
-                                            <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--gray-100);font-size:0.9rem;color:var(--muted);">
-                                                📝 Motif : ${escapeHtml(r.motif || r.reason || '—')}
-                                            </div>
-                                            ${r.invoiceSummary ? `
-                                                <div style="margin-top:4px;font-size:0.85rem;color:var(--gray-500);">
-                                                    Client: ${escapeHtml(r.invoiceSummary.customerName || '—')} 
-                                                    ${r.invoiceSummary.amountGdes ? '| Total: '+r.invoiceSummary.amountGdes+' Gdes' : ''}
-                                                    ${r.invoiceSummary.amountUs ? '/'+r.invoiceSummary.amountUs+' US' : ''}
-                                                </div>
-                                            ` : ''}
-                                            <div style="margin-top:4px;font-size:0.7rem;color:var(--gray-400);">
-                                                ID: ${r.id}
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <div class="facture">🧾 ${escapeHtml(r.factureId)} ${isTodayDate ? '📅' : ''}</div>
+                                        <div class="produit">${detailHtml}</div>
                                     </div>
                                     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                                        ${isMyRequest ? '<span class="badge" style="background:#e3f2fd;color:#0d47a1;font-size:0.75rem;padding:2px 10px;border-radius:999px;">👤 Ma demande</span>' : ''}
+                                        ${statutBadge(r.statut)}
+                                        ${isMyRequest ? '<span class="badge" style="background:#e3f2fd;color:#0d47a1;">👤 Ma demande</span>' : ''}
+                                        ${isTodayDate ? '<span class="badge" style="background:#e8f5e9;color:#2e7d32;">📅 Aujourd\'hui</span>' : ''}
                                     </div>
                                 </div>
                                 <div class="meta">
-                                    👤 Demandé par ${demandeurInfo} le ${dateDemande}
-                                    ${r.source ? `<br>📱 Source: ${r.source === 'vente' ? 'Page de vente' : r.source}` : ''}
+                                    👤 Demandé par <strong>${escapeHtml(r.demandeur?.nom || '—')}</strong> (${escapeHtml(r.demandeur?.role || 'Vendeur')}) le ${fmtDate(r.dateDemande)}
+                                    ${r.motif || r.reason ? `<br>📝 Motif : ${escapeHtml(r.motif || r.reason)}` : ''}
                                 </div>
-                                ${stockUpdateInfo}
                                 ${r.statut === 'en_attente' ? `
                                     <div class="actions">
-                                        <button class="btn btn-success btn-sm" onclick="approveModif('${module}','${r.id}')" style="padding:8px 20px;background:#2ecc71;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                            <i class="fas fa-check"></i> Approuver
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" onclick="toggleCommentModif('${module}','${r.id}')" style="padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                            <i class="fas fa-times"></i> Refuser
-                                        </button>
+                                        <button class="btn btn-ok" onclick="approveModif('${module}','${r.id}')">✅ Approuver</button>
+                                        <button class="btn btn-bad" onclick="toggleComment('${module}','${r.id}')">❌ Refuser</button>
                                     </div>
-                                    <div class="comment-box" id="comment_box_${module}_${r.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-200);">
-                                        <div class="form-group" style="margin-top:8px;">
-                                            <label style="font-weight:600;font-size:0.85rem;color:var(--gray-700);">Commentaire (obligatoire pour un refus)</label>
-                                            <textarea id="comment_${module}_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..." style="width:100%;padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-family:var(--font);min-height:60px;font-size:0.95rem;"></textarea>
+                                    <div class="comment-box" id="comment_box_${module}_${r.id}">
+                                        <label>Commentaire (obligatoire pour un refus)</label>
+                                        <textarea id="comment_${module}_${r.id}" placeholder="Expliquez pourquoi cette demande est refusée..."></textarea>
+                                        <div class="actions">
+                                            <button class="btn btn-bad" onclick="rejectModif('${module}','${r.id}')">Confirmer le refus</button>
                                         </div>
-                                        <button class="btn btn-danger btn-sm" onclick="rejectModif('${module}','${r.id}')" style="margin-top:8px;padding:8px 20px;background:#e74c3c;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.85rem;">
-                                            Confirmer le refus
-                                        </button>
                                     </div>
                                 ` : `
                                     <div class="feedback">
-                                        Traitée par <strong>${escapeHtml(r.traitantPar?.nom || '—')}</strong> (${escapeHtml(r.traitantPar?.role || '—')}) le ${dateTraitement}
+                                        Traitée par <strong>${escapeHtml(r.traitantPar?.nom || '—')}</strong> (${escapeHtml(r.traitantPar?.role || '—')}) le ${fmtDate(r.dateTraitement)}
                                         ${r.commentaireTraitement ? `<br>💬 ${escapeHtml(r.commentaireTraitement)}` : ''}
+                                        ${r.statut === 'approuve' ? `
+                                            <div class="stock-update-info">
+                                                ✅ Facture mise à jour
+                                                ${r.deleteWhole ? '(Produit supprimé de la facture)' : r.type !== 'suppression' && r.type !== 'suppression_produit' ? `(Quantité: ${r.currentQuantity} → ${r.newQuantity})` : ''}
+                                            </div>
+                                        ` : ''}
                                     </div>
                                 `}
                             </div>
@@ -2788,35 +2755,35 @@
                     }).join('');
                 }
 
-                // Charger l'audit (global)
                 await loadAuditLog();
 
             } catch (e) {
-                console.error('Erreur chargement demandes:', e);
+                console.error(`❌ Erreur chargement ${state.label}:`, e);
                 container.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur lors du chargement des demandes: ${e.message}</div>`;
+                    `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Erreur: ${e.message}</div>`;
             }
         }
 
         // ============================================================
         // TOGGLE COMMENTAIRE
         // ============================================================
-        function toggleCommentModif(module, id) {
-            const box = document.getElementById(`comment_box_${module}_${id}`);
+        function toggleComment(module, reqId) {
+            const box = document.getElementById(`comment_box_${module}_${reqId}`);
             if (box) {
                 box.style.display = box.style.display === 'block' ? 'none' : 'block';
                 if (box.style.display === 'block') {
-                    const textarea = document.getElementById(`comment_${module}_${id}`);
+                    const textarea = document.getElementById(`comment_${module}_${reqId}`);
                     if (textarea) textarea.focus();
                 }
             }
         }
 
         // ============================================================
-        // APPROBATION - PAR MODULE
+        // APPROBATION - Sans modal (utilisateur déjà connecté)
         // ============================================================
-        async function approveModif(module, requestId) {
-            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+        async function approveModif(module, reqId) {
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral']
+                .includes(window.userRole)) {
                 return toast('Permission refusée', 'error');
             }
 
@@ -2825,38 +2792,42 @@
                 if (!state) return toast('Module inconnu', 'error');
 
                 const collectionName = state.collection;
-                const docRef = db.collection(collectionName).doc(requestId);
+                const docRef = db.collection(collectionName).doc(reqId);
                 const doc = await docRef.get();
 
                 if (!doc.exists) return toast('Demande introuvable', 'error');
-                const data = doc.data();
+                const r = doc.data();
 
-                if (data.statut !== 'en_attente') {
+                if (r.statut !== 'en_attente') {
                     return toast('Cette demande a déjà été traitée', 'error');
                 }
 
-                await applyModification(module, data);
+                // Appliquer la modification
+                await applyModification(module, r);
 
+                // Mettre à jour le statut
                 await docRef.update({
                     statut: 'approuve',
                     traitantPar: {
                         nom: document.getElementById('userName').textContent || 'Admin',
                         role: window.userRole
                     },
-                    dateTraitement: new Date().toISOString(),
+                    dateTraitement: nowISO(),
                     commentaireTraitement: null
                 });
 
+                // Journal d'audit
                 await db.collection('auditLog').add({
-                    requestId,
+                    id: uid(),
+                    requestId: reqId,
                     module: module,
                     action: 'approbation',
                     par: {
                         nom: document.getElementById('userName').textContent || 'Admin',
                         role: window.userRole
                     },
-                    date: new Date().toISOString(),
-                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${data.factureId} (${state.label})`
+                    date: nowISO(),
+                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a approuvé la demande sur la facture ${r.factureId} (${state.label})`
                 });
 
                 toast('✅ Demande approuvée - Facture mise à jour', 'success');
@@ -2869,16 +2840,17 @@
         }
 
         // ============================================================
-        // REFUS - PAR MODULE
+        // REFUS - Sans modal (utilisateur déjà connecté)
         // ============================================================
-        async function rejectModif(module, requestId) {
-            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral'].includes(window.userRole)) {
+        async function rejectModif(module, reqId) {
+            if (!window.userRole || !['Admin', 'DG', 'Manager', 'Superviseur', 'superviseur', 'SuperviseurGeneral']
+                .includes(window.userRole)) {
                 return toast('Permission refusée', 'error');
             }
 
-            const comment = document.getElementById(`comment_${module}_${requestId}`)?.value?.trim();
+            const comment = document.getElementById(`comment_${module}_${reqId}`)?.value?.trim();
             if (!comment) {
-                return toast('⚠️ Un commentaire est requis pour un refus', 'error');
+                return toast('⚠️ Un commentaire est requis pour justifier un refus', 'error');
             }
 
             try {
@@ -2886,13 +2858,13 @@
                 if (!state) return toast('Module inconnu', 'error');
 
                 const collectionName = state.collection;
-                const docRef = db.collection(collectionName).doc(requestId);
+                const docRef = db.collection(collectionName).doc(reqId);
                 const doc = await docRef.get();
 
                 if (!doc.exists) return toast('Demande introuvable', 'error');
-                const data = doc.data();
+                const r = doc.data();
 
-                if (data.statut !== 'en_attente') {
+                if (r.statut !== 'en_attente') {
                     return toast('Cette demande a déjà été traitée', 'error');
                 }
 
@@ -2902,20 +2874,21 @@
                         nom: document.getElementById('userName').textContent || 'Admin',
                         role: window.userRole
                     },
-                    dateTraitement: new Date().toISOString(),
+                    dateTraitement: nowISO(),
                     commentaireTraitement: comment
                 });
 
                 await db.collection('auditLog').add({
-                    requestId,
+                    id: uid(),
+                    requestId: reqId,
                     module: module,
                     action: 'refus',
                     par: {
                         nom: document.getElementById('userName').textContent || 'Admin',
                         role: window.userRole
                     },
-                    date: new Date().toISOString(),
-                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${data.factureId} (${state.label}) — Commentaire: ${comment}`
+                    date: nowISO(),
+                    details: `${document.getElementById('userName').textContent || 'Admin'} (${window.userRole}) a refusé la demande sur la facture ${r.factureId} (${state.label}) — Commentaire: ${comment}`
                 });
 
                 toast('❌ Demande refusée', 'success');
@@ -2928,214 +2901,97 @@
         }
 
         // ============================================================
-        // APPLICATION DE LA MODIFICATION - PAR MODULE
+        // APPLICATION DE LA MODIFICATION - Identique aux pages de réception
         // ============================================================
-        async function applyModification(module, request) {
+        async function applyModification(module, r) {
             const state = modifState[module];
             if (!state) throw new Error('Module inconnu');
 
             const salesCol = state.salesCollection;
             const stockCol = state.stockCollection;
 
-            console.log(`📝 Application de la modification sur ${salesCol} / ${stockCol}`);
-
-            const saleRef = db.collection(salesCol).doc(request.factureId);
+            // Récupérer la facture
+            const saleRef = db.collection(salesCol).doc(r.factureId);
             const saleDoc = await saleRef.get();
 
             if (!saleDoc.exists) {
-                throw new Error(`Vente introuvable: ${request.factureId} dans ${salesCol}`);
+                throw new Error(`Facture introuvable: ${r.factureId} dans ${salesCol}`);
             }
 
             const saleData = saleDoc.data();
             let products = Array.isArray(saleData.products) ? [...saleData.products] : [];
 
             // Traiter les opérations
-            const operations = request.operations || [];
-            const items = request.items || [];
+            const operations = r.operations || [];
 
-            if (operations.length > 0) {
-                for (const op of operations) {
-                    const productName = op.item || op.productName;
-                    if (!productName) continue;
-
-                    const index = products.findIndex(p =>
-                        String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
-                    );
-                    const currentLine = index >= 0 ? products[index] : null;
-
-                    if (op.type === 'suppression' || op.supprimer || op.action === 'delete') {
-                        if (currentLine) {
-                            const qty = Number(currentLine.quantity || 0);
-                            await updateStock(productName, qty, true, stockCol);
-                            products.splice(index, 1);
-                            console.log(`🗑️ Produit ${productName} supprimé de la facture`);
-                        }
-                    } else {
-                        const oldQty = Number(currentLine?.quantity || 0);
-                        const newQty = Math.max(0, op.quantiteDemandee || op.amount || op.newQuantity || 0);
-                        const delta = newQty - oldQty;
-
-                        if (currentLine && delta !== 0) {
-                            if (delta < 0) {
-                                await updateStock(productName, Math.abs(delta), true, stockCol);
-                            } else if (delta > 0) {
-                                await updateStock(productName, delta, false, stockCol);
-                            }
-                            currentLine.quantity = newQty;
-                            if (newQty <= 0) {
-                                products.splice(index, 1);
-                            } else {
-                                products[index] = currentLine;
-                            }
-                            console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
-                        } else if (!currentLine && newQty > 0) {
-                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                            if (!stockQuery.empty) {
-                                const stockData = stockQuery.docs[0].data();
-                                products.push({
-                                    item: productName,
-                                    quantity: newQty,
-                                    priceGdes: stockData.priceGdes || 0,
-                                    priceUs: stockData.priceUs || 0,
-                                    currency: 'Gdes',
-                                    category: stockData.category || ''
-                                });
-                                await updateStock(productName, newQty, false, stockCol);
-                                console.log(`➕ ${productName} ajouté: ${newQty}`);
-                            }
-                        }
-                    }
-                }
-            } else if (items.length > 0) {
-                for (const item of items) {
-                    const productName = item.productName;
-                    if (!productName) continue;
-
-                    const index = products.findIndex(p =>
-                        String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
-                    );
-                    const currentLine = index >= 0 ? products[index] : null;
-
-                    if (item.action === 'delete') {
-                        if (currentLine) {
-                            const qty = Number(currentLine.quantity || 0);
-                            await updateStock(productName, qty, true, stockCol);
-                            products.splice(index, 1);
-                            console.log(`🗑️ Produit ${productName} supprimé de la facture`);
-                        }
-                    } else {
-                        const oldQty = Number(currentLine?.quantity || 0);
-                        const newQty = Math.max(0, item.amount || 0);
-                        const delta = newQty - oldQty;
-
-                        if (currentLine && delta !== 0) {
-                            if (delta < 0) {
-                                await updateStock(productName, Math.abs(delta), true, stockCol);
-                            } else if (delta > 0) {
-                                await updateStock(productName, delta, false, stockCol);
-                            }
-                            currentLine.quantity = newQty;
-                            if (newQty <= 0) {
-                                products.splice(index, 1);
-                            } else {
-                                products[index] = currentLine;
-                            }
-                            console.log(`✏️ ${productName}: ${oldQty} → ${newQty}`);
-                        } else if (!currentLine && newQty > 0) {
-                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                            if (!stockQuery.empty) {
-                                const stockData = stockQuery.docs[0].data();
-                                products.push({
-                                    item: productName,
-                                    quantity: newQty,
-                                    priceGdes: stockData.priceGdes || 0,
-                                    priceUs: stockData.priceUs || 0,
-                                    currency: 'Gdes',
-                                    category: stockData.category || ''
-                                });
-                                await updateStock(productName, newQty, false, stockCol);
-                                console.log(`➕ ${productName} ajouté: ${newQty}`);
-                            }
-                        }
-                    }
-                }
-            } else if (request.productName) {
-                const productName = request.productName;
-                const index = products.findIndex(p =>
+            if (operations.length === 0) {
+                // Fallback: une seule opération (ancien format)
+                const productName = r.productName;
+                const existingIndex = products.findIndex((p) =>
                     String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
                 );
-                const currentLine = index >= 0 ? products[index] : null;
 
-                if (request.deleteWhole || request.type === 'suppression_produit') {
-                    if (currentLine) {
-                        const qty = Number(currentLine.quantity || 0);
-                        await updateStock(productName, qty, true, stockCol);
-                        products.splice(index, 1);
-                        console.log(`🗑️ ${productName} supprimé`);
-                    }
-                } else if (request.type === 'diminution' || request.type === 'diminution_quantite') {
-                    const oldQty = Number(currentLine?.quantity || 0);
-                    const newQty = Number(request.newQuantity || 0);
-                    const qtyRemoved = oldQty - newQty;
-                    if (currentLine && qtyRemoved > 0) {
-                        await updateStock(productName, qtyRemoved, true, stockCol);
-                        currentLine.quantity = newQty;
-                        if (newQty <= 0) {
-                            products.splice(index, 1);
-                        } else {
-                            products[index] = currentLine;
+                if (existingIndex >= 0) {
+                    const oldQty = Number(products[existingIndex].quantity || 0);
+
+                    if (r.deleteWhole || r.type === 'suppression_produit') {
+                        await updateStock(productName, oldQty, true, stockCol);
+                        products.splice(existingIndex, 1);
+                    } else {
+                        const newQty = Math.max(0, r.newQuantity || 0);
+                        const qtyRemoved = oldQty - newQty;
+                        if (qtyRemoved > 0) {
+                            await updateStock(productName, qtyRemoved, true, stockCol);
                         }
-                        console.log(`➖ ${productName}: ${oldQty} → ${newQty}`);
+                        products[existingIndex].quantity = newQty;
                     }
-                } else if (request.type === 'augmentation') {
-                    const oldQty = Number(currentLine?.quantity || 0);
-                    const newQty = Number(request.newQuantity || 0);
-                    const qtyAdded = newQty - oldQty;
-                    if (qtyAdded > 0) {
-                        await updateStock(productName, qtyAdded, false, stockCol);
-                        if (currentLine) {
-                            currentLine.quantity = newQty;
-                            products[index] = currentLine;
+                }
+            } else {
+                // Multi-opérations
+                for (const op of operations) {
+                    const productName = op.item || op.productName;
+                    const existingIndex = products.findIndex((p) =>
+                        String(p.item || '').toLowerCase() === String(productName || '').toLowerCase()
+                    );
+
+                    if (existingIndex >= 0) {
+                        const oldQty = Number(products[existingIndex].quantity || 0);
+
+                        if (op.type === 'suppression' || op.supprimer) {
+                            await updateStock(productName, oldQty, true, stockCol);
+                            products.splice(existingIndex, 1);
                         } else {
-                            const stockQuery = await db.collection(stockCol).where('name', '==', productName).get();
-                            if (!stockQuery.empty) {
-                                const stockData = stockQuery.docs[0].data();
-                                products.push({
-                                    item: productName,
-                                    quantity: newQty,
-                                    priceGdes: stockData.priceGdes || 0,
-                                    priceUs: stockData.priceUs || 0,
-                                    currency: 'Gdes',
-                                    category: stockData.category || ''
-                                });
+                            const newQty = Math.max(0, op.quantiteDemandee || 0);
+                            const qtyRemoved = oldQty - newQty;
+                            if (qtyRemoved > 0) {
+                                await updateStock(productName, qtyRemoved, true, stockCol);
                             }
+                            products[existingIndex].quantity = newQty;
                         }
-                        console.log(`➕ ${productName}: ${oldQty} → ${newQty}`);
                     }
                 }
             }
 
             // Recalculer les totaux
-            let totalGdes = 0, totalUs = 0;
+            let totalGdes = 0,
+                totalUs = 0;
             products.forEach(p => {
                 if (p.currency === 'Gdes') {
                     totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
                 } else if (p.currency === 'Us') {
                     totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
-                } else {
-                    totalGdes += Number(p.quantity || 0) * Number(p.priceGdes || 0);
-                    totalUs += Number(p.quantity || 0) * Number(p.priceUs || 0);
                 }
             });
 
+            // Mettre à jour la facture
             await saleRef.update({
                 products: products,
                 totalGdes: totalGdes,
                 totalUs: totalUs,
-                updatedAt: new Date().toISOString()
+                updatedAt: Date.now()
             });
 
-            console.log(`✅ Vente ${request.factureId} mise à jour - Total Gdes: ${totalGdes.toFixed(2)}, Total Us: ${totalUs.toFixed(2)}`);
+            console.log(`✅ Facture ${r.factureId} mise à jour avec succès`);
         }
 
         // ============================================================
@@ -3176,7 +3032,7 @@
         async function loadAuditLog() {
             const container = document.getElementById('auditLog');
             if (!container) return;
-            
+
             try {
                 const snap = await db.collection('auditLog')
                     .orderBy('date', 'desc')
@@ -3191,19 +3047,11 @@
                 let html = '';
                 snap.forEach(d => {
                     const a = d.data();
-                    const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' : 
-                                       a.module === 'roompool' ? '🛏️ Room' : '';
-                    const dateStr = a.date ? new Date(a.date).toLocaleString('fr-FR', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }) : '—';
-                    
-                    html += `<div style="font-size:0.9rem;border-bottom:1px solid var(--gray-100);padding:10px 0;line-height:1.5;">
-                        <strong style="font-size:0.85rem;">${dateStr}</strong> 
-                        ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 12px;border-radius:999px;font-size:0.75rem;font-weight:600;margin:0 6px;">${moduleLabel}</span>` : ''}
+                    const moduleLabel = a.module === 'restobar' ? '🍽️ Resto' :
+                        a.module === 'roompool' ? '🛏️ Room' : '';
+                    html += `<div class="audit-line" style="font-size:0.85rem;border-bottom:1px solid var(--gray-100);padding:8px 0;line-height:1.5;">
+                        <strong>${fmtDate(a.date)}</strong> 
+                        ${moduleLabel ? `<span style="background:var(--gold);color:var(--black);padding:2px 10px;border-radius:999px;font-size:0.7rem;font-weight:600;margin:0 4px;">${moduleLabel}</span>` : ''}
                         — ${escapeHtml(a.details || 'Action enregistrée')}
                     </div>`;
                 });
@@ -3627,7 +3475,7 @@
                 if (sortedMethods.length > 0) {
                     sortedMethods.forEach(method => {
                         const label = methodLabels[method] || method.charAt(0).toUpperCase() + method.slice(
-                        1);
+                            1);
                         html += `<tr><td>${label}</td>
                             <td>${methodTotals[method].Gdes.toFixed(2)}</td>
                             <td>${methodTotals[method].Us.toFixed(2)}</td></tr>`;
@@ -3700,7 +3548,7 @@
             }, 500);
         });
 
-        console.log('🏨 Duen Hotel PWA v2.5 · Modifications intégrées (RestoBar + RoomPool séparés)');
+        console.log('🏨 Duen Hotel PWA v2.5.1 · Modifications intégrées (RestoBar + RoomPool)');
     </script>
 
 </body>
