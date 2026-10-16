@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+[build.environment]
+  # This file contains only public Firebase browser configuration.
+  # Keep credentials and service-account keys out of this file.
+  # Secrets scanning remains enabled for all other files.
+  SECRETS_SCAN_OMIT_PATHS = "firebase-config.js"
