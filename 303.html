@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Site not available | KonbitTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e1a3b;
+    --ink-2: #172652;
+    --paper: #f2f5fb;
+    --muted: #a9b4d0;
+    --blue: #3d63e0;
+    --red: #d21034;
+    --line: rgba(242, 245, 251, .18);
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  header { padding: 1.5rem clamp(1.25rem, 5vw, 4rem); }
+  .brand {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--paper);
+    text-decoration: none;
+    letter-spacing: -.01em;
+  }
+  .brand span { color: var(--blue); }
+
+  main {
+    flex: 1;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 2rem;
+    padding: 1rem clamp(1.25rem, 5vw, 4rem) 3rem;
+    max-width: 62rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* the memorable thing: a 404 whose zero is a broken link */
+  .code {
+    display: flex;
+    align-items: center;
+    gap: clamp(.4rem, 2vw, 1rem);
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(6rem, 26vw, 14rem);
+    line-height: .9;
+    letter-spacing: -.04em;
+  }
+  .ring {
+    width: .72em;
+    height: .72em;
+    border-radius: 50%;
+    border: .12em solid var(--blue);
+    border-top-color: transparent;
+    transform: rotate(-35deg);
+    animation: close 1.6s cubic-bezier(.2, .8, .2, 1) 1 both;
+    position: relative;
+  }
+  .ring::after {
+    content: "";
+    position: absolute;
+    top: -.12em;
+    right: 8%;
+    width: .12em;
+    height: .12em;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  @keyframes close {
+    from { transform: rotate(-330deg); }
+    to   { transform: rotate(-35deg); }
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -.01em;
+  }
+  .kreyol { color: var(--muted); margin-top: .35rem; }
+  .lead { max-width: 34rem; color: var(--muted); }
+
+  .notice {
+    max-width: 34rem;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--red);
+    background: var(--ink-2);
+    border-radius: 0 10px 10px 0;
+  }
+  .notice strong { font-family: var(--display); font-weight: 600; }
+  .notice p { color: var(--muted); margin-top: .2rem; }
+  .notice b { color: var(--paper); font-weight: 500; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .btn {
+    display: inline-block;
+    padding: .8rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--paper);
+    border: 1.5px solid var(--line);
+    transition: background .2s, border-color .2s;
+  }
+  .btn.primary { background: var(--blue); border-color: var(--blue); }
+  .btn:hover { border-color: var(--paper); }
+  .btn.primary:hover { background: #5b7cf0; border-color: #5b7cf0; }
+  a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+  .contact {
+    width: 100%;
+    border-top: 1px solid var(--line);
+    padding-top: 1.75rem;
+  }
+  .contact h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+  .contact ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.1rem 2rem;
+  }
+  .contact li { display: grid; gap: .1rem; }
+  .contact small { color: var(--muted); font-size: .85rem; }
+  .contact a, .contact address {
+    color: var(--paper);
+    font-style: normal;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .contact a { border-bottom: 1px solid var(--line); width: fit-content; }
+  .contact a:hover { border-color: var(--paper); }
+
+  footer {
+    padding: 1.25rem clamp(1.25rem, 5vw, 4rem);
+    color: var(--muted);
+    font-size: .875rem;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ring { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="/" aria-label="KonbitTech home">Konbit<span>Tech</span></a>
+</header>
+
+<main>
+  <div class="code" aria-hidden="true">4<span class="ring"></span>4</div>
+
+  <div>
+    <h1>Site not available</h1>
+    <p class="kreyol" lang="ht">Sit sa a pa disponib pou kounye a.</p>
+  </div>
+
+  <p class="lead">This site was paused because it reached its usage limits. Please contact the site owner for more information.</p>
+
+  <div class="notice" role="note">
+    <strong>To bring the site back online</strong>
+    <p>A payment of <b>$20</b> for the Netlify <b>Pro plan</b> is required to reactivate it.</p>
+  </div>
+
+  <div class="actions">
+    <a class="btn primary" href="mailto:contact@konbittech.org?subject=Reactivate%20site">Contact us to reactivate</a>
+    <a class="btn" href="javascript:location.reload()">Try again</a>
+  </div>
+
+  <section class="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact KonbitTech</h2>
+    <ul>
+      <li>
+        <small>Phone</small>
+        <a href="tel:+50936598362">+509 3659 8362</a>
+      </li>
+      <li>
+        <small>WhatsApp</small>
+        <a href="https://wa.me/50936598362" target="_blank" rel="noopener">+509 3659 8362</a>
+      </li>
+      <li>
+        <small>Email</small>
+        <a href="mailto:contact@konbittech.org">contact@konbittech.org</a>
+      </li>
+      <li>
+        <small>Email (direct)</small>
+        <a href="mailto:wcharlde@gmail.com">wcharlde@gmail.com</a>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>&copy; <span id="y">2026</span> KonbitTech. All rights reserved.</footer>
+
+<script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+</body>
+</html>
