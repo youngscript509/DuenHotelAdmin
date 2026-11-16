@@ -1,4 +1,4 @@
-const CACHE_NAME = "duen-hotel-room-v2"; // bump de version pour forcer le rafraîchissement du cache
+const CACHE_NAME = "duen-hotel-room-v2.1"; // bump de version pour forcer le rafraîchissement du cache
 const APP_SHELL = [
   "index.html",
   "manifest.json",
