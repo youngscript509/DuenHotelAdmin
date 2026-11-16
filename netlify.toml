@@ -1,0 +1,5 @@
+# Firebase web config (apiKey, projectId, etc.) is public client-side config by design.
+# Access is enforced by Firebase Security Rules and API key restrictions, not by hiding the key.
+# Exclude the files that embed it from Netlify's secrets scanner.
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = "firebase-config.js,index2.html"
